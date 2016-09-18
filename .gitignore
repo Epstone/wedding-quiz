@@ -1,1 +1,4 @@
 node_modules/
+wedding-quiz/scripts/app-bundle.js
+wedding-quiz/scripts/app-bundle.js.map
+wedding-quiz/scripts/vendor-bundle.js
