@@ -29,7 +29,7 @@ export class create {
 
         
         this.questions = [
-            'Wer geht am Sonntag gern zum Bäcker?',
+            'Wer geht am Sonntag zum Bäcker?',
             'Wer wäscht ab?',
             'Wer räumt auf?',
             'Wer macht die Betten?',
