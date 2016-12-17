@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 
 namespace WeddingQuiz
 {
+    using Newtonsoft.Json;
+
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -37,6 +39,20 @@ namespace WeddingQuiz
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
+            var settings = new JsonSerializerSettings();
+            settings.ContractResolver = new SignalRContractResolver();
+
+            var serializer = JsonSerializer.Create(settings);
+            services.Add(new ServiceDescriptor(typeof(JsonSerializer),
+                         provider => serializer,
+                         ServiceLifetime.Transient));
+
+            services.AddSignalR(
+                options =>
+                    {
+                        options.Hubs.EnableDetailedErrors = true;
+                    });
+
             services.AddMvc();
         }
 
@@ -52,6 +68,9 @@ namespace WeddingQuiz
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
+
+            app.UseSignalR();
+            app.RunSignalR();
 
             app.UseMvc();
         }
