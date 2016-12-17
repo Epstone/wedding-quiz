@@ -5,3 +5,6 @@ wedding-quiz/scripts/vendor-bundle.js
 frontend/scripts/app-bundle.js
 frontend/scripts/app-bundle.js.map
 frontend/scripts/vendor-bundle.js
+*.suo
+obj/
+bin/
