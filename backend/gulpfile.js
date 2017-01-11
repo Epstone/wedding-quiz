@@ -1,7 +1,8 @@
+/// <binding BeforeBuild='build' />
 var gulp = require('gulp'),
     shell = require('gulp-shell');
 
-gulp.task('build', shell.task('au build', {cwd:'backend/WeddingQuiz/wwwroot'}));
+gulp.task('build', shell.task('au build', {cwd:'WeddingQuiz/wwwroot'}));
 
 gulp.task('watch', function(){
     return gulp.watch(config.src, ['scripts']);
