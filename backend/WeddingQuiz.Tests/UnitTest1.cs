@@ -8,7 +8,6 @@
         [TestMethod]
         public void TestMethod1()
         {
-            HubConnection
             Assert.IsFalse(true);
         }
     }
