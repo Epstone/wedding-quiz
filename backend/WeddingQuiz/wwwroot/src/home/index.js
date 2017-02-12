@@ -1,6 +1,3 @@
-import "fetch";
-import {HttpClient, json} from "aurelia-fetch-client";
-
 let httpClient = new HttpClient();
 
 export class index {
@@ -8,16 +5,60 @@ export class index {
         this.message = "Hello World blub!";
     }
 
-    createGame() {
-        console.log("create game start");
+    activate() {
+        $.ajax({
+            url: '/api/Posts/GetPosts',
+            method: 'GET',
+            dataType: 'JSON',
+            success: addPostsList
+        });
 
-        httpClient.fetch("http://jsonplaceholder.typicode.com/posts",
-            {
-                method: "POST",
-                body: undefined
-            }).then(response => response.json())
-            .then(data => {
-                console.log(data);
+        function addPostsList(posts) {
+            $.each(posts, function (index) {
+                var post = posts[index];
+                addPost(post);
             });
+        }
+
+        function addPost(post) {
+            $("#postsList").append(
+                    '<li><b>' + post.userName + '</b><br>' + post.text + '</li><br>'
+                 );
+        }
+
+        var hub = $.connection.postsHub;
+
+        hub.client.publishPost = addPost;
+
+        $("#publishPostButton").click(function () {
+
+            var post = {
+                userName: $("#userNameInput").val() || "Guest",
+                text: $("#textInput").val()
+            };
+            $.ajax({
+                url: '/api/Posts/AddPost',
+                method: 'POST',
+                data: post
+            });
+        });
+
+        $.connection.hub.logging = true;
+        $.connection.hub.start();
+    }
+
+    createGame() {
+        //console.log("create game start");
+
+        //httpClient.fetch("http://jsonplaceholder.typicode.com/posts",
+        //    {
+        //        method: "POST",
+        //        body: undefined
+        //    }).then(response => response.json())
+        //    .then(data => {
+        //        console.log(data);
+        //    });
+
+
     }
 }
