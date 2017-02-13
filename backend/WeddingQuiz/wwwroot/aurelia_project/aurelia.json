@@ -87,66 +87,64 @@
             },
             {
                 "name": "vendor-bundle.js",
-                "prepend": [
-                    "node_modules/bluebird/js/browser/bluebird.core.js",
-                    "scripts/require.js"
-                ],
-                "dependencies": [
-                    "jquery",
-                    {
-                        "name": "bootstrap",
-                        "path": "../node_modules/bootstrap/dist",
-                        "main": "js/bootstrap.min",
-                        "deps": [
-                            "jquery"
-                        ],
-                        "exports": "$",
-                        "resources": [
-                            "css/bootstrap.css"
-                        ]
-                    },
-                    "aurelia-binding",
-                    "aurelia-bootstrapper",
-                    "aurelia-dependency-injection",
-                    "aurelia-event-aggregator",
-                    "aurelia-framework",
-                    "aurelia-history",
-                    "aurelia-history-browser",
-                    "aurelia-loader",
-                    "aurelia-loader-default",
-                    "aurelia-logging",
-                    "aurelia-logging-console",
-                    "aurelia-metadata",
-                    "aurelia-pal",
-                    "aurelia-pal-browser",
-                    "aurelia-path",
-                    "aurelia-polyfills",
-                    "aurelia-route-recognizer",
-                    "aurelia-router",
-                    "aurelia-task-queue",
-                    "aurelia-templating",
-                    "aurelia-templating-binding",
-                    {
-                        "name": "text",
-                        "path": "../scripts/text"
-                    },
-                    {
-                        "name": "aurelia-templating-resources",
-                        "path": "../node_modules/aurelia-templating-resources/dist/amd",
-                        "main": "aurelia-templating-resources"
-                    },
-                    {
-                        "name": "aurelia-templating-router",
-                        "path": "../node_modules/aurelia-templating-router/dist/amd",
-                        "main": "aurelia-templating-router"
-                    },
-                    {
-                        "name": "aurelia-testing",
-                        "path": "../node_modules/aurelia-testing/dist/amd",
-                        "main": "aurelia-testing",
-                        "env": "dev"
-                    }
-                ]
+              "prepend": [
+                "node_modules/bluebird/js/browser/bluebird.core.js",
+                "scripts/require.js",
+                "scripts/jquery-2.2.0.min.js",
+                "scripts/jquery.signalr-2.2.0.min.js"
+              ],
+              "dependencies": [
+                {
+                  "name": "bootstrap",
+                  "path": "../node_modules/bootstrap/dist",
+                  "main": "js/bootstrap.min",
+                  "exports": "$",
+                  "resources": [
+                    "css/bootstrap.css"
+                  ]
+                },
+                "aurelia-binding",
+                "aurelia-bootstrapper",
+                "aurelia-dependency-injection",
+                "aurelia-event-aggregator",
+                "aurelia-framework",
+                "aurelia-history",
+                "aurelia-history-browser",
+                "aurelia-loader",
+                "aurelia-loader-default",
+                "aurelia-logging",
+                "aurelia-logging-console",
+                "aurelia-metadata",
+                "aurelia-pal",
+                "aurelia-pal-browser",
+                "aurelia-path",
+                "aurelia-polyfills",
+                "aurelia-route-recognizer",
+                "aurelia-router",
+                "aurelia-task-queue",
+                "aurelia-templating",
+                "aurelia-templating-binding",
+                {
+                  "name": "text",
+                  "path": "../scripts/text"
+                },
+                {
+                  "name": "aurelia-templating-resources",
+                  "path": "../node_modules/aurelia-templating-resources/dist/amd",
+                  "main": "aurelia-templating-resources"
+                },
+                {
+                  "name": "aurelia-templating-router",
+                  "path": "../node_modules/aurelia-templating-router/dist/amd",
+                  "main": "aurelia-templating-router"
+                },
+                {
+                  "name": "aurelia-testing",
+                  "path": "../node_modules/aurelia-testing/dist/amd",
+                  "main": "aurelia-testing",
+                  "env": "dev"
+                }
+              ]
             }
         ]
     }

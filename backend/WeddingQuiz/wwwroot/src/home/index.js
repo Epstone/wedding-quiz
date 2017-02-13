@@ -1,4 +1,4 @@
-let httpClient = new HttpClient();
+//let httpClient = new HttpClient();
 
 export class index {
     constructor() {
@@ -6,26 +6,26 @@ export class index {
     }
 
     activate() {
-        $.ajax({
-            url: '/api/Posts/GetPosts',
-            method: 'GET',
-            dataType: 'JSON',
-            success: addPostsList
-        });
+        //$.ajax({
+        //    url: '/api/Posts/GetPosts',
+        //    method: 'GET',
+        //    dataType: 'JSON',
+        //    success: addPostsList
+        //});
 
-        function addPostsList(posts) {
-            $.each(posts, function (index) {
-                var post = posts[index];
-                addPost(post);
-            });
-        }
+        //function addPostsList(posts) {
+        //    $.each(posts, function (index) {
+        //        var post = posts[index];
+        //        addPost(post);
+        //    });
+        //}
 
-        function addPost(post) {
-            $("#postsList").append(
-                    '<li><b>' + post.userName + '</b><br>' + post.text + '</li><br>'
-                 );
-        }
-
+        //function addPost(post) {
+        //    $("#postsList").append(
+        //            '<li><b>' + post.userName + '</b><br>' + post.text + '</li><br>'
+        //         );
+        //}
+        debugger;
         var hub = $.connection.postsHub;
 
         hub.client.publishPost = addPost;
