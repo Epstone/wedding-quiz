@@ -71,8 +71,6 @@ namespace WeddingQuiz
             app.UseMvcWithDefaultRoute();
 
             app.UseSignalR("/signalr");
-            //app.RunSignalR();
-
         }
     }
 }
