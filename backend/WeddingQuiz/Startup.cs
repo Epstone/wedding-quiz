@@ -68,11 +68,11 @@ namespace WeddingQuiz
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.UseMvcWithDefaultRoute();
 
-            app.UseSignalR();
-            app.RunSignalR();
+            app.UseSignalR("/signalr");
+            //app.RunSignalR();
 
-            app.UseMvc();
         }
     }
 }

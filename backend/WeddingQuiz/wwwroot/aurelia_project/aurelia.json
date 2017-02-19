@@ -123,6 +123,7 @@
                 "aurelia-router",
                 "aurelia-task-queue",
                 "aurelia-templating",
+                "aurelia-http-client",
                 "aurelia-templating-binding",
                 {
                   "name": "text",

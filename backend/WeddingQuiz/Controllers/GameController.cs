@@ -10,7 +10,7 @@ namespace WeddingQuiz.Controllers
     public class GameController : Controller
     {
         [HttpPost]
-        public ActionResult CreateGame()
+        public ActionResult Create()
         {
             return Ok(12345);
         }

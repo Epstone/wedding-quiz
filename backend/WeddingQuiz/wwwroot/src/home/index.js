@@ -1,4 +1,5 @@
-//let httpClient = new HttpClient();
+import {HttpClient} from "aurelia-http-client";
+let client = new HttpClient();
 
 export class index {
     constructor() {
@@ -6,7 +7,7 @@ export class index {
     }
 
     activate() {
-        var hub = $.connection.postsHub;
+        const hub = $.connection.postsHub;
 
         //$.ajax({
         //    url: '/api/Posts/GetPosts',
@@ -28,15 +29,15 @@ export class index {
         //         );
         //}
 
-        $("#publishPostButton").click(function () {
+        $("#publishPostButton").click(function() {
 
-            var post = {
+            const post = {
                 userName: $("#userNameInput").val() || "Guest",
                 text: $("#textInput").val()
             };
             $.ajax({
-                url: '/api/Posts/AddPost',
-                method: 'POST',
+                url: "/api/Posts/AddPost",
+                method: "POST",
                 data: post
             });
         });
@@ -46,17 +47,13 @@ export class index {
     }
 
     createGame() {
-        //console.log("create game start");
+        console.log("create game start");
 
-        //httpClient.fetch("http://jsonplaceholder.typicode.com/posts",
-        //    {
-        //        method: "POST",
-        //        body: undefined
-        //    }).then(response => response.json())
-        //    .then(data => {
-        //        console.log(data);
-        //    });
+        client.post("/game/create")
+            .then(data => {
+                console.log(data);
+            });
 
-
+       
     }
 }
