@@ -6,6 +6,8 @@ export class index {
     }
 
     activate() {
+        var hub = $.connection.postsHub;
+
         //$.ajax({
         //    url: '/api/Posts/GetPosts',
         //    method: 'GET',
@@ -25,10 +27,6 @@ export class index {
         //            '<li><b>' + post.userName + '</b><br>' + post.text + '</li><br>'
         //         );
         //}
-        debugger;
-        var hub = $.connection.postsHub;
-
-        hub.client.publishPost = addPost;
 
         $("#publishPostButton").click(function () {
 

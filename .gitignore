@@ -8,3 +8,6 @@ frontend/scripts/vendor-bundle.js
 *.suo
 obj/
 bin/
+backend/WeddingQuiz/wwwroot/scripts/app-bundle.js
+backend/WeddingQuiz/wwwroot/scripts/app-bundle.js.map
+backend/WeddingQuiz/wwwroot/scripts/vendor-bundle.js
