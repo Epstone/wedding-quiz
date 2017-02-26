@@ -29,7 +29,7 @@
             throw new NotImplementedException();
         }
 
-        private static async Task<GameEntity> CreateGame()
+        internal static async Task<GameEntity> CreateGame()
         {
             var storageAccount = CloudStorageAccount.Parse("UseDevelopmentStorage=true");
 

@@ -21,7 +21,6 @@
             GameController controller = new GameController();
             var result = controller.Create().Result;
 
-            testOutputHelper.WriteLine(controller.Response.HttpContext.Response.Body.ToString());
         }
     }
 }
