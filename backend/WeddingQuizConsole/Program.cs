@@ -19,13 +19,6 @@ namespace WeddingQuizConsole
     {
         static void Main(string[] args)
         {
-            //string baseAddress = "http://*:80/";
-
-            //using (WebApp.Start<Startup>(url: baseAddress))
-            //{
-            //    Thread.Sleep(Timeout.Infinite);
-            //}
-
             var host = new WebHostBuilder()
                .UseKestrel()
                .UseContentRoot(Directory.GetCurrentDirectory()+"\\..\\..\\")

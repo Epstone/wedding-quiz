@@ -60,7 +60,7 @@
             //app.UseFileServer();
 
             app.UseSignalR("/signalr");
-            //app.UseMvcWithDefaultRoute();
+            app.UseMvcWithDefaultRoute();
 
         }
     }
