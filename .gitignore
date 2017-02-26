@@ -15,3 +15,4 @@ backend/.vs/
 project.lock.json
 backend/packages/
 backend/WeddingQuiz.sln.DotSettings.user
+backend/WeddingQuiz/project.fragment.lock.json

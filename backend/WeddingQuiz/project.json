@@ -26,7 +26,13 @@
 
   "frameworks": {
     "netcoreapp1.0": {
+      "dependencies": {
+        "backend-test": {
+          "target": "project"
+        }
+      },
       "imports": [
+        "net462",
         "dotnet5.6",
         "portable-net45+win8"
       ]

@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace backend_test
+﻿namespace backend_test
 {
+    using Xunit;
+
     public class Class1
     {
+        [Fact]
+        public void first_test()
+        {
+            Assert.True(true);
+        }
     }
 }
