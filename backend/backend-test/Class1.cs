@@ -9,5 +9,10 @@
         {
             Assert.True(true);
         }
+
+        [Fact]
+        public void When__user_creates_game_verify_one_game_is_stored()
+        {
+        }
     }
 }

@@ -63,6 +63,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\backend-transfer\WeddingQuizzTransfer\WeddingQuizzTransfer.xproj">
+      <Project>{414213f8-51bb-454b-9b96-a4aa3e1b0919}</Project>
+      <Name>WeddingQuizzTransfer</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
