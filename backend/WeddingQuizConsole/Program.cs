@@ -28,7 +28,7 @@ namespace WeddingQuizConsole
 
             var host = new WebHostBuilder()
                .UseKestrel()
-               .UseContentRoot(Directory.GetCurrentDirectory())
+               .UseContentRoot(Directory.GetCurrentDirectory()+"\\..\\..\\")
                .UseIISIntegration()
                .UseStartup<Startup>()
                .UseUrls("http://localhost:5000")

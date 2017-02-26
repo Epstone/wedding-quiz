@@ -461,6 +461,12 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="wwwroot\.babelrc" />
+    <None Include="wwwroot\.editorconfig" />
+    <None Include="wwwroot\.eslintrc.json" />
+    <None Include="wwwroot\jsconfig.json" />
+    <None Include="wwwroot\package.json" />
+    <None Include="wwwroot\scripts\app-bundle.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
@@ -475,6 +481,38 @@
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
+    <Content Include="wwwroot\.gitignore" />
+    <Content Include="wwwroot\favicon.ico" />
+    <Content Include="wwwroot\index.html" />
+    <Content Include="wwwroot\index2.html" />
+    <Content Include="wwwroot\karma.conf.js" />
+    <Content Include="wwwroot\scripts\app-bundle.js" />
+    <Content Include="wwwroot\scripts\jquery-2.2.0.min.js" />
+    <Content Include="wwwroot\scripts\jquery.signalr-2.2.0.min.js" />
+    <Content Include="wwwroot\scripts\require.js" />
+    <Content Include="wwwroot\scripts\text.js" />
+    <Content Include="wwwroot\scripts\vendor-bundle.js" />
+    <Content Include="wwwroot\src\app.html" />
+    <Content Include="wwwroot\src\app.js" />
+    <Content Include="wwwroot\src\environment.js" />
+    <Content Include="wwwroot\src\game\create.html" />
+    <Content Include="wwwroot\src\game\create.js" />
+    <Content Include="wwwroot\src\game\join.html" />
+    <Content Include="wwwroot\src\game\join.js" />
+    <Content Include="wwwroot\src\highscore\highscore.html" />
+    <Content Include="wwwroot\src\highscore\highscore.js" />
+    <Content Include="wwwroot\src\home\index.html" />
+    <Content Include="wwwroot\src\home\index.js" />
+    <Content Include="wwwroot\src\lobby\lobby.html" />
+    <Content Include="wwwroot\src\lobby\lobby.js" />
+    <Content Include="wwwroot\src\main.js" />
+    <Content Include="wwwroot\src\question\answer.html" />
+    <Content Include="wwwroot\src\question\answer.js" />
+    <Content Include="wwwroot\src\resources\index.js" />
+    <Content Include="wwwroot\styles\styles.css" />
+    <Content Include="wwwroot\test\aurelia-karma.js" />
+    <Content Include="wwwroot\test\unit\app.spec.js" />
+    <Content Include="wwwroot\test\unit\setup.js" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

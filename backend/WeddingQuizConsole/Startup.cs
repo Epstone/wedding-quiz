@@ -1,11 +1,17 @@
 ﻿namespace WeddingQuizConsole
 {
+    using System.Collections.Generic;
+    using System.IO;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.StaticFiles;
+    using Microsoft.AspNetCore.StaticFiles.Infrastructure;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.FileProviders;
     using Microsoft.Extensions.Logging;
-    using Microsoft.AspNetCore.st
+    
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -25,6 +31,7 @@
         {
             // Add framework services.
             services.AddMvc();
+            services.AddDirectoryBrowser();
             services.AddSignalR(
                 options =>
                 {
@@ -35,11 +42,26 @@
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            var staticFileOptions = new StaticFileOptions(sharedOptions: new SharedOptions()) {ServeUnknownFileTypes = true};
+            loggerFactory.AddConsole(LogLevel.Trace);
             loggerFactory.AddDebug();
-            app.UseMvcWithDefaultRoute();
-            app.UseStaticFiles()
+
+            app.UseDefaultFiles();  
+
+            app.UseStaticFiles();
+
+            //app.UseDirectoryBrowser(new DirectoryBrowserOptions()
+            //{
+            //    FileProvider = new PhysicalFileProvider(
+            //Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot")),
+            //    RequestPath = new PathString("/static")
+            //});
+
+            //app.UseFileServer();
+
             app.UseSignalR("/signalr");
+            //app.UseMvcWithDefaultRoute();
+
         }
     }
 }
