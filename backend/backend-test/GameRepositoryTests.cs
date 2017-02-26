@@ -21,9 +21,11 @@
             string connectionString = "UseDevelopmentStorage=true";
             GameRepository repository = new GameRepository(connectionString);
 
-
             var actualGame = repository.CreateGame();
             actualGame.Should().NotBeNull();
         }
+
+
+
     }
 }
