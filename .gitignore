@@ -13,3 +13,5 @@ backend/WeddingQuiz/wwwroot/scripts/app-bundle.js.map
 backend/WeddingQuiz/wwwroot/scripts/vendor-bundle.js
 backend/.vs/
 project.lock.json
+backend/packages/
+backend/WeddingQuiz.sln.DotSettings.user

@@ -1,5 +1,6 @@
 ﻿namespace WeddingQuiz.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,18 @@
         {
             var game = await CreateGame();
             return Ok(game);
+        }
+
+        [HttpPost]
+        public ActionResult JoinGame(string name, string gamecode, string userId)
+        {
+            // verify game code
+
+
+            // verify user id or create a new one
+
+            // result either: user name taken or user created successfully
+            throw new NotImplementedException();
         }
 
         private static async Task<GameEntity> CreateGame()

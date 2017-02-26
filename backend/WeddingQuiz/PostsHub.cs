@@ -1,5 +1,7 @@
 ﻿namespace SignalRChat
 {
+    using System;
+    using System.Diagnostics;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.SignalR;
 
@@ -7,7 +9,7 @@
     {
         public override Task OnConnected()
         {
-            // update playerlist on all clients
+                // update playerlist on all clients
             return base.OnConnected();
         }
 
@@ -23,5 +25,13 @@
         {
             
         }
+
+        public void SetName(string name)
+        {
+            Debug.WriteLine($"Client connected with connection id: {this.Context.ConnectionId}");
+            Clients.All.broadcastMessage(name);
+        }
+
+
     }
 }
