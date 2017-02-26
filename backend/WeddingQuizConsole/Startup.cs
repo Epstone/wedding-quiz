@@ -50,15 +50,6 @@
 
             app.UseStaticFiles();
 
-            //app.UseDirectoryBrowser(new DirectoryBrowserOptions()
-            //{
-            //    FileProvider = new PhysicalFileProvider(
-            //Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot")),
-            //    RequestPath = new PathString("/static")
-            //});
-
-            //app.UseFileServer();
-
             app.UseSignalR("/signalr");
             app.UseMvcWithDefaultRoute();
 
