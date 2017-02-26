@@ -1,4 +1,4 @@
-﻿namespace WeddingQuizzTransfer.Controllers
+﻿namespace WeddingQuizConsole.Controllers
 {
     using System.Collections.Generic;
     using Microsoft.AspNetCore.Mvc;
