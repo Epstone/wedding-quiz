@@ -1,9 +1,14 @@
 import {HttpClient} from "aurelia-http-client";
+import {Router} from 'aurelia-router';
+
 let client = new HttpClient();
 
 export class index {
-    constructor() {
-        this.message = "Hello World blub!";
+
+    static inject() { return [Router]; }
+
+    constructor(router){
+        this.theRouter = router;
     }
 
     activate() {
@@ -51,7 +56,9 @@ export class index {
 
         client.post("/game/create")
             .then(data => {
-                console.log(data.response);
+                var game = JSON.parse(data.response);
+                console.log("created game on server", game);
+                this.theRouter.navigateToRoute("gameCreation", game);
             });
 
        

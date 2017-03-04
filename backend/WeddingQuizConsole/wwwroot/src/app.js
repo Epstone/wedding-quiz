@@ -8,7 +8,7 @@ export class App {
         config.title = 'Aurelia';
         config.map([
             { route: ['', 'home'], name: 'home', moduleId: 'home/index' },
-            { route: ['/game/create'], name: 'game', moduleId: 'game/create' },
+            { route: ['/game/create'], name: 'gameCreation', moduleId: 'game/create' },
             { route: ['/game/join'], name: 'game', moduleId: 'game/join' },
             { route: ['/question/answer'], name: 'question', moduleId: 'question/answer' },
             { route: ['/highscore'], name: 'highscore', moduleId: 'highscore/highscore' },

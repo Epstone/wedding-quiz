@@ -15,7 +15,7 @@
             this.RowKey = hashCode;
         }
 
-        public string GameId { get; set; }
+        public string GameId { get { return this.RowKey; } }
 
         public List<string> Questions { get; set; }
 
