@@ -23,7 +23,7 @@
         public async Task<ActionResult> Create()
         {
             var game = await gameRepository.CreateGame();
-            return Ok(game);
+            return Json(game);
         }
 
         [HttpPost]

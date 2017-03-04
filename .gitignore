@@ -16,3 +16,6 @@ project.lock.json
 backend/packages/
 backend/WeddingQuiz.sln.DotSettings.user
 backend/WeddingQuiz/project.fragment.lock.json
+backend/WeddingQuizConsole/wwwroot/scripts/app-bundle.js
+backend/WeddingQuizConsole/wwwroot/scripts/app-bundle.js.map
+backend/WeddingQuizConsole/wwwroot/scripts/vendor-bundle.js

@@ -51,7 +51,7 @@ export class index {
 
         client.post("/game/create")
             .then(data => {
-                console.log(data);
+                console.log(data.response);
             });
 
        
