@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.WindowsAzure.Storage;
@@ -27,21 +28,28 @@
         }
 
         [HttpPost]
-        public ActionResult Join([FromBody]dynamic content)
+        public async Task<ActionResult> Join([FromBody]JoinGameModel content)
         {
             // verify game existis
-            gameRepository.IsGameExisting(content.gameId);
-            // verify player with same name is not already connected via hub
+            var game = gameRepository.GetGame(content.GameId).Result;
+            if (game != null)
+            {
+                var openConnections = PostsHub._connections.GetConnections(content.Username);
 
-            // if not yet connected
-            gameRepository.AddPlayerToGame(content.gameId, content.username); 
-
-            // verify user id or create a new one
-
-            // result either: user name taken or user created successfully
-            throw new NotImplementedException();
+                if (openConnections.Any())
+                {
+                    return Json(new { Result = "already_connected", Game = game });
+                }
+                else
+                {
+                    // next request is the signalr connection request
+                    await gameRepository.AddPlayerToGameAsync(content.Username, content.Username);
+                    return Json(new { Result = "allow_connection", Game = game });
+                }
+            }
+            return Json(new { Result = "invalid_gameId" });
         }
 
-        
+
     }
 }

@@ -1,24 +1,41 @@
 ﻿namespace WeddingQuizConsole
 {
     using System.Diagnostics;
+    using System.Linq;
     using System.Threading.Tasks;
+    using BasicChat;
     using Microsoft.AspNet.SignalR;
 
     public class PostsHub : Hub
     {
+
+        internal static readonly ConnectionMapping<string> _connections =
+            new ConnectionMapping<string>();
+
         public override Task OnConnected()
         {
-                // update playerlist on all clients
+            string name = Context.User.Identity.Name;
+            _connections.Add(name, Context.ConnectionId);
             return base.OnConnected();
         }
 
         public override Task OnDisconnected(bool stopCalled)
         {
-            // update playerlist on all clients
-
+            string name = Context.User.Identity.Name;
+            _connections.Remove(name, Context.ConnectionId);
             return base.OnDisconnected(stopCalled);
         }
 
+        public override Task OnReconnected()
+        {
+            string name = Context.User.Identity.Name;
+            if (!_connections.GetConnections(name).Contains(Context.ConnectionId))
+            {
+                _connections.Add(name, Context.ConnectionId);
+            }
+
+            return base.OnReconnected();
+        }
 
         public void PlayerUpdate()
         {

@@ -4,8 +4,8 @@ import {Router} from 'aurelia-router';
 export class join {
     
     constructor() {
-        this.name ="user";
-        this.gameId ="key";
+        this.name ="paul_panzer";
+        this.gameId ="150D3274";
     }
 
     joinGame() {
@@ -20,9 +20,9 @@ export class join {
             .withContent(postParams)
             .send()
             .then(data => {
-                var game = JSON.parse(data.response);
-                console.log("joined game", game);
-                this.theRouter.navigateToRoute("lobby", game);
+                var result = JSON.parse(data.response);
+                console.log("result", result);
+                //this.theRouter.navigateToRoute("lobby", game);
             });
     }
 }

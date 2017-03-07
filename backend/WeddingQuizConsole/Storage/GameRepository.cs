@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace WeddingQuizConsole.Storage
 {
+    using System.Diagnostics;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Table;
     using Models;
@@ -13,6 +14,7 @@ namespace WeddingQuizConsole.Storage
     public class GameRepository
     {
         private readonly string connectionString;
+        private static readonly string GameTableName = "game";
 
         public GameRepository(string connectionString)
         {
@@ -20,7 +22,7 @@ namespace WeddingQuizConsole.Storage
         }
         internal async Task<GameEntity> CreateGame()
         {
-            var gameTable = await GetGameTable();
+            var gameTable = await GetTable(GameTableName);
 
             var game = new GameEntity();
             game.Questions = new List<string>
@@ -47,10 +49,11 @@ namespace WeddingQuizConsole.Storage
             return game;
         }
 
-        private async Task<CloudTable> GetGameTable()
+        private async Task<CloudTable> GetTable(string tableName)
         {
             var tableClient = CreateTableClient();
-            var gameTable = tableClient.GetTableReference("game");
+            var tableReference = tableClient.GetTableReference(tableName);
+            var gameTable = tableReference;
 
             // Create the CloudTable if it does not exist
             await gameTable.CreateIfNotExistsAsync();
@@ -66,41 +69,26 @@ namespace WeddingQuizConsole.Storage
             return tableClient;
         }
 
-        public bool AddPlayerToGame(string gameId, string username)
+        public async Task AddPlayerToGameAsync(string gameId, string username)
         {
-            // find game 
-
-            // get users
-
-            // if user not exists, create
-            throw new NotImplementedException();
-        }
-
-
-        //TableQuery<GameEntity> query = new TableQuery<GameEntity>()
-        //    .Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, gameId));
-
-        public async Task<bool> IsGameExisting(string gameId)
-        {
-            var game = await FindGame(gameId);
-
-            if (game == null)
+            try
             {
-                return false;
+                var table = await GetTable("player");
+                var insertOperation = TableOperation.Insert(new PlayerEntity() { PartitionKey = gameId, Username = username });
+                await table.ExecuteAsync(insertOperation);
             }
-            else
+            catch (Exception ex)
             {
-                return true;
+                Trace.TraceWarning("user was already added to database");
             }
         }
 
-        private async Task<GameEntity> FindGame(string gameId)
+        public async Task<GameEntity> GetGame(string gameId)
         {
-            var retrieveGameOperation = TableOperation.Retrieve(gameId, gameId);
-
-            var table = await GetGameTable();
+            var retrieveGameOperation = TableOperation.Retrieve<GameEntity>(gameId, gameId);
+            var table = await GetTable(GameTableName);
             var game = await table.ExecuteAsync(retrieveGameOperation);
-            return (GameEntity)game.Result;
+            return  (GameEntity)game.Result;
         }
     }
 }
