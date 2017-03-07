@@ -16,6 +16,9 @@
         {
             string name = Context.User.Identity.Name;
             _connections.Add(name, Context.ConnectionId);
+
+            Clients.All.broadcastMessage(name, $"new connection from {Context.ConnectionId}");
+
             return base.OnConnected();
         }
 

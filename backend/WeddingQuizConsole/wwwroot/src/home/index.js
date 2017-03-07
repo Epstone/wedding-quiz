@@ -12,7 +12,7 @@ export class index {
     }
 
     activate() {
-        const hub = $.connection.postsHub;
+        //const hub = $.connection.postsHub;
 
         //$.ajax({
         //    url: '/api/Posts/GetPosts',
@@ -47,8 +47,8 @@ export class index {
             });
         });
 
-        $.connection.hub.logging = true;
-        $.connection.hub.start();
+        //$.connection.hub.logging = true;
+        //$.connection.hub.start();
     }
 
     createGame() {
