@@ -3,9 +3,12 @@ import {Router} from 'aurelia-router';
 
 export class join {
     
-    constructor() {
+    static inject() { return [Router]; }
+
+    constructor(router) {
         this.name ="paul_panzer";
         this.gameId ="150D3274";
+        this.theRouter = router;
     }
 
     joinGame() {
@@ -22,7 +25,13 @@ export class join {
             .then(data => {
                 var result = JSON.parse(data.response);
                 console.log("result", result);
-                //this.theRouter.navigateToRoute("lobby", game);
+
+                if (result.result === "allow_connection") {
+                    this.theRouter.navigateToRoute("lobby", result.game);
+                } else {
+                    alert(result.result);
+                }
+
             });
     }
 }

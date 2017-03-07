@@ -3,5 +3,7 @@ export class join {
         this.message = 'Hello World!';
     }
 
-    
+    activate() {
+        console.log("welcome to the lobby");
+    }
 }
