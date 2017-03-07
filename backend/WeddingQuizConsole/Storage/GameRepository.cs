@@ -65,5 +65,42 @@ namespace WeddingQuizConsole.Storage
             var tableClient = storageAccount.CreateCloudTableClient();
             return tableClient;
         }
+
+        public bool AddPlayerToGame(string gameId, string username)
+        {
+            // find game 
+
+            // get users
+
+            // if user not exists, create
+            throw new NotImplementedException();
+        }
+
+
+        //TableQuery<GameEntity> query = new TableQuery<GameEntity>()
+        //    .Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, gameId));
+
+        public async Task<bool> IsGameExisting(string gameId)
+        {
+            var game = await FindGame(gameId);
+
+            if (game == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        private async Task<GameEntity> FindGame(string gameId)
+        {
+            var retrieveGameOperation = TableOperation.Retrieve(gameId, gameId);
+
+            var table = await GetGameTable();
+            var game = await table.ExecuteAsync(retrieveGameOperation);
+            return (GameEntity)game.Result;
+        }
     }
 }

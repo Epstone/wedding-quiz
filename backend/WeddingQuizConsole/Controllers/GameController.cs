@@ -27,10 +27,14 @@
         }
 
         [HttpPost]
-        public ActionResult JoinGame(string name, string gamecode, string userId)
+        public ActionResult Join([FromBody]dynamic content)
         {
-            // verify game code
+            // verify game existis
+            gameRepository.IsGameExisting(content.gameId);
+            // verify player with same name is not already connected via hub
 
+            // if not yet connected
+            gameRepository.AddPlayerToGame(content.gameId, content.username); 
 
             // verify user id or create a new one
 
