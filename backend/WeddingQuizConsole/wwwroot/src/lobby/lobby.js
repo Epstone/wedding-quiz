@@ -6,13 +6,20 @@ export class join {
     activate() {
         console.log("welcome to the lobby");
 
-        const hub = $.connection.postsHub;
+       
+        var gameHub = $.connection.hub.createHubProxy("postsHub");
+           
+        gameHub.on('broadcastMessage', function(name, message) {
+            console.log(name + ' ' + message);
+        });
+
+
         $.connection.hub.logging = true;
-        $.connection.hub.start();
-        debugger;
-        $.connection.hub.client.broadcastMessage = function(message) {
-            console.log(message);
-        }
+        $.connection.hub.start().done(function() {
+            console.log("hub is started now.");
+            gameHub.invoke('setName', "test");
+            
+        });
 
     }
 }

@@ -11,7 +11,8 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.FileProviders;
     using Microsoft.Extensions.Logging;
-    
+    using Newtonsoft.Json;
+
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -30,13 +31,21 @@
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            
+            //services.AddDirectoryBrowser();
+
+            var settings = new JsonSerializerSettings();
+            //settings.ContractResolver = new SignalRContractResolver();
+            services.AddSignalR(options =>
+            {
+                options.Hubs.EnableDetailedErrors = true;
+                options.Hubs.EnableJavaScriptProxies = true;
+                
+                
+            });
+
+            
             services.AddMvc();
-            services.AddDirectoryBrowser();
-            services.AddSignalR(
-                options =>
-                {
-                    options.Hubs.EnableDetailedErrors = true;
-                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,9 +58,10 @@
             app.UseDefaultFiles();  
 
             app.UseStaticFiles();
-
-            app.UseSignalR("/signalr");
+            
             app.UseMvcWithDefaultRoute();
+            app.UseSignalR("/signalr");
+            app.UseWebSockets();
 
         }
     }

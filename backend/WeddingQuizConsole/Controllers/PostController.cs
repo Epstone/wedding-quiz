@@ -1,8 +1,8 @@
 ﻿namespace WeddingQuizConsole.Controllers
 {
     using System.Collections.Generic;
-    using Microsoft.AspNet.SignalR.Infrastructure;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.SignalR.Infrastructure;
 
     public class PostsController : Controller
     {

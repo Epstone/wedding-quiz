@@ -91,7 +91,6 @@
                 "node_modules/bluebird/js/browser/bluebird.core.js",
                 "scripts/require.js",
                 "scripts/jquery-2.2.0.min.js",
-                "scripts/jquery.signalr-2.2.0.min.js"
               ],
               "dependencies": [
                 {

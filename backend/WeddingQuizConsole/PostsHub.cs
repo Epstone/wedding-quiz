@@ -4,11 +4,13 @@
     using System.Linq;
     using System.Threading.Tasks;
     using BasicChat;
-    using Microsoft.AspNet.SignalR;
+    using Microsoft.AspNetCore.SignalR;
+    using Microsoft.AspNetCore.SignalR.Hubs;
 
+    [HubName("postshub")]
     public class PostsHub : Hub
     {
-
+        
         internal static readonly ConnectionMapping<string> _connections =
             new ConnectionMapping<string>();
 
@@ -48,7 +50,7 @@
         public void SetName(string name)
         {
             Debug.WriteLine($"Client connected with connection id: {this.Context.ConnectionId}");
-            Clients.All.broadcastMessage(name);
+            Clients.All.broadcastMessage(name,"tests");
         }
 
 
