@@ -16,10 +16,6 @@
 
         public override Task OnConnected()
         {
-            string name = Context.User.Identity.Name;
-            _connections.Add(name, Context.ConnectionId);
-
-            Clients.All.broadcastMessage(name, $"new connection from {Context.ConnectionId}");
 
             return base.OnConnected();
         }
@@ -47,9 +43,11 @@
             
         }
 
-        public void SetName(string name)
+        public void Subscribe(string name)
         {
-            Debug.WriteLine($"Client connected with connection id: {this.Context.ConnectionId}");
+            _connections.Add(name, Context.ConnectionId);
+            Clients.All.broadcastMessage(name, $"new connection from {Context.ConnectionId}");
+
             Clients.All.broadcastMessage(name,"tests");
         }
 
