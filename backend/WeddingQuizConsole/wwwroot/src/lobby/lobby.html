@@ -1,9 +1,12 @@
 <template>
     <div class="jumbotron">
         <h1>Ela & Patrick</h1>
-        <p>Gäste: Aggi, Eberhardt, Kai, Gerlinde Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unkno</p>
-        
+        <p>Gäste: </p>
+
+        <ul>
+            <li repeat.for="name of playerlist">${name}, </li>
+        </ul>
         <a class="btn btn-lg btn-default" href="#" role="button">Warten auf Moderator...</a>
-        
+
     </div>
 </template>

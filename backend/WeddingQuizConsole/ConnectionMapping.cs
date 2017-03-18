@@ -37,6 +37,11 @@
                 return Enumerable.Empty<string>();
             }
 
+            public List<T> GetKeys()
+            {
+                return _connections.Keys.ToList();
+            }
+
             public void Remove(T key, string connectionId)
             {
                 lock (_connections)

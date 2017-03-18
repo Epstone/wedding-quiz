@@ -1,13 +1,13 @@
-import {HttpClient} from "aurelia-http-client";
-import {Router} from 'aurelia-router';
+import { HttpClient } from "aurelia-http-client";
+import { Router } from 'aurelia-router';
 
 export class join {
-    
+
     static inject() { return [Router]; }
 
     constructor(router) {
-        this.name ="paul_panzer";
-        this.gameId ="150D3274";
+        this.name = "paul_panzer";
+        this.gameId = "150D3274";
         this.theRouter = router;
     }
 
@@ -27,7 +27,10 @@ export class join {
                 console.log("result", result);
 
                 if (result.result === "allow_connection") {
-                    this.theRouter.navigateToRoute("lobby", result.game);
+                    this.theRouter.navigateToRoute("lobby", {
+                        game: result.game,
+                        username: postParams.username
+                    });
                 } else {
                     alert(result.result);
                 }

@@ -1,24 +1,29 @@
 export class join {
     constructor() {
         this.message = 'Hello World!';
+        this.playerlist = ["Noch keine Spieler"];
     }
 
-    activate() {
+    activate(joinDetails) {
+        var self = this;
         console.log("welcome to the lobby");
+        var game = joinDetails.game;
+        var username = joinDetails.username;
 
-       
+
         var gameHub = $.connection.hub.createHubProxy("postsHub");
-           
-        gameHub.on('broadcastMessage', function(name, message) {
-            console.log(name + ' ' + message);
+        $.connection.hub.qs = 'username=' + username;
+        gameHub.on('playerListUpdated', function (updatedPlayerlist) {
+            console.log("received playerlist");
+            console.log(updatedPlayerlist);
+            self.playerlist = updatedPlayerlist;
         });
 
 
         $.connection.hub.logging = true;
-        $.connection.hub.start().done(function() {
+        $.connection.hub.start().done(function () {
             console.log("hub is started now.");
-            gameHub.invoke('setName', "test");
-            
+            gameHub.invoke('updatePlayerList');
         });
 
     }
