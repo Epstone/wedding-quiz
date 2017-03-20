@@ -1,14 +1,16 @@
 import { signalrService } from 'services/signalr-service';
 import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { Router } from 'aurelia-router';
 
-@inject(signalrService, EventAggregator)
+@inject(signalrService, EventAggregator, Router)
 export class create {
-    constructor(signalrService, eventAggregator) {
+    constructor(signalrService, eventAggregator, router) {
         this.message = 'Hello World!';
         this.playerlist = ["Noch keine Spieler"];
         this.signalrService = signalrService;
         this.eventAggregator = eventAggregator;
+        this.router = router;
     }
 
     questions = [];
@@ -24,7 +26,11 @@ export class create {
                     console.log("we should update playerlist now for moderator view.")
                     console.log(updatedPlayerList);
                     self.playerlist = updatedPlayerList;
-                })
+                });
             });
+    }
+
+    startGame(){
+        this.signalrService.startGame();
     }
 }

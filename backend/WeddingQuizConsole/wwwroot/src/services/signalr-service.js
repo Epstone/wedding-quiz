@@ -42,5 +42,9 @@ export class signalrService {
 
     return promise;
   }
+
+  startGame() {
+    console.log("triggered game start");
+  }
 }
 
