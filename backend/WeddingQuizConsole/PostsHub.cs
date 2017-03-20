@@ -47,6 +47,11 @@
             Clients.All.playerListUpdated(_connections.GetKeys());
         }
 
+        public void StartGame()
+        {
+            Clients.All.gameStarted();
+        }
+
         public void Subscribe(string name)
         {
             Clients.All.broadcastMessage(name, $"new connection from {Context.ConnectionId}");

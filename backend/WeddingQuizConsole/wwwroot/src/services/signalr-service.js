@@ -20,6 +20,8 @@ export class signalrService {
       (resolve, reject) => {
 
         var gameHub = $.connection.hub.createHubProxy("postsHub");
+        self.gameHub = gameHub;
+
         $.connection.hub.qs = 'username=' + username;
         $.connection.hub.logging = true;
 
@@ -29,7 +31,9 @@ export class signalrService {
           self.eventAggregator.publish('playerListUpdated', updatedPlayerlist);
         });
 
-
+        gameHub.on("gameStarted", function () {
+          console.log("server signalled game was started by moderator");
+        });
 
         $.connection.hub.start().done(function () {
           resolve();
@@ -44,7 +48,17 @@ export class signalrService {
   }
 
   startGame() {
-    console.log("triggered game start");
+
+    return new Promise((resolve, reject) => {
+      console.log("triggered game start");
+      this.gameHub.server.startGame().done(() => {
+        console.log("game started successfully");
+        resolve();
+      });
+    });
+
+
+
   }
 }
 

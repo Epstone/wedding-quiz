@@ -30,7 +30,14 @@ export class create {
             });
     }
 
-    startGame(){
-        this.signalrService.startGame();
+    startGame() {
+        var self = this;
+        this.signalrService.startGame()
+            .then(() => {
+                console.log("change view now");
+                self.router.navigateToRoute("question", {
+                    isModerator: true
+                });
+            });
     }
 }
