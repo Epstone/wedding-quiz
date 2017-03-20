@@ -12,28 +12,6 @@ export class index {
     }
 
     activate() {
-        //const hub = $.connection.postsHub;
-
-        //$.ajax({
-        //    url: '/api/Posts/GetPosts',
-        //    method: 'GET',
-        //    dataType: 'JSON',
-        //    success: addPostsList
-        //});
-
-        //function addPostsList(posts) {
-        //    $.each(posts, function (index) {
-        //        var post = posts[index];
-        //        addPost(post);
-        //    });
-        //}
-
-        //function addPost(post) {
-        //    $("#postsList").append(
-        //            '<li><b>' + post.userName + '</b><br>' + post.text + '</li><br>'
-        //         );
-        //}
-
         $("#publishPostButton").click(function() {
 
             const post = {
@@ -46,9 +24,6 @@ export class index {
                 data: post
             });
         });
-
-        //$.connection.hub.logging = true;
-        //$.connection.hub.start();
     }
 
     createGame() {

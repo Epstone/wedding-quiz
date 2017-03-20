@@ -15,10 +15,11 @@ export class create {
 
     questions = [];
 
-    activate(params, routeData) {
+    activate(game, routeData) {
         var self = this;
-        console.log("passed game from other view", params, routeData);
-        this.questions = params.questions;
+        console.log("passed game from other view", game, routeData);
+        this.questions = game.questions;
+        this.game = game;
 
         this.signalrService.verifyConnected("moderator")
             .then(() => {
@@ -36,7 +37,8 @@ export class create {
             .then(() => {
                 console.log("change view now");
                 self.router.navigateToRoute("question", {
-                    isModerator: true
+                    isModerator: true,
+                    game: self.game
                 });
             });
     }

@@ -1,15 +1,17 @@
 import { signalrService } from 'services/signalr-service';
 import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { Router } from 'aurelia-router';
 
-@inject(signalrService, EventAggregator)
+@inject(signalrService, EventAggregator, Router)
 export class join {
-    constructor(signalrService, eventAggregator) {
+    constructor(signalrService, eventAggregator, router) {
         console.log("lobby.js: received signalr service in constructor")
         this.message = 'Hello World!';
         this.playerlist = ["Noch keine Spieler"];
         this.signalrService = signalrService;
         this.eventAggregator = eventAggregator;
+        this.router = router;
     }
 
     activate(joinDetails) {
@@ -26,6 +28,13 @@ export class join {
                     console.log(updatedPlayerList);
                     self.playerlist = updatedPlayerList;
                 })
+
+                this.eventAggregator.subscribe("gameStarted", () => {
+                    self.router.navigateToRoute("question", {
+                        isModerator: false,
+                        game: null
+                    });
+                });
             });
     }
 }

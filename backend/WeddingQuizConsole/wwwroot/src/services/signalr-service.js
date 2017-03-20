@@ -33,6 +33,7 @@ export class signalrService {
 
         gameHub.on("gameStarted", function () {
           console.log("server signalled game was started by moderator");
+          self.eventAggregator.publish('gameStarted');
         });
 
         $.connection.hub.start().done(function () {
@@ -48,7 +49,6 @@ export class signalrService {
   }
 
   startGame() {
-
     return new Promise((resolve, reject) => {
       console.log("triggered game start");
       this.gameHub.server.startGame().done(() => {
@@ -56,9 +56,11 @@ export class signalrService {
         resolve();
       });
     });
+  }
 
-
-
+  nextQuestion(){
+    console.log("moderator switches to next question");
+    console.log("todo");
   }
 }
 
