@@ -2,7 +2,7 @@ import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 
 @inject(EventAggregator)
-export class signalrService {
+export class SignalrService {
   constructor(eventAggregator) {
     console.log("signalr service constructor created")
     this.eventAggregator = eventAggregator;
@@ -58,7 +58,7 @@ export class signalrService {
     });
   }
 
-  nextQuestion(){
+  nextQuestion() {
     console.log("moderator switches to next question");
     console.log("todo");
   }

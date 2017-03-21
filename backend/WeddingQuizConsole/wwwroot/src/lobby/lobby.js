@@ -1,9 +1,9 @@
-import { signalrService } from 'services/signalr-service';
+import { SignalrService } from 'services/signalr-service';
 import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { Router } from 'aurelia-router';
 
-@inject(signalrService, EventAggregator, Router)
+@inject(SignalrService, EventAggregator, Router)
 export class join {
     constructor(signalrService, eventAggregator, router) {
         console.log("lobby.js: received signalr service in constructor")

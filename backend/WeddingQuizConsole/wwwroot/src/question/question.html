@@ -29,7 +29,7 @@
     </div>
     <hr />
     <div show.bind="isModerator">
-        <button type="button" class="btn btn-primary">Nächste Frage</button>
+        <button type="button" class="btn btn-primary" click.trigger="nextQuestion()">Nächste Frage</button>
     </div>
     <div show.bind="!isModerator">
         <button type="button" class="btn btn-primary">Warten auf Moderator...</button>
