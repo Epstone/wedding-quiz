@@ -11,9 +11,10 @@
     [HubName("postshub")]
     public class PostsHub : Hub
     {
-        
         internal static readonly ConnectionMapping<string> _connections =
             new ConnectionMapping<string>();
+
+        private readonly int questionNo = 0;
 
         public override Task OnConnected()
         {
@@ -55,7 +56,12 @@
         public void Subscribe(string name)
         {
             Clients.All.broadcastMessage(name, $"new connection from {Context.ConnectionId}");
-            Clients.All.broadcastMessage(name,"tests");
+            Clients.All.broadcastMessage(name, "tests");
+        }
+
+        public void ShowNextQuestion()
+        {
+            Clients.All.questionChangeRequested(new {questionNo});
         }
 
         private StringValues UsernameFromQueryString()

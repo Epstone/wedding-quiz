@@ -29,10 +29,12 @@ export class join {
                     self.playerlist = updatedPlayerList;
                 })
 
+                // todo provide game as payload here
                 this.eventAggregator.subscribe("gameStarted", () => {
                     self.router.navigateToRoute("question", {
                         isModerator: false,
-                        game: null
+                        game: null,
+                        questionIndex: 0
                     });
                 });
             });

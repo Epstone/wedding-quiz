@@ -38,7 +38,8 @@ export class create {
                 console.log("change view now");
                 self.router.navigateToRoute("question", {
                     isModerator: true,
-                    game: self.game
+                    game: self.game,
+                    questionIndex: 0
                 });
             });
     }
