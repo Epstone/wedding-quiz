@@ -7,6 +7,7 @@
     using Microsoft.AspNetCore.SignalR;
     using Microsoft.AspNetCore.SignalR.Hubs;
     using Microsoft.Extensions.Primitives;
+    using Storage;
 
     [HubName("postshub")]
     public class PostsHub : Hub
@@ -48,9 +49,13 @@
             Clients.All.playerListUpdated(_connections.GetKeys());
         }
 
-        public void StartGame()
+        public void StartGame(string gameId)
         {
-            Clients.All.gameStarted();
+            string connectionString = "UseDevelopmentStorage=true";
+            var gameRepository = new GameRepository(connectionString);
+
+            var game = gameRepository.GetGame(gameId).Result;
+            Clients.All.gameStarted(game);
         }
 
         public void Subscribe(string name)

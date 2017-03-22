@@ -30,10 +30,10 @@ export class join {
                 })
 
                 // todo provide game as payload here
-                this.eventAggregator.subscribe("gameStarted", () => {
+                this.eventAggregator.subscribe("gameStarted", (game) => {
                     self.router.navigateToRoute("question", {
                         isModerator: false,
-                        game: null,
+                        game: game,
                         questionIndex: 0
                     });
                 });

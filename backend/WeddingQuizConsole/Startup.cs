@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.IO;
+    using Helper;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -31,20 +32,19 @@
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            
+
             //services.AddDirectoryBrowser();
 
-            var settings = new JsonSerializerSettings();
-            //settings.ContractResolver = new SignalRContractResolver();
+            var settings = new JsonSerializerSettings { ContractResolver = new SignalRContractResolver() };
+            var serializer = JsonSerializer.Create(settings);
+            services.AddSingleton(serializer);
+
             services.AddSignalR(options =>
             {
                 options.Hubs.EnableDetailedErrors = true;
                 options.Hubs.EnableJavaScriptProxies = true;
-                
-                
             });
 
-            
             services.AddMvc();
         }
 
@@ -63,6 +63,7 @@
             app.UseSignalR("/signalr");
             app.UseWebSockets();
 
+            
         }
     }
 }

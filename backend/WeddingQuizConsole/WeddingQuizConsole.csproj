@@ -451,6 +451,7 @@
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Entities\GameModel.cs" />
+    <Compile Include="Helper\SignalrResolver.cs" />
     <Compile Include="PostsHub.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

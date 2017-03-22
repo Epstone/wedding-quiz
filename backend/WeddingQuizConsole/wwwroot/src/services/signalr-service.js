@@ -37,9 +37,9 @@ export class SignalrService {
           self.eventAggregator.publish('playerListUpdated', updatedPlayerlist);
         });
 
-        gameHub.on("gameStarted", function () {
+        gameHub.on("gameStarted", function (game) {
           console.log("server signalled game was started by moderator");
-          self.eventAggregator.publish('gameStarted');
+          self.eventAggregator.publish('gameStarted', game);
         });
 
         gameHub.on("questionChangeRequested", function (response) {
@@ -59,10 +59,10 @@ export class SignalrService {
     return promise;
   }
 
-  startGame() {
+  startGame(gameId) {
     return new Promise((resolve, reject) => {
       console.log("triggered game start");
-      this.gameHub.server.startGame().done(() => {
+      this.gameHub.server.startGame(gameId).done(() => {
         console.log("game started successfully");
         resolve();
       });

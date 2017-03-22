@@ -33,7 +33,7 @@ export class create {
 
     startGame() {
         var self = this;
-        this.signalrService.startGame()
+        this.signalrService.startGame(self.game.gameId)
             .then(() => {
                 console.log("change view now");
                 self.router.navigateToRoute("question", {
