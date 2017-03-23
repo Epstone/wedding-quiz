@@ -21,6 +21,15 @@ export class join {
         var game = joinDetails.game;
         var username = joinDetails.username;
 
+        if (typeof (Storage) !== "undefined") {
+            // Code for localStorage/sessionStorage.
+            window.localStorage.setItem("username", username);
+            window.localStorage.setItem("currentGame", game.gameId);
+            window.localStorage.setItem("isModerator", false);
+        } else {
+            alert("Sorry, no support for your browser.")
+        }
+
         this.signalrService.verifyConnected(username)
             .then(() => {
                 this.eventAggregator.subscribe('playerListUpdated', (updatedPlayerList) => {

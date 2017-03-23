@@ -21,6 +21,11 @@ export class create {
         this.questions = game.questions;
         this.game = game;
 
+        window.localStorage.setItem("username", "Moderator");
+        window.localStorage.setItem("currentGame", game.gameId);
+        window.localStorage.setItem("isModerator", true);
+
+
         this.signalrService.verifyConnected("moderator")
             .then(() => {
                 this.eventAggregator.subscribe('playerListUpdated', (updatedPlayerList) => {
@@ -36,6 +41,8 @@ export class create {
         this.signalrService.startGame(self.game.gameId)
             .then(() => {
                 console.log("change view now");
+
+
                 self.router.navigateToRoute("question", {
                     isModerator: true,
                     game: self.game,

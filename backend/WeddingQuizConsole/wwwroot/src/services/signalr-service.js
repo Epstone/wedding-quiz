@@ -20,7 +20,7 @@ export class SignalrService {
       (resolve, reject) => {
 
         // already connected hack
-        if(!!self.gameHub){
+        if (!!self.gameHub) {
           resolve();
           return;
         }
@@ -45,6 +45,11 @@ export class SignalrService {
         gameHub.on("questionChangeRequested", function (response) {
           console.log("server signalled question change", response);
           self.eventAggregator.publish('questionChangeRequested', response);
+        });
+
+        gameHub.on("answerSelected", function (response) {
+          console.log("user selected answer", response);
+          self.eventAggregator.publish('answerSelected', response);
         });
 
         $.connection.hub.start().done(function () {
@@ -74,6 +79,14 @@ export class SignalrService {
     return new Promise((resolve, reject) => {
       this.gameHub.server.showNextQuestion().done(() => {
         console.log("next question request sent.")
+      });
+    });
+  }
+
+  selectAnswer(answer) {
+    return new Promise((resolve, reject) => {
+      this.gameHub.server.selectAnswer(answer).done(() => {  // todo user info
+          console.log("selected answer sent to server", answer);
       });
     });
   }

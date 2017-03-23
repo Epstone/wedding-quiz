@@ -11,21 +11,27 @@ export class question {
         this.eventAggregator = eventAggregator;
     }
 
-
-
     activate(params) {
         var self = this;
-        this.eventAggregator.subscribe("questionChangeRequested", function () {
-            console.log("view should change question now.");
-            self.questionIndex++;
-            self.currentQuestion = self.game.questions[self.questionIndex];
-        })
 
-        console.log("question view activated with params", params);
-        this.isModerator = params.isModerator === "true";
-        this.game = params.game;
-        this.questionIndex = Number.parseInt(params.questionIndex, 10);
-        this.currentQuestion = this.game.questions[this.questionIndex];
+        this.signalrService.verifyConnected("moderator") // todo
+            .then(() => {
+                this.eventAggregator.subscribe("questionChangeRequested", function () {
+                    console.log("view should change question now.");
+                    self.questionIndex++;
+                    self.currentQuestion = self.game.questions[self.questionIndex];
+                })
+
+                this.eventAggregator.subscribe("answerSelected", function (info) {
+                    console.log("some user selected answer", info);
+                });
+
+                console.log("question view activated with params", params);
+                this.isModerator = params.isModerator === "true";
+                this.game = params.game;
+                this.questionIndex = Number.parseInt(params.questionIndex, 10);
+                this.currentQuestion = this.game.questions[this.questionIndex];
+            });
     }
 
     nextQuestion() {
@@ -33,4 +39,13 @@ export class question {
         this.signalrService.verifyConnected('question.js') // todo where should this come from?
             .then(() => self.signalrService.nextQuestion());
     }
+
+    selectAnswer(answer) {
+        this.signalrService.selectAnswer(answer)
+            .then(() => {
+                console.log("user info: selected " + answer);
+            });
+    }
+
+
 }

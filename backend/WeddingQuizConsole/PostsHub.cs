@@ -69,6 +69,11 @@
             Clients.All.questionChangeRequested(new {questionNo});
         }
 
+        public void SelectAnswer(string answer)
+        {
+            Clients.All.answerSelected(new {user = UsernameFromQueryString(), answer = answer});
+        }
+
         private StringValues UsernameFromQueryString()
         {
             return Context.QueryString.FirstOrDefault(x => x.Key == "username").Value;
