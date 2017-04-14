@@ -460,6 +460,7 @@
     <Compile Include="Storage\AnswerEntity.cs" />
     <Compile Include="Storage\GameRepository.cs" />
     <Compile Include="Storage\PlayerEntity.cs" />
+    <Compile Include="Storage\ScoreCalculator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
