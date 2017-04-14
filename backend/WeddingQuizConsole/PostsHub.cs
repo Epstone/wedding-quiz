@@ -63,7 +63,7 @@
         public void StartGame(string gameId)
         {
             var game = gameRepository.GetGame(gameId).Result;
-            Clients.All.gameStarted(game);
+            Clients.Group(gameId).gameStarted(game);
         }
 
         public void Subscribe(string name)
@@ -77,13 +77,14 @@
             Clients.All.questionChangeRequested(new {questionNo});
         }
 
-        public void SelectAnswer(string answer)
+        public async Task SelectAnswer(int answer, int questionIndex)
         {
             var username = UsernameFromQueryString();
-            throw new NotImplementedException("how to get the game id?");
+            var gameId = GameIdFromQueryString();
 
-            Clients.All.answerSelected(new {user = username, answer = answer});
-            gameRepository.SetAnswer("todo", AnswerEnum.Mr, username, questionIndex: 3);
+            await gameRepository.SetAnswer(gameId, (AnswerEnum) answer, username, questionIndex);
+
+            Clients.Group(gameId).answerSelected(new {username});
         }
 
         private StringValues UsernameFromQueryString()

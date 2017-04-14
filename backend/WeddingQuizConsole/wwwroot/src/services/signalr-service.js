@@ -83,10 +83,10 @@ export class SignalrService {
     });
   }
 
-  selectAnswer(answer) {
+  selectAnswer(answer, questionIndex) {
     return new Promise((resolve, reject) => {
-      this.gameHub.server.selectAnswer(answer).done(() => {  // todo user info
-          console.log("selected answer sent to server", answer);
+      this.gameHub.server.selectAnswer(answer, questionIndex).done(() => {  // todo user info
+          console.log("selected answer sent to server", answer, questionIndex);
       });
     });
   }

@@ -41,9 +41,10 @@ export class question {
     }
 
     selectAnswer(answer) {
-        this.signalrService.selectAnswer(answer)
+        var index = this.questionIndex;
+        this.signalrService.selectAnswer(answer, index)
             .then(() => {
-                console.log("user info: selected " + answer);
+                console.log("user info: selected answer" + answer + "for questionIndex: "+ index);
             });
     }
 
