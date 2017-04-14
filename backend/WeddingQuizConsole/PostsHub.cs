@@ -21,12 +21,17 @@
 
         private readonly int questionNo = 0;
 
-        public override Task OnConnected()
+        public override async Task OnConnected()
         {
+
             string username = UsernameFromQueryString();
             _connections.Add(username, Context.ConnectionId);
+            string gameId = GameIdFromQueryString();
             Debug.WriteLine($"User {username} has connected with connectionId: {Context.ConnectionId}");
-            return base.OnConnected();
+
+            await Groups.Add(Context.ConnectionId, gameId);
+
+            await base.OnConnected();
         }
 
         public override Task OnDisconnected(bool stopCalled)
@@ -35,6 +40,8 @@
             _connections.Remove(name, Context.ConnectionId);
             return base.OnDisconnected(stopCalled);
         }
+
+        
 
         public override Task OnReconnected()
         {
@@ -55,8 +62,6 @@
 
         public void StartGame(string gameId)
         {
-            
-
             var game = gameRepository.GetGame(gameId).Result;
             Clients.All.gameStarted(game);
         }
@@ -85,8 +90,10 @@
         {
             return Context.QueryString.FirstOrDefault(x => x.Key == "username").Value;
         }
-
-
+        private string GameIdFromQueryString()
+        {
+            return Context.QueryString.FirstOrDefault(x => x.Key == "gameId").Value;
+        }
     }
 
     internal class Constants

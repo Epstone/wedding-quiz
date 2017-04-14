@@ -13,7 +13,7 @@ export class SignalrService {
 
   }
 
-  verifyConnected(username) {
+  verifyConnected(username, gameId) {
     var self = this;
 
     var promise = new Promise(
@@ -28,7 +28,7 @@ export class SignalrService {
         var gameHub = $.connection.hub.createHubProxy("postsHub");
         self.gameHub = gameHub;
 
-        $.connection.hub.qs = 'username=' + username;
+        $.connection.hub.qs = 'username=' + username + '&gameId=' + gameId;
         $.connection.hub.logging = true;
 
         gameHub.on('playerListUpdated', function (updatedPlayerlist) {

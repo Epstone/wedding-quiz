@@ -26,7 +26,7 @@ export class create {
         window.localStorage.setItem("isModerator", true);
 
 
-        this.signalrService.verifyConnected("moderator")
+        this.signalrService.verifyConnected("moderator", game.gameId)
             .then(() => {
                 this.eventAggregator.subscribe('playerListUpdated', (updatedPlayerList) => {
                     console.log("we should update playerlist now for moderator view.")
