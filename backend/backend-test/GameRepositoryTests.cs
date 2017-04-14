@@ -62,6 +62,22 @@
             Assert.Equal(1, result["paul"]);
         }
 
+        [Fact]
+        public async Task When_a_user_gives_the_correct_answer_twice_Then_his_score_is_2()
+        {
+            var questionIndex_1 = 0;
+            var questionIndex_2 = 1;
+            var createdGame = gameRepository.CreateGame().Result;
+            await gameRepository.SetAnswer(createdGame.GameId, AnswerEnum.Mr, "paul", questionIndex_1);
+            await gameRepository.SetCouplesAnswer(createdGame.GameId, AnswerEnum.Mr, questionIndex_1);
+
+            await gameRepository.SetAnswer(createdGame.GameId, AnswerEnum.Mrs, "paul", questionIndex_2);
+            await gameRepository.SetCouplesAnswer(createdGame.GameId, AnswerEnum.Mrs, questionIndex_2);
+            var result = await gameRepository.EvaluateScore(createdGame.GameId);
+
+            Assert.Equal(2, result["paul"]);
+        }
+
 
     }
 }

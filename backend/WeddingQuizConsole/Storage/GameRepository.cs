@@ -135,7 +135,15 @@ namespace WeddingQuizConsole.Storage
 
                 foreach (AnswerEntity answer in answerWithCorrectUserAnswer)
                 {
-                    resultScore[answer.Username] = 1;
+                    if (!resultScore.ContainsKey(answer.Username))
+                    {
+                        resultScore[answer.Username] = 1;
+                    }
+                    else
+                    {
+                        resultScore[answer.Username] = resultScore[answer.Username] + 1;
+                    }
+
                 }
             }
 
