@@ -75,7 +75,7 @@ namespace WeddingQuizConsole.Storage
         {
             try
             {
-                var table = await GetTable("player");
+                var table = await GetPlayerTable();
                 var insertOperation = TableOperation.Insert(new PlayerEntity() { PartitionKey = gameId, Username = username });
                 await table.ExecuteAsync(insertOperation);
             }
@@ -83,6 +83,11 @@ namespace WeddingQuizConsole.Storage
             {
                 Trace.TraceWarning("user was already added to database");
             }
+        }
+
+        private async Task<CloudTable> GetPlayerTable()
+        {
+            return await GetTable("player");
         }
 
         public async Task<GameEntity> GetGame(string gameId)
@@ -102,7 +107,7 @@ namespace WeddingQuizConsole.Storage
                 RowKey = $"{questionIndex}_{username}",
                 Username = username,
                 QuestionIndex = questionIndex,
-                Answer = answer,
+                Answer = (byte)answer,
                 GameId = gameId
             });
 
@@ -114,11 +119,11 @@ namespace WeddingQuizConsole.Storage
             await this.SetAnswer(gameId, answer, "couple", questionIndex);
         }
 
-        public async Task<Dictionary<string,int>>  EvaluateScore(string createdGameGameId)
+        public async Task<Dictionary<string, int>> EvaluateScore(string gameId)
         {
             // get all answers for a game Id
             var table = await GetTable("answer");
-            var query = new TableQuery<AnswerEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, createdGameGameId));
+            var query = new TableQuery<AnswerEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, gameId));
             var answers = table.ExecuteQuery(query);
 
             Dictionary<string, int> resultScore = new Dictionary<string, int>();
@@ -131,7 +136,11 @@ namespace WeddingQuizConsole.Storage
                     x.QuestionIndex == couplesAnswer.QuestionIndex
                     && x.Username != "couple"
                     && x.Answer == couplesAnswer.Answer);
-                    
+
+                var answerWithInCorrectUserAnswer = answers.Where(x =>
+                    x.QuestionIndex == couplesAnswer.QuestionIndex
+                    && x.Username != "couple"
+                    && x.Answer != couplesAnswer.Answer);
 
                 foreach (AnswerEntity answer in answerWithCorrectUserAnswer)
                 {
@@ -143,24 +152,41 @@ namespace WeddingQuizConsole.Storage
                     {
                         resultScore[answer.Username] = resultScore[answer.Username] + 1;
                     }
-
                 }
+
+                foreach (AnswerEntity answer in answerWithInCorrectUserAnswer)
+                {
+                    if (!resultScore.ContainsKey(answer.Username))
+                    {
+                        resultScore[answer.Username] = 0;
+                    }
+                }
+
             }
 
+            var playerTable = await GetPlayerTable();
             // insert or replace score
-            // todo
+            if (resultScore.Count > 0)
+            {
+                var tableBatchOperation = new TableBatchOperation();
 
-            return resultScore;
+                foreach (KeyValuePair<string, int> scoreKeyValuePair in resultScore)
+                {
+                    tableBatchOperation.Add(TableOperation.InsertOrReplace(new PlayerEntity()
+                    {
+                        GameId = gameId,
+                        Username = scoreKeyValuePair.Key,
+                        Score = scoreKeyValuePair.Value,
+                    }));
+                }
+
+                await playerTable.ExecuteBatchAsync(tableBatchOperation);
+            }
+
+            // read out player table
+            var getAllPlayerOperation = new TableQuery<PlayerEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, gameId));
+            var tableContent = playerTable.ExecuteQuery(getAllPlayerOperation);
+            return tableContent.ToDictionary(x=> x.Username, y=> y.Score);
         }
-    }
-
-    public class AnswerEntity : TableEntity
-    {
-        public int QuestionIndex { get; set; }
-        public string Username { get; set; }
-
-        public string GameId { get; set; }
-
-        public AnswerEnum Answer { get; set; }
     }
 }
