@@ -450,6 +450,7 @@
     <Compile Include="Controllers\JoinGameModel.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Entities\AnswerEnum.cs" />
     <Compile Include="Entities\GameModel.cs" />
     <Compile Include="Helper\SignalrResolver.cs" />
     <Compile Include="PostsHub.cs" />

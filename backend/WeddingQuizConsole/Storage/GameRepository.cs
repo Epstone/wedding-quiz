@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 namespace WeddingQuizConsole.Storage
 {
     using System.Diagnostics;
+    using Entities;
+    using Microsoft.Extensions.Primitives;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Table;
     using Models;
@@ -88,7 +90,69 @@ namespace WeddingQuizConsole.Storage
             var retrieveGameOperation = TableOperation.Retrieve<GameEntity>(gameId, gameId);
             var table = await GetTable(GameTableName);
             var game = await table.ExecuteAsync(retrieveGameOperation);
-            return  (GameEntity)game.Result;
+            return (GameEntity)game.Result;
         }
+
+        public async Task SetAnswer(string gameId, AnswerEnum answer, StringValues username, int questionIndex)
+        {
+            var table = await GetTable("answer");
+            var insertOperation = TableOperation.InsertOrReplace(new AnswerEntity()
+            {
+                PartitionKey = gameId,
+                RowKey = $"{questionIndex}_{username}",
+                Username = username,
+                QuestionIndex = questionIndex,
+                Answer = answer,
+                GameId = gameId
+            });
+
+            await table.ExecuteAsync(insertOperation);
+        }
+
+        public async Task SetCouplesAnswer(string gameId, AnswerEnum answer, int questionIndex)
+        {
+            await this.SetAnswer(gameId, answer, "couple", questionIndex);
+        }
+
+        public async Task<Dictionary<string,int>>  EvaluateScore(string createdGameGameId)
+        {
+            // get all answers for a game Id
+            var table = await GetTable("answer");
+            var query = new TableQuery<AnswerEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, createdGameGameId));
+            var answers = table.ExecuteQuery(query);
+
+            Dictionary<string, int> resultScore = new Dictionary<string, int>();
+            // foreach couple answer -> find matching user answers and increase score entity
+            var couplesAnswers = answers.Where(x => x.Username == "couple").OrderBy(x => x.QuestionIndex);
+
+            foreach (var couplesAnswer in couplesAnswers)
+            {
+                var answerWithCorrectUserAnswer = answers.Where(x =>
+                    x.QuestionIndex == couplesAnswer.QuestionIndex
+                    && x.Username != "couple"
+                    && x.Answer == couplesAnswer.Answer);
+                    
+
+                foreach (AnswerEntity answer in answerWithCorrectUserAnswer)
+                {
+                    resultScore[answer.Username] = 1;
+                }
+            }
+
+            // insert or replace score
+            // todo
+
+            return resultScore;
+        }
+    }
+
+    public class AnswerEntity : TableEntity
+    {
+        public int QuestionIndex { get; set; }
+        public string Username { get; set; }
+
+        public string GameId { get; set; }
+
+        public AnswerEnum Answer { get; set; }
     }
 }

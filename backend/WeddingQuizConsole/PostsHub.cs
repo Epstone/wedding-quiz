@@ -1,9 +1,11 @@
 ﻿namespace WeddingQuizConsole
 {
+    using System;
     using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
     using BasicChat;
+    using Entities;
     using Microsoft.AspNetCore.SignalR;
     using Microsoft.AspNetCore.SignalR.Hubs;
     using Microsoft.Extensions.Primitives;
@@ -12,6 +14,8 @@
     [HubName("postshub")]
     public class PostsHub : Hub
     {
+        GameRepository gameRepository = new GameRepository(Constants.ConnectionString);
+
         internal static readonly ConnectionMapping<string> _connections =
             new ConnectionMapping<string>();
 
@@ -51,8 +55,7 @@
 
         public void StartGame(string gameId)
         {
-            string connectionString = "UseDevelopmentStorage=true";
-            var gameRepository = new GameRepository(connectionString);
+            
 
             var game = gameRepository.GetGame(gameId).Result;
             Clients.All.gameStarted(game);
@@ -71,12 +74,24 @@
 
         public void SelectAnswer(string answer)
         {
-            Clients.All.answerSelected(new {user = UsernameFromQueryString(), answer = answer});
+            var username = UsernameFromQueryString();
+            throw new NotImplementedException("how to get the game id?");
+
+            Clients.All.answerSelected(new {user = username, answer = answer});
+            gameRepository.SetAnswer("todo", AnswerEnum.Mr, username, questionIndex: 3);
         }
 
         private StringValues UsernameFromQueryString()
         {
             return Context.QueryString.FirstOrDefault(x => x.Key == "username").Value;
         }
+
+
+    }
+
+    internal class Constants
+    {
+
+        public static readonly string ConnectionString = "UseDevelopmentStorage=true";
     }
 }
