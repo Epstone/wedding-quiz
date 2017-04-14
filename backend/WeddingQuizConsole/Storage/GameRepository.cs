@@ -122,23 +122,35 @@ namespace WeddingQuizConsole.Storage
 
         public async Task<Dictionary<string, int>> EvaluateScore(string gameId)
         {
-            // get all answers for a game Id
+            var answersCurrentGame = await GetAnswersForGame(gameId);
+
+            ScoreCalculator scoreCalculator = new ScoreCalculator(answersCurrentGame);
+            var resultScore = scoreCalculator.EvaluateScore();
+
+            await UpdatePlayerScore(gameId, resultScore);
+
+            var players = await GetPlayers(gameId);
+            return players.ToDictionary(x=> x.Username, y=> y.Score);
+        }
+
+        private async Task<IEnumerable<AnswerEntity>> GetAnswersForGame(string gameId)
+        {
             var answerTable = await GetAnswerTable();
             var query = new TableQuery<AnswerEntity>().Where(TableQuery.GenerateFilterCondition(Partitionkey, QueryComparisons.Equal, gameId));
             var answersCurrentGame = answerTable.ExecuteQuery(query);
+            return answersCurrentGame;
+        }
 
-            ScoreCalculator scoreCalculator = new ScoreCalculator(answersCurrentGame);
-            var resultScore = scoreCalculator.DoEvaluateScore();
-
-            var playerTable = await GetPlayerTable();
-            // insert or replace score
+        private async Task UpdatePlayerScore(string gameId, Dictionary<string, int> resultScore)
+        {
             if (resultScore.Count > 0)
             {
-                var tableBatchOperation = new TableBatchOperation();
+                var playerTableClient = await GetPlayerTable();
+                var updateScoreBatchOperation = new TableBatchOperation();
 
                 foreach (KeyValuePair<string, int> scoreKeyValuePair in resultScore)
                 {
-                    tableBatchOperation.Add(TableOperation.InsertOrReplace(new PlayerEntity()
+                    updateScoreBatchOperation.Add(TableOperation.InsertOrReplace(new PlayerEntity()
                     {
                         GameId = gameId,
                         Username = scoreKeyValuePair.Key,
@@ -146,13 +158,17 @@ namespace WeddingQuizConsole.Storage
                     }));
                 }
 
-                await playerTable.ExecuteBatchAsync(tableBatchOperation);
+                await playerTableClient.ExecuteBatchAsync(updateScoreBatchOperation);
             }
+        }
 
+        private async Task<IEnumerable<PlayerEntity>> GetPlayers(string gameId)
+        {
+            var playerTable = await GetPlayerTable();
             // read out player table
             var getAllPlayerOperation = new TableQuery<PlayerEntity>().Where(TableQuery.GenerateFilterCondition(Partitionkey, QueryComparisons.Equal, gameId));
             var tableContent = playerTable.ExecuteQuery(getAllPlayerOperation);
-            return tableContent.ToDictionary(x=> x.Username, y=> y.Score);
+            return tableContent;
         }
 
         private async Task<CloudTable> GetAnswerTable()

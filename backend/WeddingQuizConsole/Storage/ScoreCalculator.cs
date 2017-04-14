@@ -12,7 +12,7 @@ namespace WeddingQuizConsole.Storage
             this.answersCurrentGame = answersCurrentGame;
         }
 
-        public Dictionary<string, int> DoEvaluateScore()
+        public Dictionary<string, int> EvaluateScore()
         {
             Dictionary<string, int> resultScore = new Dictionary<string, int>();
             // foreach couple answer -> find matching user answers and increase score entity
