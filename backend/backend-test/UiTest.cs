@@ -25,7 +25,9 @@ namespace WeddingQuiz.Test
             IWebDriver driver = new ChromeDriver();
 
             var serverExecutable = Directory.GetCurrentDirectory() + "\\..\\..\\..\\" + "WeddingQuizConsole\\bin\\debug\\WeddingQuizConsole.exe";
-            Process webServer = Process.Start(serverExecutable);
+            ProcessStartInfo info = new ProcessStartInfo(serverExecutable);
+            info.WindowStyle = ProcessWindowStyle.Minimized;
+            Process webServer = Process.Start(info);
 
             try
             {
@@ -51,6 +53,7 @@ namespace WeddingQuiz.Test
                 createGame.StartGameButton.Click();
 
                 var questionPage = new QuestionPage(driver);
+                questionPage.TotalQuestionNumber.Text.Should().Be(totalNumberOfQuestions.ToString());
 
                 for (int i = 1; i <= totalNumberOfQuestions; i++)
                 {
@@ -58,15 +61,13 @@ namespace WeddingQuiz.Test
                     questionPage.MrButton.Click();
                     questionPage.NextQuestionButton.Click();
                 }
-                
-                Debugger.Break();
+
             }
             finally
             {
                 driver.Close();
                 driver.Dispose();
                 webServer?.CloseMainWindow();
-                webServer?.Kill();
             }
         }
 
