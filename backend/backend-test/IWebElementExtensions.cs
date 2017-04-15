@@ -22,5 +22,11 @@ namespace WeddingQuiz.Test
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             wait.Until((IWebDriver d) => element.Text.Length > 0 );
         }
+
+        public static void WaitForElementToBeDisplayed(this IWebElement element, IWebDriver driver)
+        {
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            wait.Until((IWebDriver d) => element.Displayed);
+        }
     }
 }

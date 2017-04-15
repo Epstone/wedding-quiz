@@ -278,6 +278,7 @@
   <ItemGroup>
     <Compile Include="CreateGamePage.cs" />
     <Compile Include="GameRepositoryTests.cs" />
+    <Compile Include="HighscorePage.cs" />
     <Compile Include="HomePage.cs" />
     <Compile Include="IWebElementExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

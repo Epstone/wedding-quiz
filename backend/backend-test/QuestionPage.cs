@@ -17,6 +17,9 @@
         [FindsBy(How = How.CssSelector, Using = "[data-test-id='next-question']")]
         public IWebElement NextQuestionButton { get; set; }
 
+        [FindsBy(How = How.CssSelector, Using = "[data-test-id='end-game']")]
+        public IWebElement EndGameButton { get; set; }
+
         [FindsBy(How = How.CssSelector, Using = "[data-test-id='current-question-number']")]
         public IWebElement CurrentQuestionNumber { get; set; }
 

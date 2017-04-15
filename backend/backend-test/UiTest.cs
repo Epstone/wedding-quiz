@@ -59,9 +59,19 @@ namespace WeddingQuiz.Test
                 {
                     questionPage.CurrentQuestionNumber.WaitForTextToBe(i.ToString(), driver);
                     questionPage.MrButton.Click();
-                    questionPage.NextQuestionButton.Click();
+
+                    if (i < totalNumberOfQuestions)
+                    {
+                        questionPage.NextQuestionButton.Click();
+                    }
                 }
 
+                //end game
+                questionPage.EndGameButton.WaitForElementToBeDisplayed(driver);
+                questionPage.EndGameButton.Click();
+
+                var highScore = new HighscorePage(driver);
+                highScore.Heading.WaitForTextToBe("Highscore",driver);
             }
             finally
             {
