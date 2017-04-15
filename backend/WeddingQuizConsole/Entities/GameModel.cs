@@ -10,7 +10,7 @@
     {
         public GameEntity()
         {
-            string hashCode = String.Format("{0:X}", Guid.NewGuid().ToString().GetHashCode());
+            string hashCode = String.Format("{0:X}", Guid.NewGuid().ToString().GetHashCode()).Substring(0, 5);
             this.PartitionKey = hashCode;
             this.RowKey = hashCode;
         }

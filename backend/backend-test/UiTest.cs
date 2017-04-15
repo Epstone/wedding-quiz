@@ -45,19 +45,21 @@ namespace WeddingQuiz.Test
 
                 createGame.GameCode.Text.Should().NotBeEmpty();
 
+                var totalNumberOfQuestions = int.Parse(createGame.TotalQuestionCount.Text);
+                totalNumberOfQuestions.Should().BeGreaterThan(0);
 
-                //Thread.Sleep(TimeSpan.FromSeconds(3));
                 createGame.StartGameButton.Click();
-
 
                 var questionPage = new QuestionPage(driver);
 
-                questionPage.CurrentQuestionNumber.WaitForTextToBe("1", driver);
-
-                questionPage.MrButton.Click();
-                questionPage.NextQuestionButton.Click();
-
-                questionPage.CurrentQuestionNumber.WaitForTextToBe("2", driver);
+                for (int i = 1; i <= totalNumberOfQuestions; i++)
+                {
+                    questionPage.CurrentQuestionNumber.WaitForTextToBe(i.ToString(), driver);
+                    questionPage.MrButton.Click();
+                    questionPage.NextQuestionButton.Click();
+                }
+                
+                Debugger.Break();
             }
             finally
             {

@@ -14,7 +14,7 @@ export class question {
     activate(params) {
         var self = this;
 
-        this.signalrService.verifyConnected("moderator") // todo
+        this.signalrService.verifyConnected()
             .then(() => {
                 this.eventAggregator.subscribe("questionChangeRequested", function () {
                     console.log("view should change question now.");
@@ -36,7 +36,7 @@ export class question {
 
     nextQuestion() {
         var self = this;
-        this.signalrService.verifyConnected('question.js') // todo where should this come from?
+        this.signalrService.verifyConnected()
             .then(() => self.signalrService.nextQuestion());
     }
 

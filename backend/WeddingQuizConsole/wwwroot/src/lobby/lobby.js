@@ -30,7 +30,7 @@ export class join {
             alert("Sorry, no support for your browser.")
         }
 
-        this.signalrService.verifyConnected(username, game.gameId)
+        this.signalrService.verifyConnected()
             .then(() => {
                 this.eventAggregator.subscribe('playerListUpdated', (updatedPlayerList) => {
                     console.log("we should update playerlist now. yes works")

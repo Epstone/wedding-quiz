@@ -14,6 +14,14 @@ export class SignalrService {
   }
 
   verifyConnected(username, gameId) {
+    if (!username) {
+      username = window.localStorage.getItem("username");
+    }
+
+    if (!gameId) {
+      gameId = window.localStorage.getItem("currentGame");
+    }
+
     var self = this;
 
     var promise = new Promise(
@@ -86,7 +94,7 @@ export class SignalrService {
   selectAnswer(answer, questionIndex) {
     return new Promise((resolve, reject) => {
       this.gameHub.server.selectAnswer(answer, questionIndex).done(() => {  // todo user info
-          console.log("selected answer sent to server", answer, questionIndex);
+        console.log("selected answer sent to server", answer, questionIndex);
       });
     });
   }

@@ -1,6 +1,6 @@
 <template>
     <h2>Spielcode: <span data-test-id="game-code">${gameId}</span></h2>
-    <h2>Fragen</h2>
+    <h2><span data-test-id="total-questions-no">${game.questions.length}</span> Fragen</h2>
     <ul>
         <li repeat.for="question of questions">${question}! </li>
     </ul>
@@ -8,7 +8,7 @@
     <hr />
     <h2>Spieler:</h2>
     <ul>
-        <li repeat.for="name of playerlist">${name}, </li>
+        <li style="display: inline" repeat.for="name of playerlist">${name}, </li>
     </ul>
     <button class="btn btn-primary btn-lg" click.trigger="startGame()" data-test-id="start-game">Spiel starten</button>
     
