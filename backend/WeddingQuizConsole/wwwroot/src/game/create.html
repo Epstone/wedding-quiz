@@ -1,4 +1,5 @@
 <template>
+    <h2>Spielcode: <span data-test-id="game-code">${gameId}</span></h2>
     <h2>Fragen</h2>
     <ul>
         <li repeat.for="question of questions">${question}! </li>
@@ -9,6 +10,6 @@
     <ul>
         <li repeat.for="name of playerlist">${name}, </li>
     </ul>
-    <button class="btn btn-primary btn-lg" click.trigger="startGame()">Spiel starten</button>
+    <button class="btn btn-primary btn-lg" click.trigger="startGame()" data-test-id="start-game">Spiel starten</button>
     
 </template>

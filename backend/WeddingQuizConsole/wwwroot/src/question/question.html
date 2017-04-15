@@ -4,7 +4,7 @@
             <span>Moderator</span>
         </div>
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-            Frage ${questionIndex + 1} von 7
+            Frage <span data-test-id="current-question-number">${questionIndex + 1}</span> von <span data-test-id="total-question-number">7</span>
         </div>
     </div>
     <div class="row">
@@ -14,22 +14,22 @@
     </div>
     <div class="row top10">
         <div class="col-xs-6 col-xs-offset-3">
-            <button type="button" class="btn btn-default btn-block" click.trigger="selectAnswer(0)">Die Braut</button>
+            <button type="button" class="btn btn-default btn-block" click.trigger="selectAnswer(0)" data-test-id="select-mrs">Die Braut</button>
         </div>
     </div>
     <div class="row top10">
         <div class="col-xs-6 col-xs-offset-3">
-            <button type="button" class="btn btn-default btn-block" click.trigger="selectAnswer(1)">Der Bräutigam</button>
+            <button type="button" class="btn btn-default btn-block" click.trigger="selectAnswer(1)" data-test-id="select-mr">Der Bräutigam</button>
         </div>
     </div>
     <div class="row top10">
         <div class="col-xs-6 col-xs-offset-3">
-            <button type="button" class="btn btn-default btn-block" click.trigger="selectAnswer(2)">Beide</button>
+            <button type="button" class="btn btn-default btn-block" click.trigger="selectAnswer(2)" data-test-id="select-both">Beide</button>
         </div>
     </div>
     <hr />
     <div show.bind="isModerator">
-        <button type="button" class="btn btn-primary" click.trigger="nextQuestion()">Nächste Frage</button>
+        <button type="button" class="btn btn-primary" click.trigger="nextQuestion()" data-test-id="next-question">Nächste Frage</button>
     </div>
     <div show.bind="!isModerator">
         <button type="button" class="btn btn-primary">Warten auf Moderator...</button>

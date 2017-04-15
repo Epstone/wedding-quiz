@@ -15,13 +15,16 @@ namespace WeddingQuizConsole
     using Microsoft.Owin.Hosting;
 
 
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
+            
+            string contentRootPath = AppDomain.CurrentDomain.BaseDirectory + "\\..\\..\\";
+            
             var host = new WebHostBuilder()
                .UseKestrel()
-               .UseContentRoot(Directory.GetCurrentDirectory()+"\\..\\..\\")
+               .UseContentRoot(contentRootPath)
                .UseIISIntegration()
                .UseStartup<Startup>()
                .UseUrls("http://localhost:5000")

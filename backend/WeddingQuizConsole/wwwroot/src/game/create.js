@@ -33,6 +33,8 @@ export class create {
                     console.log(updatedPlayerList);
                     self.playerlist = updatedPlayerList;
                 });
+
+                self.gameId = game.gameId
             });
     }
 
