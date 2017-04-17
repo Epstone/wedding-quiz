@@ -19,9 +19,9 @@ export class question {
 
         this.signalrService.verifyConnected()
             .then(() => {
-                this.eventAggregator.subscribe("questionChangeRequested", function () {
+                this.eventAggregator.subscribe("questionChangeRequested", function (updatedQuestionIndex) {
                     console.log("view should change question now.");
-                    self.questionIndex++;
+                    self.questionIndex = updatedQuestionIndex;
                     self.currentQuestion = self.game.questions[self.questionIndex];
 
                     self.isLastQuestion = (self.questionIndex + 1 === self.game.questions.length);
@@ -34,7 +34,7 @@ export class question {
                 console.log("question view activated with params", params);
                 this.isModerator = params.isModerator === "true";
                 this.game = params.game;
-                this.questionIndex = Number.parseInt(params.questionIndex, 10);
+                this.questionIndex = this.game.currentQuestionIndex;
                 this.currentQuestion = this.game.questions[this.questionIndex];
                 this.isLastQuestion = (self.questionIndex + 1 === self.game.questions.length);
             });
@@ -43,7 +43,7 @@ export class question {
     nextQuestion() {
         var self = this;
         this.signalrService.verifyConnected()
-            .then(() => self.signalrService.nextQuestion());
+            .then(() => self.signalrService.nextQuestion(self.game.gameId));
     }
 
     endGame() {

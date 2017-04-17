@@ -72,9 +72,10 @@
             Clients.All.broadcastMessage(name, "tests");
         }
 
-        public void ShowNextQuestion()
+        public async Task ShowNextQuestion(string gameId)
         {
-            Clients.All.questionChangeRequested(new {questionNo});
+            var questionIndex = await gameRepository.IncreaseQuestionIndex(gameId);
+            Clients.Group(gameId).questionChangeRequested(questionIndex);
         }
 
         public async Task SelectAnswer(int answer, int questionIndex)

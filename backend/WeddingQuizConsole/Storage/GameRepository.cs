@@ -188,6 +188,14 @@ namespace WeddingQuizConsole.Storage
             game.SetState(GameState.QuestionsAsked);
             await this.SaveGame(game);
         }
+
+        public async Task< int> IncreaseQuestionIndex(string asdfg)
+        {
+            var game = await this.GetGame(asdfg);
+            game.CurrentQuestionIndex = game.CurrentQuestionIndex + 1;
+            await this.SaveGame(game);
+            return game.CurrentQuestionIndex;
+        }
     }
 
     public enum GameState

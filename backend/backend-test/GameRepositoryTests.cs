@@ -31,6 +31,19 @@
         }
 
         [Fact]
+        public async Task When_the_question_index_shall_be_increased_the_result_is_correct()
+        {
+            var actualGame = await gameRepository.CreateGame();
+            await gameRepository.StartGame(actualGame.GameId);
+
+            await gameRepository.IncreaseQuestionIndex(actualGame.GameId);
+            await gameRepository.IncreaseQuestionIndex(actualGame.GameId);
+
+            actualGame = await gameRepository.GetGame(actualGame.GameId);
+            actualGame.CurrentQuestionIndex.Should().Be(2);
+        }
+
+        [Fact]
         public async Task When_user_creates_game_verify_one_game_is_stored_and_not_started()
         {
             var actualGame = await gameRepository.CreateGame();

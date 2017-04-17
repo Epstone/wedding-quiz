@@ -82,10 +82,10 @@ export class SignalrService {
     });
   }
 
-  nextQuestion() {
+  nextQuestion(gameId) {
     console.log("moderator switches to next question");
     return new Promise((resolve, reject) => {
-      this.gameHub.server.showNextQuestion().done(() => {
+      this.gameHub.server.showNextQuestion(gameId).done(() => {
         console.log("next question request sent.")
       });
     });

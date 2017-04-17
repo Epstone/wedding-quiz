@@ -43,12 +43,9 @@ export class create {
         this.signalrService.startGame(self.game.gameId)
             .then(() => {
                 console.log("change view now");
-
-
                 self.router.navigateToRoute("question", {
                     isModerator: true,
-                    game: self.game,
-                    questionIndex: 0
+                    game: self.game
                 });
             });
     }

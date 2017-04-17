@@ -25,13 +25,25 @@ export class join {
             .then(data => {
                 var result = JSON.parse(data.response);
                 console.log("result", result);
-
+                
                 if (result.result === "allow_connection") {
 
-                    this.theRouter.navigateToRoute("lobby", {
-                        game: result.game,
-                        username: postParams.username
-                    });
+                    // -> lobby
+                    if (result.game.state == 0) {
+                        this.theRouter.navigateToRoute("lobby", {
+                            game: result.game,
+                            username: postParams.username
+                        });
+                    }
+
+                    // -> question
+                    if (result.game.state == 1) {
+                        this.theRouter.navigateToRoute("question", {
+                            game: result.game,
+                        });
+                    }
+
+
                 } else {
                     alert(result.result);
                 }

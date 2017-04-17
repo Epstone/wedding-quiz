@@ -41,6 +41,7 @@
         }
 
         public int State { get; set; }
+        public int CurrentQuestionIndex { get; set; }
 
         public GameState GetState()
         {

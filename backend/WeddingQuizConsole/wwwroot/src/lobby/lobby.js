@@ -37,13 +37,11 @@ export class join {
                     console.log(updatedPlayerList);
                     self.playerlist = updatedPlayerList;
                 })
-
-                // todo provide game as payload here
+                debugger;
                 this.eventAggregator.subscribe("gameStarted", (game) => {
                     self.router.navigateToRoute("question", {
                         isModerator: false,
                         game: game,
-                        questionIndex: 0
                     });
                 });
             });
