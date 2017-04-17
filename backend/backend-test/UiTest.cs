@@ -80,6 +80,8 @@
             var questionPage = new QuestionPage(moderatorDriver);
             questionPage.AnswerAllQuestions(gameDetails);
             questionPage.EndGameButton.Click();
+            var highscorePageModerator = new HighscorePage(moderatorDriver);
+            highscorePageModerator.Heading.WaitForTextToContain("Übersicht", moderatorDriver);
 
             var playerDriver = fixture.CreateOrGetSecondDriver();
             JoinGameAsPlayer(playerDriver, gameDetails);
@@ -87,7 +89,6 @@
             var highscorePage = new HighscorePage(playerDriver);
             highscorePage.Heading.WaitForTextToContain("Übersicht", playerDriver);
         }
-
 
         private static void HandleFirstQuestion(IWebDriver moderatorDriver)
         {

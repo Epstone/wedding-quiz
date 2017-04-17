@@ -9,6 +9,7 @@
     using Microsoft.AspNetCore.SignalR;
     using Microsoft.AspNetCore.SignalR.Hubs;
     using Microsoft.Extensions.Primitives;
+    using Models;
     using Storage;
 
     [HubName("postshub")]
@@ -86,6 +87,14 @@
             await gameRepository.SetAnswer(gameId, (AnswerEnum) answer, username, questionIndex);
 
             Clients.Group(gameId).answerSelected(new {username});
+        }
+
+        public async Task EndGame(string gameId)
+        {
+            var game = await gameRepository.GetGame(gameId);
+            game.SetState(GameState.Finished);
+            await gameRepository.SaveGame(game);
+            Clients.Group(gameId).gameEnded();
         }
 
         private StringValues UsernameFromQueryString()

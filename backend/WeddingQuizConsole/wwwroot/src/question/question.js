@@ -33,6 +33,13 @@ export class question {
                     console.log("some user selected answer", info);
                 });
 
+                this.eventAggregator.subscribe("gameEnded", function () {
+                    console.log("moderator as finished game.");
+                    self.router.navigateToRoute("highscore", {
+                        gameId: self.gameId
+                    });
+                });
+
                 console.log("question view activated with params", params);
                 this.isModerator = params.isModerator === "true";
                 this.questionIndex = game.currentQuestionIndex;
@@ -49,9 +56,8 @@ export class question {
 
     endGame() {
         var self = this;
-        this.router.navigateToRoute("highscore", {
-            gameId: self.gameId,
-        });
+        self.signalrService.verifyConnected()
+            .then(() => self.signalrService.endGame());
     }
 
     selectAnswer(answer) {

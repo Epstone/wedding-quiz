@@ -51,7 +51,7 @@ namespace WeddingQuizConsole.Storage
             return game;
         }
 
-        private async Task SaveGame(GameEntity game)
+        internal async Task SaveGame(GameEntity game)
         {
             var gameTable = await GetTable(GameTableName);
             var insertOperation = TableOperation.InsertOrMerge(game);

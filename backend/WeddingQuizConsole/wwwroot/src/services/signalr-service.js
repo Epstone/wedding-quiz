@@ -66,6 +66,11 @@ export class SignalrService {
           self.eventAggregator.publish('answerSelected', response);
         });
 
+        gameHub.on("gameEnded", function (response) {
+          console.log("moderator has finished the game", response);
+          self.eventAggregator.publish('gameEnded', response);
+        });
+
         gameHub.on("gameUpdated", function (response) {
           self.game = response;
           resolve(response);
@@ -108,6 +113,16 @@ export class SignalrService {
     return new Promise((resolve, reject) => {
       this.gameHub.server.selectAnswer(answer, questionIndex).done(() => {  // todo user info
         console.log("selected answer sent to server", answer, questionIndex);
+      });
+    });
+  }
+
+  endGame() {
+    var self = this;
+    return new Promise((resolve, reject) => {
+      self.gameHub.server.endGame(self.game.gameId).done(() => {
+        console.log("request end game on server.");
+        resolve();
       });
     });
   }

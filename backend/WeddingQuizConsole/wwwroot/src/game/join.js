@@ -46,10 +46,18 @@ debugger;
                         });
                     }
                     debugger;
+                    
                     // -> question
                     if (result.game.state === 1) {
                         this.theRouter.navigateToRoute("question", {
-                            game: result.game,
+                            gameId: result.game.gameId,
+                        });
+                    }
+
+                    // -> question
+                    if (result.game.state === 2) {
+                        this.theRouter.navigateToRoute("highscore", {
+                            gameId: result.game.gameId,
                         });
                     }
 
