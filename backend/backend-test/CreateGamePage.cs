@@ -2,6 +2,7 @@
 
 namespace WeddingQuiz.Test
 {
+    using FluentAssertions;
     using OpenQA.Selenium.Support.PageObjects;
 
     internal class CreateGamePage : BasePage
@@ -18,6 +19,23 @@ namespace WeddingQuiz.Test
 
         public CreateGamePage(IWebDriver driver) : base(driver)
         {
+        }
+
+        public NewGameDetails CreateGame()
+        {
+            this.GameCode.WaitForTextPresent(driver);
+
+            this.GameCode.Text.Should().NotBeEmpty();
+
+            var totalNumberOfQuestions = int.Parse(this.TotalQuestionCount.Text);
+            totalNumberOfQuestions.Should().BeGreaterThan(0);
+
+            var gameDetails = new NewGameDetails
+            {
+                TotalNumberOfQuestions = totalNumberOfQuestions,
+                GameId = this.GameCode.Text
+            };
+            return gameDetails;
         }
     }
 }

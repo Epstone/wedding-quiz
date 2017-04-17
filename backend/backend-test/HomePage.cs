@@ -18,12 +18,12 @@
 
     internal class BasePage
     {
-        public IWebDriver _driver;
+        public IWebDriver driver;
 
         public BasePage(IWebDriver driver)
         {
-            _driver = driver;
-            PageFactory.InitElements(_driver, this);
+            this.driver = driver;
+            PageFactory.InitElements(this.driver, this);
         }
     }
 }

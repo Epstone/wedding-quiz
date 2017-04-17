@@ -63,7 +63,11 @@
         {
             var moderatorDriver = fixture.CreateOrGetFirstDriver();
 
-            var gameDetails = StartNewGame(moderatorDriver);
+            var homePage  = new HomePage(moderatorDriver);
+            homePage.CreateGameButton.Click();
+
+            var createGamePage = new CreateGamePage(moderatorDriver);
+            var gameDetails = createGamePage.CreateGame();
 
             var playerDriver = fixture.CreateOrGetSecondDriver();
             JoinGameAsPlayer(playerDriver, gameDetails);
@@ -95,26 +99,16 @@
             joinGamePage.JoinGameButton.Click();
         }
 
-        private static NewGameDetails StartNewGame(IWebDriver driver)
+        private NewGameDetails StartNewGame(IWebDriver driver)
         {
             var homePage = new HomePage(driver);
             homePage.CreateGameButton.Click();
 
-            var createGame = new CreateGamePage(driver);
+            var createGamePage = new CreateGamePage(driver);
+            var gameDetails = createGamePage.CreateGame();
 
-            createGame.GameCode.WaitForTextPresent(driver);
-
-            createGame.GameCode.Text.Should().NotBeEmpty();
-
-            var totalNumberOfQuestions = int.Parse(createGame.TotalQuestionCount.Text);
-            totalNumberOfQuestions.Should().BeGreaterThan(0);
-
-            createGame.StartGameButton.Click();
-            return new NewGameDetails
-            {
-                TotalNumberOfQuestions = totalNumberOfQuestions,
-                GameId = createGame.GameCode.Text
-            };
+            createGamePage.StartGameButton.Click();
+            return gameDetails;
         }
     }
 }
