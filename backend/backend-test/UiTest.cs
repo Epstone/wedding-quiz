@@ -25,7 +25,7 @@
 
             for (var i = 1; i <= totalNumberOfQuestions; i++)
             {
-                questionPage.CurrentQuestionNumber.WaitForTextToBe(i.ToString(), driver);
+                questionPage.CurrentQuestionNumber.WaitForTextToContain(i.ToString(), driver);
                 questionPage.MrButton.Click();
 
                 if (i < totalNumberOfQuestions)
@@ -38,28 +38,54 @@
 
             // highscore is shown
             var highScore = new HighscorePage(driver);
-            highScore.Heading.WaitForTextToBe("Übersicht", driver);
+            highScore.Heading.WaitForTextToContain("Übersicht", driver);
         }
 
 
         [Fact]
-        public void Given_a_started_game_a_new_user_can_join_any_time()
+        public void Given_a_started_game_a_new_user_can_join_and_sees_question()
         {
             var moderatorDriver = fixture.CreateOrGetFirstDriver();
 
             var gameDetails = StartNewGame(moderatorDriver);
 
+            HandleFirstQuestion(moderatorDriver);
+
+            var playerDriver = fixture.CreateOrGetSecondDriver();
+            JoinGameAsPlayer(playerDriver, gameDetails);
+
+            var playerQuestionPage = new QuestionPage(playerDriver);
+            playerQuestionPage.CurrentQuestionNumber.WaitForTextToContain("2", playerDriver);
+        }
+
+        [Fact]
+        public void Given_a_not_started_game_player_gets_into_lobby()
+        {
+            var moderatorDriver = fixture.CreateOrGetFirstDriver();
+
+            var gameDetails = StartNewGame(moderatorDriver);
+
+            var playerDriver = fixture.CreateOrGetSecondDriver();
+            JoinGameAsPlayer(playerDriver, gameDetails);
+
+            var lobbyPage = new LobbyPage(playerDriver);
+            lobbyPage.Heading.WaitForTextToContain("(Lobby)", playerDriver);
+        }
+
+
+        private static void HandleFirstQuestion(IWebDriver moderatorDriver)
+        {
             var moderatorQuestionPage = new QuestionPage(moderatorDriver);
 
-            moderatorQuestionPage.CurrentQuestionNumber.WaitForTextToBe("1", moderatorDriver);
+            moderatorQuestionPage.CurrentQuestionNumber.WaitForTextToContain("1", moderatorDriver);
             moderatorQuestionPage.MrButton.Click();
             moderatorQuestionPage.NextQuestionButton.Click();
 
-            moderatorQuestionPage.CurrentQuestionNumber.WaitForTextToBe("2", moderatorDriver);
+            moderatorQuestionPage.CurrentQuestionNumber.WaitForTextToContain("2", moderatorDriver);
+        }
 
-            // create new player and join the game
-            var playerDriver = fixture.CreateOrGetSecondDriver();
-
+        private static void JoinGameAsPlayer(IWebDriver playerDriver, NewGameDetails gameDetails)
+        {
             var homePage = new HomePage(playerDriver);
             homePage.JoinGameButton.Click();
 
@@ -67,9 +93,6 @@
             joinGamePage.UsernameTextbox.SendKeys("Hans Müller");
             joinGamePage.GameIdTextbox.SendKeys(gameDetails.GameId);
             joinGamePage.JoinGameButton.Click();
-
-            var playerQuestionPage = new QuestionPage(playerDriver);
-            playerQuestionPage.CurrentQuestionNumber.WaitForTextToBe("2", playerDriver);
         }
 
         private static NewGameDetails StartNewGame(IWebDriver driver)

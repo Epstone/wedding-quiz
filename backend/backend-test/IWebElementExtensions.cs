@@ -11,10 +11,10 @@ namespace WeddingQuiz.Test
 
     public static class IWebElementExtensions
     {
-        public static void WaitForTextToBe(this IWebElement element, string expectedString, IWebDriver driver)
+        public static void WaitForTextToContain(this IWebElement element, string expectedString, IWebDriver driver)
         {
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            wait.Until((IWebDriver d) => element.Text.Equals(expectedString));
+            wait.Until((IWebDriver d) => element.Text.Contains(expectedString));
         }
 
         public static void WaitForTextPresent(this IWebElement element, IWebDriver driver)

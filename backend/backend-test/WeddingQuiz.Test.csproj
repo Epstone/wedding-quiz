@@ -282,6 +282,7 @@
     <Compile Include="HomePage.cs" />
     <Compile Include="IWebElementExtensions.cs" />
     <Compile Include="JoinGamePage.cs" />
+    <Compile Include="LobbyPage.cs" />
     <Compile Include="NewGameDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuestionPage.cs" />
