@@ -18,19 +18,10 @@
         {
             var driver = fixture.CreateOrGetFirstDriver();
 
-            var totalNumberOfQuestions = StartNewGame(driver).TotalNumberOfQuestions;
-
+            var gameDetails = StartNewGame(driver);
             var questionPage = new QuestionPage(driver);
-            questionPage.TotalQuestionNumber.Text.Should().Be(totalNumberOfQuestions.ToString());
 
-            for (var i = 1; i <= totalNumberOfQuestions; i++)
-            {
-                questionPage.CurrentQuestionNumber.WaitForTextToContain(i.ToString(), driver);
-                questionPage.MrButton.Click();
-
-                if (i < totalNumberOfQuestions)
-                    questionPage.NextQuestionButton.Click();
-            }
+            questionPage.AnswerAllQuestions(gameDetails);
 
             //end game
             questionPage.EndGameButton.WaitForElementToBeDisplayed(driver);
@@ -74,6 +65,27 @@
 
             var lobbyPage = new LobbyPage(playerDriver);
             lobbyPage.Heading.WaitForTextToContain("(Lobby)", playerDriver);
+        }
+
+        [Fact]
+        public void Given_a_finished_game_When_a_user_joins_Then_he_is_routed_to_the_highscore()
+        {
+            var moderatorDriver = fixture.CreateOrGetFirstDriver();
+
+            new HomePage(moderatorDriver).CreateGameButton.Click();
+            var createGamePage = new CreateGamePage(moderatorDriver);
+            var gameDetails = createGamePage.CreateGame();
+            createGamePage.StartGameButton.Click();
+            
+            var questionPage = new QuestionPage(moderatorDriver);
+            questionPage.AnswerAllQuestions(gameDetails);
+            questionPage.EndGameButton.Click();
+
+            var playerDriver = fixture.CreateOrGetSecondDriver();
+            JoinGameAsPlayer(playerDriver, gameDetails);
+
+            var highscorePage = new HighscorePage(playerDriver);
+            highscorePage.Heading.WaitForTextToContain("Übersicht", playerDriver);
         }
 
 

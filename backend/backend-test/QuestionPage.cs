@@ -1,5 +1,6 @@
 ﻿namespace WeddingQuiz.Test
 {
+    using FluentAssertions;
     using OpenQA.Selenium;
     using OpenQA.Selenium.Support.PageObjects;
 
@@ -29,6 +30,21 @@
 
         public QuestionPage(IWebDriver driver) : base(driver)
         {
+        }
+
+
+        public void AnswerAllQuestions(NewGameDetails gameDetails)
+        {
+            this.TotalQuestionNumber.Text.Should().Be(gameDetails.TotalNumberOfQuestions.ToString());
+
+            for (var i = 1; i <= gameDetails.TotalNumberOfQuestions; i++)
+            {
+                this.CurrentQuestionNumber.WaitForTextToContain(i.ToString(), driver);
+                this.MrButton.Click();
+
+                if (i < gameDetails.TotalNumberOfQuestions)
+                    this.NextQuestionButton.Click();
+            }
         }
     }
 }
