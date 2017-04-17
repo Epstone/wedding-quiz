@@ -4,6 +4,7 @@ namespace WeddingQuiz.Test
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
     using OpenQA.Selenium;
     using OpenQA.Selenium.Chrome;
 
@@ -14,13 +15,12 @@ namespace WeddingQuiz.Test
 
         public UiTestFixture()
         {
-            drivers = new List<IWebDriver>();
-            CreateDriver();
-
             var serverExecutable = Directory.GetCurrentDirectory() + "\\..\\..\\..\\" + "WeddingQuizConsole\\bin\\debug\\WeddingQuizConsole.exe";
             var info = new ProcessStartInfo(serverExecutable);
             info.WindowStyle = ProcessWindowStyle.Minimized;
             webServer = Process.Start(info);
+
+            drivers = new List<IWebDriver>();
         }
 
         public void Dispose()
@@ -31,11 +31,31 @@ namespace WeddingQuiz.Test
             webServer?.Dispose();
         }
 
-        internal IWebDriver CreateDriver()
+        internal IWebDriver CreateOrGetFirstDriver(string defaultUrl = "http://localhost:5000")
         {
-            var driver = new ChromeDriver();
+            IWebDriver driver;
+            if (drivers.Any())
+            {
+                driver = drivers[0];
+                ReInitializeDriver(defaultUrl, driver);
+                return driver;
+            };
+
+
+            driver = new ChromeDriver();
             drivers.Add(driver);
+
+            ReInitializeDriver(defaultUrl, driver);
+
             return driver;
+        }
+
+        private static void ReInitializeDriver(string defaultUrl, IWebDriver driver)
+        {
+            driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(3));
+
+            // navigate to page
+            driver.Navigate().GoToUrl(defaultUrl);
         }
     }
 }
