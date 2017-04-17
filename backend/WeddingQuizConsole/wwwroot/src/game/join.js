@@ -37,4 +37,11 @@ export class join {
 
             });
     }
+    
+    showHighscore() {
+        this.theRouter.navigateToRoute("highscore", {
+            gameId: this.gameId,
+        });
+    }
+
 }

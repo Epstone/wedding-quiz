@@ -34,7 +34,6 @@ namespace WeddingQuiz.Test
                 // web driver 
                 driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(3));
 
-
                 // navigate to page
                 driver.Navigate().GoToUrl("http://localhost:5000");
 
@@ -70,6 +69,7 @@ namespace WeddingQuiz.Test
                 questionPage.EndGameButton.WaitForElementToBeDisplayed(driver);
                 questionPage.EndGameButton.Click();
 
+                // highscore is shown
                 var highScore = new HighscorePage(driver);
                 highScore.Heading.WaitForTextToBe("Highscore",driver);
             }
@@ -78,6 +78,7 @@ namespace WeddingQuiz.Test
                 driver.Close();
                 driver.Dispose();
                 webServer?.CloseMainWindow();
+                webServer?.Dispose();
             }
         }
 
