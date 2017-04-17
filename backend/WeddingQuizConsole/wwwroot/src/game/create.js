@@ -21,12 +21,12 @@ export class create {
         this.questions = game.questions;
         this.game = game;
 
-        window.localStorage.setItem("username", "Moderator");
+        window.localStorage.setItem("username", "moderator");
         window.localStorage.setItem("currentGame", game.gameId);
         window.localStorage.setItem("isModerator", true);
 
 
-        this.signalrService.verifyConnected("moderator", game.gameId)
+        this.signalrService.verifyConnected(game.gameId)
             .then(() => {
                 this.eventAggregator.subscribe('playerListUpdated', (updatedPlayerList) => {
                     console.log("we should update playerlist now for moderator view.")
@@ -45,7 +45,7 @@ export class create {
                 console.log("change view now");
                 self.router.navigateToRoute("question", {
                     isModerator: true,
-                    game: self.game
+                    gameId: self.game.gameId
                 });
             });
     }

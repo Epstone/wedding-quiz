@@ -10,16 +10,22 @@ export class SignalrService {
 
   activate(params) {
     console.log("signalr service activated")
-
   }
 
-  verifyConnected(username, gameId) {
-    if (!username) {
-      username = window.localStorage.getItem("username");
+  getGameId() {
+    var gameId = window.localStorage.getItem("currentGame");
+    if (!gameId) {
+      throw "No gameId currently attached to.";
     }
 
+    return gameId;
+  }
+
+  verifyConnected(gameId) {
+    var username = window.localStorage.getItem("username");
+
     if (!gameId) {
-      gameId = window.localStorage.getItem("currentGame");
+      gameId = this.getGameId();
     }
 
     var self = this;
@@ -29,7 +35,7 @@ export class SignalrService {
 
         // already connected hack
         if (!!self.gameHub) {
-          resolve();
+          resolve(self.game);
           return;
         }
 
@@ -60,8 +66,14 @@ export class SignalrService {
           self.eventAggregator.publish('answerSelected', response);
         });
 
+        gameHub.on("gameUpdated", function (response) {
+          self.game = response;
+          resolve(response);
+          console.log("server sent updated game.", response);
+          self.eventAggregator.publish('gameUpdated', response);
+        });
+
         $.connection.hub.start().done(function () {
-          resolve();
           console.log("hub is started now.");
           gameHub.invoke('updatePlayerList');
         });
@@ -82,10 +94,11 @@ export class SignalrService {
     });
   }
 
-  nextQuestion(gameId) {
+  nextQuestion() {
+    var self = this;
     console.log("moderator switches to next question");
     return new Promise((resolve, reject) => {
-      this.gameHub.server.showNextQuestion(gameId).done(() => {
+      this.gameHub.server.showNextQuestion(self.game.gameId).done(() => {
         console.log("next question request sent.")
       });
     });

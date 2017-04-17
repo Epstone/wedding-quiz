@@ -14,30 +14,18 @@ export class join {
         this.router = router;
     }
 
-    activate(joinDetails) {
+    activate(params) {
         var self = this;
         console.log("welcome to the lobby");
 
-        var game = joinDetails.game;
-        var username = joinDetails.username;
-
-        if (typeof (Storage) !== "undefined") {
-            // Code for localStorage/sessionStorage.
-            window.localStorage.setItem("username", username);
-            window.localStorage.setItem("currentGame", game.gameId);
-            window.localStorage.setItem("isModerator", false);
-        } else {
-            alert("Sorry, no support for your browser.")
-        }
-
-        this.signalrService.verifyConnected()
+        this.signalrService.verifyConnected(params.gameId)
             .then(() => {
                 this.eventAggregator.subscribe('playerListUpdated', (updatedPlayerList) => {
                     console.log("we should update playerlist now. yes works")
                     console.log(updatedPlayerList);
                     self.playerlist = updatedPlayerList;
                 })
-                debugger;
+
                 this.eventAggregator.subscribe("gameStarted", (game) => {
                     self.router.navigateToRoute("question", {
                         isModerator: false,

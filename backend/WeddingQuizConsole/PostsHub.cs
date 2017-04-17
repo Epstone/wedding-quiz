@@ -23,13 +23,13 @@
 
         public override async Task OnConnected()
         {
-
             string username = UsernameFromQueryString();
             _connections.Add(username, Context.ConnectionId);
             string gameId = GameIdFromQueryString();
             Debug.WriteLine($"User {username} has connected with connectionId: {Context.ConnectionId}");
 
             await Groups.Add(Context.ConnectionId, gameId);
+            Clients.Caller.GameUpdated(await gameRepository.GetGame(gameId));
 
             await base.OnConnected();
         }
@@ -60,9 +60,9 @@
             Clients.All.playerListUpdated(_connections.GetKeys());
         }
 
-        public void StartGame(string gameId)
+        public async Task StartGame(string gameId)
         {
-            var game = gameRepository.GetGame(gameId).Result;
+            var game = await gameRepository.StartGame(gameId);
             Clients.Group(gameId).gameStarted(game);
         }
 

@@ -16,15 +16,17 @@ export class question {
 
     activate(params) {
         var self = this;
+        self.gameId = params.gameId;
 
-        this.signalrService.verifyConnected()
-            .then(() => {
+        this.signalrService.verifyConnected(params.gameId)
+            .then((game) => {
+                self.game = game;
                 this.eventAggregator.subscribe("questionChangeRequested", function (updatedQuestionIndex) {
                     console.log("view should change question now.");
                     self.questionIndex = updatedQuestionIndex;
-                    self.currentQuestion = self.game.questions[self.questionIndex];
+                    self.currentQuestion = game.questions[self.questionIndex];
 
-                    self.isLastQuestion = (self.questionIndex + 1 === self.game.questions.length);
+                    self.isLastQuestion = (self.questionIndex + 1 === game.questions.length);
                 })
 
                 this.eventAggregator.subscribe("answerSelected", function (info) {
@@ -33,22 +35,22 @@ export class question {
 
                 console.log("question view activated with params", params);
                 this.isModerator = params.isModerator === "true";
-                this.game = params.game;
-                this.questionIndex = this.game.currentQuestionIndex;
-                this.currentQuestion = this.game.questions[this.questionIndex];
-                this.isLastQuestion = (self.questionIndex + 1 === self.game.questions.length);
+                this.questionIndex = game.currentQuestionIndex;
+                this.currentQuestion = game.questions[this.questionIndex];
+                this.isLastQuestion = (self.questionIndex + 1 === game.questions.length);
             });
     }
 
     nextQuestion() {
         var self = this;
         this.signalrService.verifyConnected()
-            .then(() => self.signalrService.nextQuestion(self.game.gameId));
+            .then(() => self.signalrService.nextQuestion());
     }
 
     endGame() {
+        var self = this;
         this.router.navigateToRoute("highscore", {
-            game: self.game,
+            gameId: self.gameId,
         });
     }
 

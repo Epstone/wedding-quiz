@@ -182,11 +182,12 @@ namespace WeddingQuizConsole.Storage
             return await GetTable("answer");
         }
 
-        public async Task StartGame(string gameId)
+        public async Task<GameEntity> StartGame(string gameId)
         {
             var game = await this.GetGame(gameId);
             game.SetState(GameState.QuestionsAsked);
             await this.SaveGame(game);
+            return game;
         }
 
         public async Task< int> IncreaseQuestionIndex(string asdfg)
