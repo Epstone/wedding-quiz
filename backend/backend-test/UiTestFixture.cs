@@ -10,6 +10,7 @@ namespace WeddingQuiz.Test
 
     public class UiTestFixture : IDisposable
     {
+        private static string defaultUrl = "http://localhost:5000";
         internal List<IWebDriver> drivers;
         internal Process webServer;
 
@@ -31,26 +32,46 @@ namespace WeddingQuiz.Test
             webServer?.Dispose();
         }
 
-        internal IWebDriver CreateOrGetFirstDriver(string defaultUrl = "http://localhost:5000")
+        internal IWebDriver CreateOrGetFirstDriver()
+        {
+            return CreateOrGetNDriver(1);
+        }
+
+        public IWebDriver CreateOrGetSecondDriver()
+        {
+            return CreateOrGetNDriver(2);
+        }
+
+        /// <summary>
+        /// Returns a maybe already existing driver
+        /// </summary>
+        /// <param name="driverNumber">Starting at 1</param>
+        /// <returns></returns>
+        private IWebDriver CreateOrGetNDriver(int driverNumber)
         {
             IWebDriver driver;
-            if (drivers.Any())
+            if (drivers.Count >= driverNumber)
             {
-                driver = drivers[0];
-                ReInitializeDriver(defaultUrl, driver);
+                driver = drivers[driverNumber - 1];
+                ReInitializeDriver(driver);
                 return driver;
-            };
+            }
 
-
-            driver = new ChromeDriver();
-            drivers.Add(driver);
-
-            ReInitializeDriver(defaultUrl, driver);
+            driver = CreateAndRegisterDriver();
 
             return driver;
         }
 
-        private static void ReInitializeDriver(string defaultUrl, IWebDriver driver)
+        private IWebDriver CreateAndRegisterDriver()
+        {
+            IWebDriver driver;
+            driver = new ChromeDriver();
+            drivers.Add(driver);
+            ReInitializeDriver(driver);
+            return driver;
+        }
+
+        private static void ReInitializeDriver(IWebDriver driver)
         {
             driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(3));
 

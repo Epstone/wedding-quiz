@@ -281,6 +281,8 @@
     <Compile Include="HighscorePage.cs" />
     <Compile Include="HomePage.cs" />
     <Compile Include="IWebElementExtensions.cs" />
+    <Compile Include="JoinGamePage.cs" />
+    <Compile Include="NewGameDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuestionPage.cs" />
     <Compile Include="UiTest.cs" />

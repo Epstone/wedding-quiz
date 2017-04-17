@@ -1,59 +1,35 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WeddingQuiz.Test
+﻿namespace WeddingQuiz.Test
 {
-    using System.Threading;
     using FluentAssertions;
-    using OpenQA.Selenium.Support.PageObjects;
-    using OpenQA.Selenium.Support.UI;
-    using WeddingQuizConsole;
+    using OpenQA.Selenium;
     using Xunit;
 
     public class UiTest : IClassFixture<UiTestFixture>
     {
-        private UiTestFixture fixture;
-
-
-
         public UiTest(UiTestFixture fixture)
         {
             this.fixture = fixture;
         }
 
+        private readonly UiTestFixture fixture;
+
         [Fact]
         public void FullTestModeratorOnly()
         {
             var driver = fixture.CreateOrGetFirstDriver();
-            
-            var homePage = new HomePage(driver);
-            homePage.CreateGameButton.Click();
 
-            var createGame = new CreateGamePage(driver);
-
-            createGame.GameCode.WaitForTextPresent(driver);
-
-            createGame.GameCode.Text.Should().NotBeEmpty();
-
-            var totalNumberOfQuestions = int.Parse(createGame.TotalQuestionCount.Text);
-            totalNumberOfQuestions.Should().BeGreaterThan(0);
-
-            createGame.StartGameButton.Click();
+            var totalNumberOfQuestions = StartNewGame(driver).TotalNumberOfQuestions;
 
             var questionPage = new QuestionPage(driver);
             questionPage.TotalQuestionNumber.Text.Should().Be(totalNumberOfQuestions.ToString());
 
-            for (int i = 1; i <= totalNumberOfQuestions; i++)
+            for (var i = 1; i <= totalNumberOfQuestions; i++)
             {
                 questionPage.CurrentQuestionNumber.WaitForTextToBe(i.ToString(), driver);
                 questionPage.MrButton.Click();
 
                 if (i < totalNumberOfQuestions)
-                {
                     questionPage.NextQuestionButton.Click();
-                }
             }
 
             //end game
@@ -67,10 +43,32 @@ namespace WeddingQuiz.Test
 
 
         [Fact]
-        public void FirstTest()
+        public void Given_a_started_game_a_new_user_can_join_any_time()
         {
-            var driver = fixture.CreateOrGetFirstDriver();
+            var moderatorDriver = fixture.CreateOrGetFirstDriver();
 
+            var gameDetails = StartNewGame(moderatorDriver);
+
+            var questionPage = new QuestionPage(moderatorDriver);
+
+            questionPage.CurrentQuestionNumber.WaitForTextToBe("1", moderatorDriver);
+            questionPage.MrButton.Click();
+            questionPage.NextQuestionButton.Click();
+
+            questionPage.CurrentQuestionNumber.WaitForTextToBe("2", moderatorDriver);
+
+            // create new player and join the game
+            var playerDriver = fixture.CreateOrGetSecondDriver();
+
+            var homePage = new HomePage(playerDriver);
+            homePage.JoinGameButton.Click();
+
+            var joinGamePage = new JoinGamePage(playerDriver);
+            joinGamePage.GameIdTextbox.SendKeys(gameDetails.GameId);
+        }
+
+        private static NewGameDetails StartNewGame(IWebDriver driver)
+        {
             var homePage = new HomePage(driver);
             homePage.CreateGameButton.Click();
 
@@ -84,28 +82,11 @@ namespace WeddingQuiz.Test
             totalNumberOfQuestions.Should().BeGreaterThan(0);
 
             createGame.StartGameButton.Click();
-
-            var questionPage = new QuestionPage(driver);
-            questionPage.TotalQuestionNumber.Text.Should().Be(totalNumberOfQuestions.ToString());
-
-            for (int i = 1; i <= totalNumberOfQuestions; i++)
+            return new NewGameDetails
             {
-                questionPage.CurrentQuestionNumber.WaitForTextToBe(i.ToString(), driver);
-                questionPage.MrButton.Click();
-
-                if (i < totalNumberOfQuestions)
-                {
-                    questionPage.NextQuestionButton.Click();
-                }
-            }
-
-            //end game
-            questionPage.EndGameButton.WaitForElementToBeDisplayed(driver);
-            questionPage.EndGameButton.Click();
-
-            // highscore is shown
-            var highScore = new HighscorePage(driver);
-            highScore.Heading.WaitForTextToBe("Übersicht", driver);
+                TotalNumberOfQuestions = totalNumberOfQuestions,
+                GameId = createGame.GameCode.Text
+            };
         }
     }
 }
