@@ -71,11 +71,11 @@ export class SignalrService {
           self.eventAggregator.publish('gameEnded', response);
         });
 
-        gameHub.on("gameUpdated", function (response) {
-          self.game = response;
-          resolve(response);
-          console.log("server sent updated game.", response);
-          self.eventAggregator.publish('gameUpdated', response);
+        gameHub.on("gameUpdated", function (game) {
+          self.game = game;
+          resolve(game);
+          console.log("server sent updated game.", game);
+          self.eventAggregator.publish('gameUpdated', game);
         });
 
         $.connection.hub.start().done(function () {

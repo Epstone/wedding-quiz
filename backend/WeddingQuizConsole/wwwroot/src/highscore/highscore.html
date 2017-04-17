@@ -1,10 +1,10 @@
 <template>
     <h2>Übersicht</h2>
 
-    <div show.bind="!game.isFinished">
+    <div show.bind="!isFinished">
         <div class="row">
             <div class="text-center">
-                Aktuelle Frage: Wer geht am Sonntag gern zum Bäcker?
+                Aktuelle Frage: ${currentQuestion}
             </div>
         </div>
         <div class="row top10">

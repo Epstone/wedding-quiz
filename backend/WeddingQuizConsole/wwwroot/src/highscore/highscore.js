@@ -1,15 +1,38 @@
 import { HttpClient } from "aurelia-http-client";
+import { EventAggregator } from 'aurelia-event-aggregator';
+import { SignalrService } from 'services/signalr-service';
+import { inject } from 'aurelia-framework';
+import { Router } from 'aurelia-router';
 
+@inject(SignalrService, EventAggregator, Router)
 export class highscore {
-    constructor() {
+    constructor(signalrService, eventAggregator, router) {
         this.message = 'Hello World!';
+        this.eventAggregator = eventAggregator;
+        this.signalrService = signalrService;
+        this.currentQuestion = "test";
     }
 
-    activate() {
-        var client = new HttpClient();
+    activate(params) {
+        var self = this;
+        this.signalrService.verifyConnected(params.gameId)
+            .then((game) => {
+                self.game = game;
+                //self.isFinished = game.state === 2;
+            });
+
+        this.eventAggregator.subscribe("highscoreUpdated", function (info) {
+            console.log("highscore should be updated.", info);
+        });
+
+        this.eventAggregator.subscribe("gameUpdated", function (game) {
+            console.log("game updated.", game);
+            self.game = game;
+            self.currentQuestion = game.questions[game.currentQuestionIndex];
+        });
+
         this.game = {
             questionIndex: 3,
-            isFinished: false,
             questions: [],
             highscore: [
                 { name: "Paul", score: 7 },
@@ -32,6 +55,6 @@ export class highscore {
     }
 
     calculatePercentage(count, total) {
-        return  Math.floor((count / total) * 100);
+        return Math.floor((count / total) * 100);
     }
 }

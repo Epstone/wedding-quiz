@@ -30,9 +30,14 @@
             Debug.WriteLine($"User {username} has connected with connectionId: {Context.ConnectionId}");
 
             await Groups.Add(Context.ConnectionId, gameId);
-            Clients.Caller.GameUpdated(await gameRepository.GetGame(gameId));
+            await GameUpdated(gameId);
 
             await base.OnConnected();
+        }
+
+        private async Task GameUpdated(string gameId)
+        {
+            Clients.Caller.GameUpdated(await gameRepository.GetGame(gameId));
         }
 
         public override Task OnDisconnected(bool stopCalled)
@@ -76,6 +81,7 @@
         public async Task ShowNextQuestion(string gameId)
         {
             var questionIndex = await gameRepository.IncreaseQuestionIndex(gameId);
+            await this.GameUpdated(gameId);
             Clients.Group(gameId).questionChangeRequested(questionIndex);
         }
 
