@@ -14,5 +14,8 @@
 
         [FindsBy(How = How.CssSelector, Using = "[data-test-id='textbox-game-id']")]
         public IWebElement GameIdTextbox { get; set; }
+
+        [FindsBy(How = How.CssSelector, Using = "[data-test-id='join-game']")]
+        public IWebElement JoinGameButton { get; set; }
     }
 }

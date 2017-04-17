@@ -49,13 +49,13 @@
 
             var gameDetails = StartNewGame(moderatorDriver);
 
-            var questionPage = new QuestionPage(moderatorDriver);
+            var moderatorQuestionPage = new QuestionPage(moderatorDriver);
 
-            questionPage.CurrentQuestionNumber.WaitForTextToBe("1", moderatorDriver);
-            questionPage.MrButton.Click();
-            questionPage.NextQuestionButton.Click();
+            moderatorQuestionPage.CurrentQuestionNumber.WaitForTextToBe("1", moderatorDriver);
+            moderatorQuestionPage.MrButton.Click();
+            moderatorQuestionPage.NextQuestionButton.Click();
 
-            questionPage.CurrentQuestionNumber.WaitForTextToBe("2", moderatorDriver);
+            moderatorQuestionPage.CurrentQuestionNumber.WaitForTextToBe("2", moderatorDriver);
 
             // create new player and join the game
             var playerDriver = fixture.CreateOrGetSecondDriver();
@@ -64,7 +64,12 @@
             homePage.JoinGameButton.Click();
 
             var joinGamePage = new JoinGamePage(playerDriver);
+            joinGamePage.UsernameTextbox.SendKeys("Hans Müller");
             joinGamePage.GameIdTextbox.SendKeys(gameDetails.GameId);
+            joinGamePage.JoinGameButton.Click();
+
+            var playerQuestionPage = new QuestionPage(playerDriver);
+            playerQuestionPage.CurrentQuestionNumber.WaitForTextToBe("2", playerDriver);
         }
 
         private static NewGameDetails StartNewGame(IWebDriver driver)

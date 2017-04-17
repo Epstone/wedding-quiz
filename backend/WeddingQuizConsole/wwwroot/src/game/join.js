@@ -6,8 +6,8 @@ export class join {
     static inject() { return [Router]; }
 
     constructor(router) {
-        this.name = "paul_panzer";
-        this.gameId = "150D3274";
+        this.name = "";
+        this.gameId = "";
         this.theRouter = router;
     }
 
@@ -37,7 +37,7 @@ export class join {
 
             });
     }
-    
+
     showHighscore() {
         this.theRouter.navigateToRoute("highscore", {
             gameId: this.gameId,
