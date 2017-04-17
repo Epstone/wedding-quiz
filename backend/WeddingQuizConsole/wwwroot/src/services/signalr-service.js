@@ -104,7 +104,8 @@ export class SignalrService {
     console.log("moderator switches to next question");
     return new Promise((resolve, reject) => {
       this.gameHub.server.showNextQuestion(self.game.gameId).done(() => {
-        console.log("next question request sent.")
+        console.log("next question request sent.");
+        resolve();
       });
     });
   }
@@ -113,6 +114,7 @@ export class SignalrService {
     return new Promise((resolve, reject) => {
       this.gameHub.server.selectAnswer(answer, questionIndex).done(() => {  // todo user info
         console.log("selected answer sent to server", answer, questionIndex);
+        resolve();
       });
     });
   }
