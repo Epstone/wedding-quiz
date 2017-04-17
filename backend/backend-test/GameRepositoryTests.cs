@@ -21,11 +21,21 @@
         }
 
         [Fact]
-        public void When__user_creates_game_verify_one_game_is_stored()
+        public async Task When_a_game_is_started_the_game_state_changes()
         {
+            var actualGame = await gameRepository.CreateGame();
+            await gameRepository.StartGame(actualGame.GameId);
 
-            var actualGame = gameRepository.CreateGame();
+            actualGame = await gameRepository.GetGame(actualGame.GameId);
+            actualGame.GetState().Should().Be(GameState.QuestionsAsked);
+        }
+
+        [Fact]
+        public async Task When_user_creates_game_verify_one_game_is_stored_and_not_started()
+        {
+            var actualGame = await gameRepository.CreateGame();
             actualGame.Should().NotBeNull();
+            actualGame.GetState().Should().Be(GameState.Lobby);
         }
 
         [Fact]

@@ -27,6 +27,7 @@ export class join {
                 console.log("result", result);
 
                 if (result.result === "allow_connection") {
+
                     this.theRouter.navigateToRoute("lobby", {
                         game: result.game,
                         username: postParams.username

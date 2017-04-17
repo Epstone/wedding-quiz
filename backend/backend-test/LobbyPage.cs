@@ -11,6 +11,5 @@
 
         [FindsBy(How = How.TagName, Using = "h2")]
         public IWebElement Heading { get; set; }
-
     }
 }

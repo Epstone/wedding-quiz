@@ -25,8 +25,6 @@ namespace WeddingQuizConsole.Storage
         }
         internal async Task<GameEntity> CreateGame()
         {
-            var gameTable = await GetTable(GameTableName);
-
             var game = new GameEntity();
             game.Questions = new List<string>
             {
@@ -46,10 +44,18 @@ namespace WeddingQuizConsole.Storage
                 //"Wer kann besser gewinnen?"
             };
 
-            var insertOperation = TableOperation.Insert(game);
-            await gameTable.ExecuteAsync(insertOperation);
+            game.SetState(GameState.Lobby);
+
+            await SaveGame(game);
 
             return game;
+        }
+
+        private async Task SaveGame(GameEntity game)
+        {
+            var gameTable = await GetTable(GameTableName);
+            var insertOperation = TableOperation.InsertOrMerge(game);
+            await gameTable.ExecuteAsync(insertOperation);
         }
 
         private async Task<CloudTable> GetTable(string tableName)
@@ -175,5 +181,17 @@ namespace WeddingQuizConsole.Storage
         {
             return await GetTable("answer");
         }
+
+        public async Task StartGame(string gameId)
+        {
+            var game = await this.GetGame(gameId);
+            game.SetState(GameState.QuestionsAsked);
+            await this.SaveGame(game);
+        }
+    }
+
+    public enum GameState
+    {
+        Lobby = 0, QuestionsAsked = 1, Finished = 2
     }
 }

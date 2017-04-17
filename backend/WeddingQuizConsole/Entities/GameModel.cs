@@ -5,6 +5,7 @@
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Table;
     using Newtonsoft.Json;
+    using Storage;
 
     public class GameEntity : TableEntity
     {
@@ -32,6 +33,18 @@
             var result = base.WriteEntity(operationContext);
             result.Add("questions", new EntityProperty(JsonConvert.SerializeObject(this.Questions)));
             return result;
+        }
+
+        public void SetState(GameState state)
+        {
+            this.State = (int) state;
+        }
+
+        public int State { get; set; }
+
+        public GameState GetState()
+        {
+            return (GameState) this.State;
         }
     }
 }
