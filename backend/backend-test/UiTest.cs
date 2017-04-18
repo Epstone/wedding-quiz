@@ -1,7 +1,12 @@
 ﻿namespace WeddingQuiz.Test
 {
+    using System.Threading.Tasks;
+    using System.Web.Http;
     using FluentAssertions;
+    using Microsoft.AspNetCore.Mvc;
     using OpenQA.Selenium;
+    using WeddingQuizConsole.Controllers;
+    using WeddingQuizConsole.Models;
     using Xunit;
 
     public class UiTest : IClassFixture<UiTestFixture>
@@ -9,9 +14,11 @@
         public UiTest(UiTestFixture fixture)
         {
             this.fixture = fixture;
+            gameControllerTests = new GameControllerTests();
         }
 
         private readonly UiTestFixture fixture;
+        private readonly GameControllerTests gameControllerTests;
 
         [Fact]
         public void FullTestModeratorOnly()

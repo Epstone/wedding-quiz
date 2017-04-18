@@ -58,22 +58,8 @@
             var actualGame = gameRepository.GetGame(createdGame.GameId).Result;
             actualGame.GameId.Should().BeEquivalentTo(createdGame.GameId);
         }
-
-        [Fact]
-        public async Task When_a_user_joins_a_game_this_works()
-        {
-            var createdGame = gameRepository.CreateGame().Result;
-            await gameRepository.AddPlayerToGameAsync(createdGame.GameId, "test_user");
-        }
-
-        [Fact]
-        public async Task When_a_user_joins_a_game_twice_done_throw_exception()
-        {
-            var createdGame = gameRepository.CreateGame().Result;
-            await gameRepository.AddPlayerToGameAsync(createdGame.GameId, "test_user");
-            await gameRepository.AddPlayerToGameAsync(createdGame.GameId, "test_user");
-        }
-
+        
+        
         [Fact]
         public async Task When_a_user_gives_the_correct_answer_Then_his_Score_is_increased()
         {

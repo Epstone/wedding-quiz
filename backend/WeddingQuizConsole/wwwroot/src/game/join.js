@@ -11,9 +11,31 @@ export class join {
         this.theRouter = router;
     }
 
+    guid() {
+        return this.s4() + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' +
+            this.s4() + '-' + this.s4() + this.s4() + this.s4();
+    }
+
+    s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+    }
+
     joinGame() {
         var client = new HttpClient();
-        var postParams = { username: this.name, gameId: this.gameId };
+
+        var accountKey = window.localStorage.getItem("accountKey");
+        if(!accountKey){
+            accountKey = this.guid();
+            window.localStorage.setItem("accountKey", accountKey);
+        }
+
+        var postParams = {
+            username: this.name,
+            gameId: this.gameId,
+            accountKey : accountKey
+        };
 
         console.log("try to join game", postParams);
 
@@ -27,7 +49,6 @@ export class join {
                 console.log("result", result);
 
                 if (result.result === "allow_connection") {
-debugger;
                     if (typeof (Storage) !== "undefined") {
                         // Code for localStorage/sessionStorage.
                         window.localStorage.setItem("username", postParams.username);
@@ -45,8 +66,7 @@ debugger;
                             username: postParams.username
                         });
                     }
-                    debugger;
-                    
+
                     // -> question
                     if (result.game.state === 1) {
                         this.theRouter.navigateToRoute("question", {

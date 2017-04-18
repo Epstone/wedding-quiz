@@ -17,6 +17,8 @@
         public string GameId { get { return this.PartitionKey; } set { this.PartitionKey = value; } }
 
         public int Score { get; set; }
+        public string AccountKey { get; set; }
+
         public void ReadEntity(IDictionary<string, EntityProperty> properties, OperationContext operationContext)
         {
             base.ReadEntity(properties, operationContext);

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace WeddingQuizConsole.Storage
 {
     using System.Diagnostics;
+    using System.Globalization;
     using Entities;
     using Microsoft.Extensions.Primitives;
     using Microsoft.WindowsAzure.Storage;
@@ -78,18 +79,23 @@ namespace WeddingQuizConsole.Storage
             return tableClient;
         }
 
-        public async Task AddPlayerToGameAsync(string gameId, string username)
+        public async Task<PlayerEntity> GetPlayer(string gameId, string contentUsername)
         {
-            try
-            {
+            var table = await GetPlayerTable();
+            var query = new TableQuery<PlayerEntity>().Where(TableQuery.GenerateFilterCondition(Partitionkey, QueryComparisons.Equal, gameId));
+            var players = table.ExecuteQuery(query);
+
+            var player = players.FirstOrDefault(x => x.Username.ToLower(CultureInfo.InvariantCulture) == contentUsername.ToLower(CultureInfo.InvariantCulture));
+
+            return player;
+        }
+
+        public async Task AddPlayerToGameAsync(string gameId, string username, string accountKey)
+        {
                 var table = await GetPlayerTable();
-                var insertOperation = TableOperation.Insert(new PlayerEntity() { PartitionKey = gameId, Username = username });
+
+                var insertOperation = TableOperation.Insert(new PlayerEntity() { PartitionKey = gameId, Username = username, AccountKey = accountKey});
                 await table.ExecuteAsync(insertOperation);
-            }
-            catch (Exception ex)
-            {
-                Trace.TraceWarning("user was already added to database");
-            }
         }
 
         private async Task<CloudTable> GetPlayerTable()
@@ -197,6 +203,8 @@ namespace WeddingQuizConsole.Storage
             await this.SaveGame(game);
             return game.CurrentQuestionIndex;
         }
+
+       
     }
 
     public enum GameState

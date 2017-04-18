@@ -1,55 +1,65 @@
 ﻿namespace WeddingQuizConsole.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Table;
-    using Models;
     using Storage;
 
     public class GameController : Controller
     {
-        private GameRepository gameRepository;
+        private readonly GameRepository gameRepository;
 
         public GameController()
         {
-            string connectionString = "UseDevelopmentStorage=true";
+            var connectionString = "UseDevelopmentStorage=true";
             gameRepository = new GameRepository(connectionString);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create()
+        public async Task<JsonResult> Create()
         {
             var game = await gameRepository.CreateGame();
             return Json(game);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Join([FromBody]JoinGameModel content)
+        public async Task<JsonResult> Join([FromBody] JoinGameModel content)
         {
+            if (!ModelState.IsValid)
+                return Json("error");
+
             // verify game existis
-            var game = gameRepository.GetGame(content.GameId).Result;
-            if (game != null)
+            var game = await gameRepository.GetGame(content.GameId);
+
+            if (game == null)
+                return Json(new JoinGameResult
+                {
+                    Result = "unknown_game_id"
+                });
+
+            var player = await gameRepository.GetPlayer(content.GameId, content.Username);
+
+            if (player == null)
             {
-                var openConnections = PostsHub._connections.GetConnections(content.Username);
-
-                if (openConnections.Any())
+                await gameRepository.AddPlayerToGameAsync(content.GameId, content.Username, content.AccountKey);
+                return Json(new JoinGameResult
                 {
-                    return Json(new { Result = "already_connected", Game = game });
-                }
-                else
-                {
-                    // next request is the signalr connection request
-                    await gameRepository.AddPlayerToGameAsync(content.Username, content.Username);
-                    return Json(new { Result = "allow_connection", Game = game });
-                }
+                    Result = "allow_connection",
+                    Game = game
+                });
             }
-            return Json(new { Result = "invalid_gameId" });
+
+            if (player.AccountKey == content.AccountKey)
+                return Json(new JoinGameResult
+                {
+                    Result = "allow_connection",
+                    Game = game
+                });
+
+            if (player.AccountKey != content.AccountKey)
+                return Json(new JoinGameResult {Result = "username_taken"});
+
+
+            return Json(new JoinGameResult {Result = "error"});
         }
-
-
     }
 }

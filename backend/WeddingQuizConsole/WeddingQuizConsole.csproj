@@ -448,6 +448,7 @@
     <Compile Include="ConnectionMapping.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\JoinGameModel.cs" />
+    <Compile Include="Controllers\JoinGameResult.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Entities\AnswerEnum.cs" />
