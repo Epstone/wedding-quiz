@@ -32,7 +32,6 @@ export class highscore {
         });
 
         this.game = {
-            questionIndex: 3,
             questions: [],
             highscore: [
                 { name: "Paul", score: 7 },

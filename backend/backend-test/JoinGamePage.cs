@@ -17,5 +17,8 @@
 
         [FindsBy(How = How.CssSelector, Using = "[data-test-id='join-game']")]
         public IWebElement JoinGameButton { get; set; }
+
+        [FindsBy(How = How.CssSelector, Using = "[data-test-id='show-highscore']")]
+        public IWebElement ShowHighscoreLink { get; set; }
     }
 }

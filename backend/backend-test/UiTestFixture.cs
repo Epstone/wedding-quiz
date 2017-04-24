@@ -26,10 +26,13 @@ namespace WeddingQuiz.Test
 
         public void Dispose()
         {
-            //foreach (var webDriver in drivers)
-            //    webDriver?.Dispose();
-            //webServer?.CloseMainWindow();
-            //webServer?.Dispose();
+            foreach (var webDriver in drivers)
+            {
+                webDriver?.Dispose();
+            }
+
+            webServer?.CloseMainWindow();
+            webServer?.Dispose();
         }
 
         internal IWebDriver CreateOrGetFirstDriver()

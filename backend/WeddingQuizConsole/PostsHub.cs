@@ -37,7 +37,7 @@
 
         private async Task GameUpdated(string gameId)
         {
-            Clients.Caller.GameUpdated(await gameRepository.GetGame(gameId));
+            Clients.Group(gameId).GameUpdated(await gameRepository.GetGame(gameId));
         }
 
         public override Task OnDisconnected(bool stopCalled)

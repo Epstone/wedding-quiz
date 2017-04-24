@@ -1,5 +1,6 @@
 ﻿namespace WeddingQuiz.Test
 {
+    using System.Diagnostics;
     using System.Threading.Tasks;
     using System.Web.Http;
     using FluentAssertions;
@@ -8,16 +9,19 @@
     using WeddingQuizConsole.Controllers;
     using WeddingQuizConsole.Models;
     using Xunit;
+    using Xunit.Abstractions;
 
     public class UiTest : IClassFixture<UiTestFixture>
     {
-        public UiTest(UiTestFixture fixture)
+        public UiTest(UiTestFixture fixture, ITestOutputHelper logger)
         {
             this.fixture = fixture;
+            this.logger = logger;
             gameControllerTests = new GameControllerTests();
         }
 
         private readonly UiTestFixture fixture;
+        private readonly ITestOutputHelper logger;
         private readonly GameControllerTests gameControllerTests;
 
         [Fact]
@@ -61,7 +65,7 @@
         {
             var moderatorDriver = fixture.CreateOrGetFirstDriver();
 
-            var homePage  = new HomePage(moderatorDriver);
+            var homePage = new HomePage(moderatorDriver);
             homePage.CreateGameButton.Click();
 
             var createGamePage = new CreateGamePage(moderatorDriver);
@@ -75,6 +79,34 @@
         }
 
         [Fact]
+        public void Given_a_moderator_switches_through_the_questions_Then_the_highscore_reflects_the_changes()
+        {
+            //moderator starts game
+            var moderatorDriver = fixture.CreateOrGetFirstDriver();
+            var gameDetails = StartNewGame(moderatorDriver);
+
+
+            // player opens highscore
+            var playerDriver = fixture.CreateOrGetSecondDriver();
+            var highscorePagePlayer = ShowHighscoreOnly(playerDriver, gameDetails);
+
+            var questionPageModerator = new QuestionPage(moderatorDriver);
+            logger.WriteLine("question page created");
+            bool isLastQuestion = false;
+            while (!isLastQuestion)
+            {
+                highscorePagePlayer.CurrentQuestion.WaitForElementToBeDisplayed(playerDriver);
+
+                var highScoreQuestion = highscorePagePlayer.CurrentQuestion.Text;
+                var questionPageQuestion = questionPageModerator.CurrentQuestion.Text;
+
+                Assert.Equal(questionPageQuestion, highScoreQuestion);
+                isLastQuestion = questionPageModerator.AnswerQuestion();
+            }
+
+        }
+
+        [Fact]
         public void Given_a_finished_game_When_a_user_joins_Then_he_is_routed_to_the_highscore()
         {
             var moderatorDriver = fixture.CreateOrGetFirstDriver();
@@ -83,7 +115,7 @@
             var createGamePage = new CreateGamePage(moderatorDriver);
             var gameDetails = createGamePage.CreateGame();
             createGamePage.StartGameButton.Click();
-            
+
             var questionPage = new QuestionPage(moderatorDriver);
             questionPage.AnswerAllQuestions(gameDetails);
             questionPage.EndGameButton.Click();
@@ -117,6 +149,23 @@
             joinGamePage.UsernameTextbox.SendKeys("Hans Müller");
             joinGamePage.GameIdTextbox.SendKeys(gameDetails.GameId);
             joinGamePage.JoinGameButton.Click();
+        }
+
+        private static HighscorePage ShowHighscoreOnly(IWebDriver driver, NewGameDetails gameDetails)
+        {
+            var homePage = new HomePage(driver);
+            homePage.JoinGameButton.Click();
+
+            var joinGamePage = new JoinGamePage(driver);
+            joinGamePage.GameIdTextbox.SendKeys(gameDetails.GameId);
+            joinGamePage.ShowHighscoreLink.Click();
+
+            var highscore = new HighscorePage(driver);
+            
+            highscore.Heading.WaitForElementToBeDisplayed(driver);
+            highscore.Heading.WaitForTextToContain("Übersicht", driver);
+
+            return highscore;
         }
 
         private NewGameDetails StartNewGame(IWebDriver driver)

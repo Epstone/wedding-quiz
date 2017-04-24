@@ -27,6 +27,8 @@
         [FindsBy(How = How.CssSelector, Using = "[data-test-id='total-question-number']")]
         public IWebElement TotalQuestionNumber { get; set; }
 
+        [FindsBy(How = How.CssSelector, Using = "[data-test-id='current-question']")]
+        public IWebElement CurrentQuestion { get; set; }
 
         public QuestionPage(IWebDriver driver) : base(driver)
         {
@@ -39,12 +41,48 @@
 
             for (var i = 1; i <= gameDetails.TotalNumberOfQuestions; i++)
             {
-                this.CurrentQuestionNumber.WaitForTextToContain(i.ToString(), driver);
+                WaitForCurrentQuestionNumberToBe(i);
                 this.MrButton.Click();
 
                 if (i < gameDetails.TotalNumberOfQuestions)
                     this.NextQuestionButton.Click();
             }
+        }
+
+        private void WaitForCurrentQuestionNumberToBe(int i)
+        {
+            this.CurrentQuestionNumber.WaitForTextToContain(i.ToString(), driver);
+        }
+
+        public bool AnswerQuestion()
+        {
+            bool isLastQuestion = false;
+            var currentQuestionNo = GetCurrentQuestionNo();
+
+            this.MrButton.Click();
+
+            if (GetCurrentQuestionNo() < GetTotalQuestionNumber())
+            {
+                this.NextQuestionButton.Click();
+                WaitForCurrentQuestionNumberToBe(currentQuestionNo + 1);
+            }
+            else
+            {
+                isLastQuestion = true;
+            }
+
+
+            return isLastQuestion;
+        }
+
+        private int GetTotalQuestionNumber()
+        {
+            return int.Parse(TotalQuestionNumber.Text);
+        }
+
+        private int GetCurrentQuestionNo()
+        {
+            return int.Parse(this.CurrentQuestionNumber.Text);
         }
     }
 }
