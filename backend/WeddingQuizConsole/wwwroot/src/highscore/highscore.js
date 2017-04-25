@@ -18,7 +18,8 @@ export class highscore {
         this.signalrService.verifyConnected(params.gameId)
             .then((game) => {
                 self.game = game;
-                //self.isFinished = game.state === 2;
+                console.log("received game on connected state", game);
+                return game;
             });
 
         this.eventAggregator.subscribe("highscoreUpdated", function (info) {
@@ -38,7 +39,7 @@ export class highscore {
                 { name: "Matthias", score: 5 },
                 { name: "Arno", score: 3 },
             ]
-        }
+        };
 
         this.answerStatistics = {
             mrs: 6,
