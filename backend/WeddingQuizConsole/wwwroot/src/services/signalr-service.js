@@ -4,7 +4,7 @@ import { GameHubInstance } from 'services/game-hub-instance';
 
 @inject(EventAggregator, GameHubInstance)
 export class SignalrService {
-  constructor(eventAggregator, gameHumbInstance) {
+  constructor(eventAggregator, gameHubInstance) {
     console.log("signalr service constructor created")
     this.eventAggregator = eventAggregator;
     this.gameHubInstance = gameHubInstance;
@@ -40,10 +40,7 @@ export class SignalrService {
           resolve(self.game);
           return;
         }
-
-
         var gameHub = self.gameHubInstance.createGameHub(username, gameId);
-
 
         gameHub.on('playerListUpdated', function (updatedPlayerlist) {
           console.log("Received playerlist");
@@ -90,9 +87,10 @@ export class SignalrService {
   }
 
   startGame(gameId) {
+    var self = this;
     return new Promise((resolve, reject) => {
       console.log("triggered game start");
-      this.gameHubInstance.getInstance().server.startGame(gameId).done(() => {
+      self.gameHubInstance.getInstance().server.startGame(gameId).done(() => {
         console.log("game started successfully");
         resolve();
       });
