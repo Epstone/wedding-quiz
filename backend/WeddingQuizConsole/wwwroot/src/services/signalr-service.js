@@ -1,6 +1,6 @@
 import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { GameHubInstance } from 'sevices/game-hub-instance';
+import { GameHubInstance } from 'services/game-hub-instance';
 
 @inject(EventAggregator, GameHubInstance)
 export class SignalrService {
@@ -36,13 +36,13 @@ export class SignalrService {
       (resolve, reject) => {
 
         // already connected hack
-        if (!!self.gameHub) {
+        if (!!self.gameHubInstance.getInstance()) {
           resolve(self.game);
           return;
         }
 
-        self.gameHub = self.gameHubInstance.createGameHub(username, gameId);
-        var gameHub = self.gameHub;
+
+        var gameHub = self.gameHubInstance.createGameHub(username, gameId);
 
 
         gameHub.on('playerListUpdated', function (updatedPlayerlist) {
@@ -92,7 +92,7 @@ export class SignalrService {
   startGame(gameId) {
     return new Promise((resolve, reject) => {
       console.log("triggered game start");
-      this.gameHub.server.startGame(gameId).done(() => {
+      this.gameHubInstance.getInstance().server.startGame(gameId).done(() => {
         console.log("game started successfully");
         resolve();
       });
@@ -103,7 +103,7 @@ export class SignalrService {
     var self = this;
     console.log("moderator switches to next question");
     return new Promise((resolve, reject) => {
-      this.gameHub.server.showNextQuestion(self.game.gameId).done(() => {
+      self.gameHubInstance.getInstance().server.showNextQuestion(self.game.gameId).done(() => {
         console.log("next question request sent.");
         resolve();
       });
@@ -111,8 +111,9 @@ export class SignalrService {
   }
 
   selectAnswer(answer, questionIndex) {
+    var self = this;
     return new Promise((resolve, reject) => {
-      this.gameHub.server.selectAnswer(answer, questionIndex).done(() => {  // todo user info
+      self.gameHubInstance.getInstance().server.selectAnswer(answer, questionIndex).done(() => {  // todo user info
         console.log("selected answer sent to server", answer, questionIndex);
         resolve();
       });
@@ -122,7 +123,7 @@ export class SignalrService {
   endGame() {
     var self = this;
     return new Promise((resolve, reject) => {
-      self.gameHub.server.endGame(self.game.gameId).done(() => {
+      self.gameHubInstance.getInstance().server.endGame(self.game.gameId).done(() => {
         console.log("request end game on server.");
         resolve();
       });

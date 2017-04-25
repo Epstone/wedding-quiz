@@ -1,11 +1,9 @@
 export class GameHubInstance {
-
     constructor() {
+        this.hub = null;
 
     }
 
-
-    hub = null;
 
     createGameHub(username, gameId) {
         if (this.hub) {
@@ -18,5 +16,9 @@ export class GameHubInstance {
 
         this.hub = hub;
         return hub;
+    }
+
+    getInstance() {
+        return this.hub;
     }
 }
