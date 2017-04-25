@@ -44,7 +44,6 @@ describe('MyComponent', () => {
 
         component.create(bootstrap).then(() => {
             component.viewModel.activate({ gameId: "12345" });
-
             const nameElement = document.querySelector("[data-test-id='heading']");
             expect(nameElement.innerHTML).toBe('Übersicht');
             done();

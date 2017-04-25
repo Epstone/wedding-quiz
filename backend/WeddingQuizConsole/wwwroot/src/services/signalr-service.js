@@ -21,6 +21,13 @@ export class SignalrService {
     return gameId;
   }
 
+  createGameHub(username, gameId) {
+    var hub = $.connection.hub.createHubProxy("postsHub");
+    $.connection.hub.qs = 'username=' + username + '&gameId=' + gameId;
+    $.connection.hub.logging = true;
+    return hub;
+  }
+
   verifyConnected(gameId) {
     var username = window.localStorage.getItem("username");
 
@@ -39,11 +46,9 @@ export class SignalrService {
           return;
         }
 
-        var gameHub = $.connection.hub.createHubProxy("postsHub");
-        self.gameHub = gameHub;
+        self.gameHub = self.createGameHub(username, gameId);
+        var gameHub = self.gameHub;
 
-        $.connection.hub.qs = 'username=' + username + '&gameId=' + gameId;
-        $.connection.hub.logging = true;
 
         gameHub.on('playerListUpdated', function (updatedPlayerlist) {
           console.log("Received playerlist");
