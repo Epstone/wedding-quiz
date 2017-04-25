@@ -1,5 +1,6 @@
 import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { GameHumbInstance } from 'sevices/game-hub-instance';
 
 @inject(EventAggregator)
 export class SignalrService {
