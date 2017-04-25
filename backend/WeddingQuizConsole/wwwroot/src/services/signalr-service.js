@@ -4,10 +4,10 @@ import { GameHubSingleton } from 'services/game-hub-singleton';
 
 @inject(EventAggregator, GameHubSingleton)
 export class SignalrService {
-  constructor(eventAggregator, gameHubSingleton) {
+  constructor(eventAggregator, gameHub) {
     console.log("signalr service constructor created")
     this.eventAggregator = eventAggregator;
-    this.gameHubSingleton = gameHubSingleton;
+    this.gameHub = gameHub;
   }
 
   activate(params) {
@@ -36,11 +36,11 @@ export class SignalrService {
       (resolve, reject) => {
 
         // already connected hack
-        if (!!self.gameHubSingleton.instance) {
+        if (!!self.gameHub.instance) {
           resolve(self.game);
           return;
         }
-        var gameHub = self.gameHubSingleton.createGameHub(username, gameId);
+        var gameHub = self.gameHub.createGameHub(username, gameId);
 
         gameHub.on('playerListUpdated', function (updatedPlayerlist) {
           console.log("Received playerlist");
@@ -90,7 +90,7 @@ export class SignalrService {
     var self = this;
     return new Promise((resolve, reject) => {
       console.log("triggered game start");
-      self.gameHubSingleton.instance.server.startGame(gameId).done(() => {
+      self.gameHub.instance.server.startGame(gameId).done(() => {
         console.log("game started successfully");
         resolve();
       });
@@ -101,7 +101,7 @@ export class SignalrService {
     var self = this;
     console.log("moderator switches to next question");
     return new Promise((resolve, reject) => {
-      self.gameHubSingleton.instance.server.showNextQuestion(self.game.gameId).done(() => {
+      self.gameHub.instance.server.showNextQuestion(self.game.gameId).done(() => {
         console.log("next question request sent.");
         resolve();
       });
@@ -111,7 +111,7 @@ export class SignalrService {
   selectAnswer(answer, questionIndex) {
     var self = this;
     return new Promise((resolve, reject) => {
-      self.gameHubSingleton.instance.server.selectAnswer(answer, questionIndex).done(() => {  // todo user info
+      self.gameHub.instance.server.selectAnswer(answer, questionIndex).done(() => {  // todo user info
         console.log("selected answer sent to server", answer, questionIndex);
         resolve();
       });
@@ -121,7 +121,7 @@ export class SignalrService {
   endGame() {
     var self = this;
     return new Promise((resolve, reject) => {
-      self.gameHubSingleton.instance.server.endGame(self.game.gameId).done(() => {
+      self.gameHub.instance.server.endGame(self.game.gameId).done(() => {
         console.log("request end game on server.");
         resolve();
       });
