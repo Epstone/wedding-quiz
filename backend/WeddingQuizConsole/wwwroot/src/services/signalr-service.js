@@ -1,12 +1,13 @@
 import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { GameHumbInstance } from 'sevices/game-hub-instance';
+import { GameHubInstance } from 'sevices/game-hub-instance';
 
-@inject(EventAggregator)
+@inject(EventAggregator, GameHumbInstance)
 export class SignalrService {
-  constructor(eventAggregator) {
+  constructor(eventAggregator, gameHumbInstance) {
     console.log("signalr service constructor created")
     this.eventAggregator = eventAggregator;
+    this.gameHumbInstance = gameHumbInstance;
   }
 
   activate(params) {
