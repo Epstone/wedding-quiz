@@ -2,12 +2,12 @@ import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { GameHubInstance } from 'sevices/game-hub-instance';
 
-@inject(EventAggregator, GameHumbInstance)
+@inject(EventAggregator, GameHubInstance)
 export class SignalrService {
   constructor(eventAggregator, gameHumbInstance) {
     console.log("signalr service constructor created")
     this.eventAggregator = eventAggregator;
-    this.gameHumbInstance = gameHumbInstance;
+    this.gameHubInstance = gameHubInstance;
   }
 
   activate(params) {
@@ -21,13 +21,6 @@ export class SignalrService {
     }
 
     return gameId;
-  }
-
-  createGameHub(username, gameId) {
-    var hub = $.connection.hub.createHubProxy("postsHub");
-    $.connection.hub.qs = 'username=' + username + '&gameId=' + gameId;
-    $.connection.hub.logging = true;
-    return hub;
   }
 
   verifyConnected(gameId) {
@@ -48,7 +41,7 @@ export class SignalrService {
           return;
         }
 
-        self.gameHub = self.createGameHub(username, gameId);
+        self.gameHub = self.gameHubInstance.createGameHub(username, gameId);
         var gameHub = self.gameHub;
 
 
