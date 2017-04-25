@@ -1,13 +1,13 @@
 import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { GameHubInstance } from 'services/game-hub-instance';
+import { GameHubSingleton } from 'services/game-hub-singleton';
 
-@inject(EventAggregator, GameHubInstance)
+@inject(EventAggregator, GameHubSingleton)
 export class SignalrService {
-  constructor(eventAggregator, gameHubInstance) {
+  constructor(eventAggregator, gameHubSingleton) {
     console.log("signalr service constructor created")
     this.eventAggregator = eventAggregator;
-    this.gameHubInstance = gameHubInstance;
+    this.gameHubSingleton = gameHubSingleton;
   }
 
   activate(params) {
@@ -36,11 +36,11 @@ export class SignalrService {
       (resolve, reject) => {
 
         // already connected hack
-        if (!!self.gameHubInstance.getInstance()) {
+        if (!!self.gameHubSingleton.instance) {
           resolve(self.game);
           return;
         }
-        var gameHub = self.gameHubInstance.createGameHub(username, gameId);
+        var gameHub = self.gameHubSingleton.createGameHub(username, gameId);
 
         gameHub.on('playerListUpdated', function (updatedPlayerlist) {
           console.log("Received playerlist");
@@ -90,7 +90,7 @@ export class SignalrService {
     var self = this;
     return new Promise((resolve, reject) => {
       console.log("triggered game start");
-      self.gameHubInstance.getInstance().server.startGame(gameId).done(() => {
+      self.gameHubSingleton.instance.server.startGame(gameId).done(() => {
         console.log("game started successfully");
         resolve();
       });
@@ -101,7 +101,7 @@ export class SignalrService {
     var self = this;
     console.log("moderator switches to next question");
     return new Promise((resolve, reject) => {
-      self.gameHubInstance.getInstance().server.showNextQuestion(self.game.gameId).done(() => {
+      self.gameHubSingleton.instance.server.showNextQuestion(self.game.gameId).done(() => {
         console.log("next question request sent.");
         resolve();
       });
@@ -111,7 +111,7 @@ export class SignalrService {
   selectAnswer(answer, questionIndex) {
     var self = this;
     return new Promise((resolve, reject) => {
-      self.gameHubInstance.getInstance().server.selectAnswer(answer, questionIndex).done(() => {  // todo user info
+      self.gameHubSingleton.instance.server.selectAnswer(answer, questionIndex).done(() => {  // todo user info
         console.log("selected answer sent to server", answer, questionIndex);
         resolve();
       });
@@ -121,7 +121,7 @@ export class SignalrService {
   endGame() {
     var self = this;
     return new Promise((resolve, reject) => {
-      self.gameHubInstance.getInstance().server.endGame(self.game.gameId).done(() => {
+      self.gameHubSingleton.instance.server.endGame(self.game.gameId).done(() => {
         console.log("request end game on server.");
         resolve();
       });

@@ -1,6 +1,6 @@
-export class GameHubInstance {
+export class GameHubSingleton {
     constructor() {
-        this.hub = null;
+        this.hub = false;
 
     }
 
@@ -18,7 +18,7 @@ export class GameHubInstance {
         return hub;
     }
 
-    getInstance() {
+    get instance() {
         return this.hub;
     }
 }
