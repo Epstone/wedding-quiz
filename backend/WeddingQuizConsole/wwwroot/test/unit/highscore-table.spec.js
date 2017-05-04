@@ -3,26 +3,33 @@ import { bootstrap } from 'aurelia-bootstrapper';
 import { waitFor } from 'aurelia-testing';
 
 describe('MyComponent', () => {
-  let component;
+    let component;
 
-  beforeEach(() => {
-    component = StageComponent
-      .withResources('highscore/highscore-table')
-      .inView('<highscore-table secret-message.bind="mymessage"></highscore-table>')
-      .boundTo({ mymessage: 'Bob' });
-  });
+    beforeEach(() => {
+        component = StageComponent
+            .withResources('highscore/highscore-table')
+            .inView('<highscore-table model.bind="model"></highscore-table>')
+            .boundTo({
+                model: {
+                    first: {
+                        names: "Peter",
+                        score: 15
+                    }
+                }
+            });
+    });
 
-  it('should render first name', done => {
-    component.create(bootstrap).then(() => {
-      const nameElement = document.querySelector('.firstName');
-      expect(nameElement.innerHTML).toBe('Bob');
-      done();
-    }).catch(e => { console.log(e.toString()) });
-  });
+    it('should render first name', done => {
+        component.create(bootstrap).then(() => {
+            const nameElement = document.querySelector('.first');
+            expect(nameElement.innerHTML).toBe('Peter');
+            done();
+        }).catch(e => { console.log(e.toString()) });
+    });
 
-  afterEach(() => {
-    component.dispose();
-  });
+    afterEach(() => {
+        component.dispose();
+    });
 });
 
 
