@@ -33,52 +33,52 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.AspNetCore.Antiforgery, Version=1.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.Antiforgery.1.0.1\lib\net451\Microsoft.AspNetCore.Antiforgery.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.Antiforgery, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Antiforgery.1.1.1\lib\net451\Microsoft.AspNetCore.Antiforgery.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Authorization, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.Authorization.1.0.0\lib\net451\Microsoft.AspNetCore.Authorization.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.Authorization, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Authorization.1.1.1\lib\net451\Microsoft.AspNetCore.Authorization.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Cors, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Cors.1.0.0\lib\net451\Microsoft.AspNetCore.Cors.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Cryptography.Internal, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.Cryptography.Internal.1.1.0\lib\net451\Microsoft.AspNetCore.Cryptography.Internal.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.Cryptography.Internal, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Cryptography.Internal.1.1.1\lib\net451\Microsoft.AspNetCore.Cryptography.Internal.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.DataProtection, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.DataProtection.1.1.0\lib\net451\Microsoft.AspNetCore.DataProtection.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.DataProtection, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.DataProtection.1.1.1\lib\net451\Microsoft.AspNetCore.DataProtection.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.DataProtection.Abstractions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.DataProtection.Abstractions.1.1.0\lib\net451\Microsoft.AspNetCore.DataProtection.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.DataProtection.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.DataProtection.Abstractions.1.1.1\lib\net451\Microsoft.AspNetCore.DataProtection.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Diagnostics.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.Diagnostics.Abstractions.1.0.0\lib\netstandard1.0\Microsoft.AspNetCore.Diagnostics.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.Diagnostics.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Diagnostics.Abstractions.1.1.1\lib\netstandard1.0\Microsoft.AspNetCore.Diagnostics.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Hosting, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Hosting.1.1.0\lib\net451\Microsoft.AspNetCore.Hosting.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.Hosting.Abstractions.1.1.0\lib\net451\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Hosting.Abstractions.1.1.1\lib\net451\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.Hosting.Server.Abstractions.1.1.0\lib\net451\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Hosting.Server.Abstractions.1.1.1\lib\net451\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Html.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.Html.Abstractions.1.0.0\lib\netstandard1.0\Microsoft.AspNetCore.Html.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.Html.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Html.Abstractions.1.1.1\lib\netstandard1.0\Microsoft.AspNetCore.Html.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Http, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.Http.1.1.0\lib\net451\Microsoft.AspNetCore.Http.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.Http, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.1.1.1\lib\net451\Microsoft.AspNetCore.Http.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Http.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
@@ -97,8 +97,8 @@
       <HintPath>..\packages\Microsoft.AspNetCore.HttpOverrides.1.1.0\lib\net451\Microsoft.AspNetCore.HttpOverrides.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.JsonPatch, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.JsonPatch.1.0.0\lib\netstandard1.1\Microsoft.AspNetCore.JsonPatch.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.JsonPatch, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.JsonPatch.1.1.1\lib\net451\Microsoft.AspNetCore.JsonPatch.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Localization, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
@@ -109,28 +109,28 @@
       <HintPath>..\packages\Microsoft.AspNetCore.Mvc.1.0.1\lib\net451\Microsoft.AspNetCore.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions, Version=1.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.Mvc.Abstractions.1.0.1\lib\net451\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions, Version=1.1.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Mvc.Abstractions.1.1.2\lib\net451\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Mvc.ApiExplorer, Version=1.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Mvc.ApiExplorer.1.0.1\lib\net451\Microsoft.AspNetCore.Mvc.ApiExplorer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Mvc.Core, Version=1.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.Mvc.Core.1.0.1\lib\net451\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Core, Version=1.1.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Mvc.Core.1.1.2\lib\net451\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Mvc.Cors, Version=1.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Mvc.Cors.1.0.1\lib\net451\Microsoft.AspNetCore.Mvc.Cors.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Mvc.DataAnnotations, Version=1.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.Mvc.DataAnnotations.1.0.1\lib\net451\Microsoft.AspNetCore.Mvc.DataAnnotations.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.Mvc.DataAnnotations, Version=1.1.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Mvc.DataAnnotations.1.1.2\lib\net451\Microsoft.AspNetCore.Mvc.DataAnnotations.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Mvc.Formatters.Json, Version=1.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.Mvc.Formatters.Json.1.0.1\lib\net451\Microsoft.AspNetCore.Mvc.Formatters.Json.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Formatters.Json, Version=1.1.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Mvc.Formatters.Json.1.1.2\lib\net451\Microsoft.AspNetCore.Mvc.Formatters.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Mvc.Localization, Version=1.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
@@ -149,8 +149,8 @@
       <HintPath>..\packages\Microsoft.AspNetCore.Mvc.TagHelpers.1.0.1\lib\net451\Microsoft.AspNetCore.Mvc.TagHelpers.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Mvc.ViewFeatures, Version=1.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.Mvc.ViewFeatures.1.0.1\lib\net451\Microsoft.AspNetCore.Mvc.ViewFeatures.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.Mvc.ViewFeatures, Version=1.1.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Mvc.ViewFeatures.1.1.2\lib\net451\Microsoft.AspNetCore.Mvc.ViewFeatures.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
@@ -161,12 +161,16 @@
       <HintPath>..\packages\Microsoft.AspNetCore.Razor.Runtime.1.0.0\lib\net451\Microsoft.AspNetCore.Razor.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Routing, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.Routing.1.0.0\lib\net451\Microsoft.AspNetCore.Routing.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.ResponseCaching.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.ResponseCaching.Abstractions.1.1.1\lib\net451\Microsoft.AspNetCore.ResponseCaching.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Routing.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.Routing.Abstractions.1.0.0\lib\net451\Microsoft.AspNetCore.Routing.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.Routing, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Routing.1.1.1\lib\net451\Microsoft.AspNetCore.Routing.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Routing.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Routing.Abstractions.1.1.1\lib\net451\Microsoft.AspNetCore.Routing.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Server.IISIntegration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
@@ -193,8 +197,8 @@
       <HintPath>..\packages\Microsoft.AspNetCore.WebSockets.1.0.1\lib\net451\Microsoft.AspNetCore.WebSockets.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.WebUtilities, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNetCore.WebUtilities.1.1.0\lib\net451\Microsoft.AspNetCore.WebUtilities.dll</HintPath>
+    <Reference Include="Microsoft.AspNetCore.WebUtilities, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.WebUtilities.1.1.1\lib\net451\Microsoft.AspNetCore.WebUtilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -225,8 +229,8 @@
       <HintPath>..\packages\Microsoft.DotNet.InternalAbstractions.1.0.0\lib\net451\Microsoft.DotNet.InternalAbstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.DotNet.PlatformAbstractions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.DotNet.PlatformAbstractions.1.1.0\lib\net451\Microsoft.DotNet.PlatformAbstractions.dll</HintPath>
+    <Reference Include="Microsoft.DotNet.PlatformAbstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.DotNet.PlatformAbstractions.1.1.1\lib\net451\Microsoft.DotNet.PlatformAbstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
@@ -241,8 +245,8 @@
       <HintPath>..\packages\Microsoft.Extensions.Configuration.1.1.0\lib\netstandard1.1\Microsoft.Extensions.Configuration.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.1.1.0\lib\netstandard1.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.1.1.1\lib\netstandard1.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Extensions.Configuration.EnvironmentVariables, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
@@ -265,8 +269,8 @@
       <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.1.1.0\lib\netstandard1.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Extensions.DependencyModel, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.DependencyModel.1.1.0\lib\net451\Microsoft.Extensions.DependencyModel.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.DependencyModel, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyModel.1.1.1\lib\net451\Microsoft.Extensions.DependencyModel.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
@@ -289,20 +293,20 @@
       <HintPath>..\packages\Microsoft.Extensions.Globalization.CultureInfoCache.1.0.0\lib\netstandard1.1\Microsoft.Extensions.Globalization.CultureInfoCache.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Localization, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Localization.1.0.0\lib\net451\Microsoft.Extensions.Localization.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.Localization, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Localization.1.1.1\lib\net451\Microsoft.Extensions.Localization.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Localization.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Localization.Abstractions.1.0.0\lib\netstandard1.0\Microsoft.Extensions.Localization.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.Localization.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Localization.Abstractions.1.1.1\lib\netstandard1.0\Microsoft.Extensions.Localization.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Extensions.Logging, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Logging.1.1.0\lib\netstandard1.1\Microsoft.Extensions.Logging.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.1.1.0\lib\netstandard1.1\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.1.1.1\lib\netstandard1.1\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Extensions.Logging.Console, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
@@ -329,8 +333,8 @@
       <HintPath>..\packages\Microsoft.Extensions.Primitives.1.1.0\lib\netstandard1.0\Microsoft.Extensions.Primitives.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Extensions.WebEncoders, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.WebEncoders.1.1.0\lib\netstandard1.0\Microsoft.Extensions.WebEncoders.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.WebEncoders, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.WebEncoders.1.1.1\lib\netstandard1.0\Microsoft.Extensions.WebEncoders.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Net.Http.Headers, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
