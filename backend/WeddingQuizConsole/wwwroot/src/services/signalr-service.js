@@ -132,5 +132,12 @@ export class SignalrService {
       });
     });
   }
+
+  getHighscore() {
+    var self = this;
+    self.gameHub.instance.server.getHighscore(self.game.gameId).done(() => {
+      console.log("request get highscore was received on server.");
+    });
+  }
 }
 

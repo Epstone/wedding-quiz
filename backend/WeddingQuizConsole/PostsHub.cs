@@ -79,6 +79,15 @@
             await UpdateHighscore(gameId);
         }
 
+        /// <summary>
+        /// Is called when one player wants to receive the current highscore.
+        /// </summary>
+        public async Task GetHighscore(string gameId)
+        {
+            var highscore = await gameRepository.GetHighscore(gameId);
+            Clients.Caller.highscoreUpdated(highscore);
+        }
+
         private async Task UpdateHighscore(string gameId)
         {
             await gameRepository.EvaluateScore(gameId);

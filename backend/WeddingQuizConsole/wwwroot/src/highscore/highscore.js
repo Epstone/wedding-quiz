@@ -21,12 +21,7 @@ export class highscore {
 
     activate(params) {
         var self = this;
-        this.signalrService.verifyConnected(params.gameId)
-            .then((game) => {
-                self.game = game;
-                console.log("received game on connected state", game);
-                return game;
-            });
+
 
         this.eventAggregator.subscribe("highscoreUpdated", function (highscore) {
             console.log("highscore should be updated.", highscore);
@@ -54,6 +49,14 @@ export class highscore {
         this.statsMrs = this.calculatePercentage(this.answerStatistics.mrs, this.totalPlayers);
         this.statsMr = this.calculatePercentage(this.answerStatistics.mr, this.totalPlayers);
         this.statsBoth = this.calculatePercentage(this.answerStatistics.both, this.totalPlayers);
+
+        this.signalrService.verifyConnected(params.gameId)
+            .then((game) => {
+                self.game = game;
+                console.log("received game on connected state", game);
+                self.signalrService.getHighscore();
+                return game;
+            });
     }
 
     calculatePercentage(count, total) {
