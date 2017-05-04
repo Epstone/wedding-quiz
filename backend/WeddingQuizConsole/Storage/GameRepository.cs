@@ -90,12 +90,12 @@ namespace WeddingQuizConsole.Storage
             return player;
         }
 
-        public async Task AddPlayerToGameAsync(string gameId, string username, string accountKey)
+        public async Task AddPlayerToGameAsync(string gameId, string username, string accountKey, int score = 0)
         {
-                var table = await GetPlayerTable();
+            var table = await GetPlayerTable();
 
-                var insertOperation = TableOperation.Insert(new PlayerEntity() { PartitionKey = gameId, Username = username, AccountKey = accountKey});
-                await table.ExecuteAsync(insertOperation);
+            var insertOperation = TableOperation.Insert(new PlayerEntity() { PartitionKey = gameId, Username = username, AccountKey = accountKey, Score = score});
+            await table.ExecuteAsync(insertOperation);
         }
 
         private async Task<CloudTable> GetPlayerTable()
@@ -142,7 +142,7 @@ namespace WeddingQuizConsole.Storage
             await UpdatePlayerScore(gameId, resultScore);
 
             var players = await GetPlayers(gameId);
-            return players.ToDictionary(x=> x.Username, y=> y.Score);
+            return players.ToDictionary(x => x.Username, y => y.Score);
         }
 
         private async Task<IEnumerable<AnswerEntity>> GetAnswersForGame(string gameId)
@@ -196,7 +196,7 @@ namespace WeddingQuizConsole.Storage
             return game;
         }
 
-        public async Task< int> IncreaseQuestionIndex(string asdfg)
+        public async Task<int> IncreaseQuestionIndex(string asdfg)
         {
             var game = await this.GetGame(asdfg);
             game.CurrentQuestionIndex = game.CurrentQuestionIndex + 1;
@@ -204,7 +204,25 @@ namespace WeddingQuizConsole.Storage
             return game.CurrentQuestionIndex;
         }
 
-       
+
+        public async Task<HighscoreModel> GetHighscore(string gameId)
+        {
+            var players = await this.GetPlayers(gameId);
+            var results = from p in players
+                          group p.Username by p.Score
+                into g
+                          select new HighscoreEntry()
+                          {
+                              Score = g.Key,
+                              Names = g.OrderBy(name=>name).ToArray()
+                          };
+
+            var firstThree = results.OrderByDescending(group => group.Score).Take(3).ToArray();
+            return new HighscoreModel()
+            {
+                Entries = firstThree.ToArray()
+            };
+        }
     }
 
     public enum GameState

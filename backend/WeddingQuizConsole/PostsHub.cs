@@ -83,6 +83,8 @@
             var questionIndex = await gameRepository.IncreaseQuestionIndex(gameId);
             await this.GameUpdated(gameId);
             Clients.Group(gameId).questionChangeRequested(questionIndex);
+            HighscoreModel highscore=  await gameRepository.GetHighscore(gameId);
+            Clients.Group(gameId).highscoreUpdated(highscore);
         }
 
         public async Task SelectAnswer(int answer, int questionIndex)
@@ -111,6 +113,17 @@
         {
             return Context.QueryString.FirstOrDefault(x => x.Key == "gameId").Value;
         }
+    }
+
+    public class HighscoreModel
+    {
+        public HighscoreEntry[] Entries;
+    }
+
+    public class HighscoreEntry
+    {
+        public string[] Names { get; set; }
+        public int Score { get; set; }
     }
 
     internal class Constants

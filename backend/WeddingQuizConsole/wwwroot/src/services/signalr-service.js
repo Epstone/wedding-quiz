@@ -75,6 +75,11 @@ export class SignalrService {
           self.eventAggregator.publish('gameUpdated', game);
         });
 
+        gameHub.on("highscoreUpdated", function (highscore) {
+          console.log("server sent highscore update.", highscore);
+          self.eventAggregator.publish('highscoreUpdated', highscore);
+        });
+
         $.connection.hub.start().done(function () {
           console.log("hub is started now.");
           gameHub.invoke('updatePlayerList');

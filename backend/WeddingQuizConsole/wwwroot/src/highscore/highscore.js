@@ -11,18 +11,18 @@ export class highscore {
         this.eventAggregator = eventAggregator;
         this.signalrService = signalrService;
         this.currentQuestion = "test";
-        this.higscoreTableModel = {
+        this.highscoreTableModel = {
             first: {
-                names: ["Peter", "Franz", "Olav"],
-                score: 15
+                names: "?",
+                score: "?"
             },
             second: {
-                names: ["Karl", "Gunter", "Heinz"],
-                score: 13
+                names: "?",
+                score: "?"
             },
             third: {
-                names: ["Heidi", "Georg", "Gunter"],
-                score: 10
+                names: "?",
+                score: "?"
             }
         };
     }
@@ -36,8 +36,9 @@ export class highscore {
                 return game;
             });
 
-        this.eventAggregator.subscribe("highscoreUpdated", function (info) {
-            console.log("highscore should be updated.", info);
+        this.eventAggregator.subscribe("highscoreUpdated", function (highscore) {
+            console.log("highscore should be updated.", highscore);
+            self.highscoreTableModel = highscore;
         });
 
         this.eventAggregator.subscribe("gameUpdated", function (game) {
@@ -48,11 +49,6 @@ export class highscore {
 
         this.game = {
             questions: [],
-            highscore: [
-                { name: "Paul", score: 7 },
-                { name: "Matthias", score: 5 },
-                { name: "Arno", score: 3 },
-            ]
         };
 
         this.answerStatistics = {
