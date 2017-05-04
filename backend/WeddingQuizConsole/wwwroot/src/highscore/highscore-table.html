@@ -1,29 +1,29 @@
 <template>
-    <table class="table" with.bind="model">
-        <thead>
-            <tr>
-                <th>Platzierung</th>
-                <th>Name</th>
-                <th>Punkte</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1.</td>
-                <td class="first">${first.names}</td>
-                <td>${first.score}</td>
-            </tr>
-            <!--<tr>
-                <td>2.</td>
-                <td>${game.highscore[1].name}</td>
-                <td>${game.highscore[1].score}</td>
-            </tr>
-            <tr show.bind="game.highscore.length > 2">
-                <td>3.</td>
-                <td>${game.highscore[2].name}</td>
-                <td>${game.highscore[2].score}</td>
-            </tr>-->
-        </tbody>
-    </table>
+  <table class="table" with.bind="model">
+    <thead>
+      <tr>
+        <th>Platzierung</th>
+        <th>Name</th>
+        <th>Punkte</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1.</td>
+        <td class="firstNames">${first.names}</td>
+        <td class="firstScore">${first.score}</td>
+      </tr>
+      <tr>
+        <td>2.</td>
+        <td class="secondNames">${second.names}</td>
+        <td class="secondScore">${second.score}</td>
+      </tr>
+      <tr>
+        <td>3.</td>
+        <td class="thirdNames">${third.names}</td>
+        <td class="thirdScore">${third.score}</td>
+      </tr>
+    </tbody>
+  </table>
 
 </template>
