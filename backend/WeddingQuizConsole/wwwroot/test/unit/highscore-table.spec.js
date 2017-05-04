@@ -15,18 +15,18 @@ describe('MyComponent', () => {
             .inView('<highscore-table model.bind="model"></highscore-table>')
             .boundTo({
                 model: {
-                    first: {
+                    entries: [{
                         names: ["Peter", "Franz", "Olav"],
                         score: 15
                     },
-                    second: {
+                    {
                         names: ["Karl", "Gunter", "Heinz"],
                         score: 13
                     },
-                    third: {
+                    {
                         names: ["Heidi", "Georg", "Gunter"],
                         score: 10
-                    }
+                    }]
                 }
             });
     });

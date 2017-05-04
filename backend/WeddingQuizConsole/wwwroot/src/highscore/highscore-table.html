@@ -8,20 +8,20 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr if.bind="entries.length > 0">
         <td>1.</td>
-        <td class="firstNames">${first.names}</td>
-        <td class="firstScore">${first.score}</td>
+        <td class="firstNames">${entries[0].names}</td>
+        <td class="firstScore">${entries[0].score}</td>
       </tr>
-      <tr>
+      <tr if.bind="entries.length > 1">
         <td>2.</td>
-        <td class="secondNames">${second.names}</td>
-        <td class="secondScore">${second.score}</td>
+        <td class="secondNames">${entries[1].names}</td>
+        <td class="secondScore">${entries[1].score}</td>
       </tr>
-      <tr>
+      <tr if.bind="entries.length > 2">
         <td>3.</td>
-        <td class="thirdNames">${third.names}</td>
-        <td class="thirdScore">${third.score}</td>
+        <td class="thirdNames">${entries[2].names}</td>
+        <td class="thirdScore">${entries[2].score}</td>
       </tr>
     </tbody>
   </table>

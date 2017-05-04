@@ -12,18 +12,10 @@ export class highscore {
         this.signalrService = signalrService;
         this.currentQuestion = "test";
         this.highscoreTableModel = {
-            first: {
+            Entries: [{
                 names: "?",
                 score: "?"
-            },
-            second: {
-                names: "?",
-                score: "?"
-            },
-            third: {
-                names: "?",
-                score: "?"
-            }
+            }],
         };
     }
 
