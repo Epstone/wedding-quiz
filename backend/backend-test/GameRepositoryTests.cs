@@ -90,9 +90,10 @@
         }
 
         [Fact]
-        public async Task The_highscore_is_calculated_correctly()
+        public async Task The_highscore_is_calculated_correctly_with_more_then_3_players()
         {
             var createdGame = gameRepository.CreateGame().Result;
+            await gameRepository.AddPlayerToGameAsync(createdGame.GameId, "NotInHighscore", Guid.NewGuid().ToString(), 4);
             await gameRepository.AddPlayerToGameAsync(createdGame.GameId, "Hans", Guid.NewGuid().ToString(), 5);
             await gameRepository.AddPlayerToGameAsync(createdGame.GameId, "Peter", Guid.NewGuid().ToString(), 6);
             await gameRepository.AddPlayerToGameAsync(createdGame.GameId, "Paul", Guid.NewGuid().ToString(), 8);
@@ -101,9 +102,25 @@
             var highscore = await gameRepository.GetHighscore(createdGame.GameId);
             highscore.Entries.Length.Should().Be(3);
             highscore.Entries.First().Names.Should().ContainInOrder("Gunter", "Paul");
+            highscore.Entries.First().Score.Should().Be(8);
             highscore.Entries[1].Names.Should().Contain("Peter");
             highscore.Entries[2].Names.Should().Contain("Hans");
             highscore.Entries[2].Score.Should().Be(5);
+        }
+
+        [Fact]
+        public async Task The_highscore_is_calculated_correctly_with_just_one_group()
+        {
+            var createdGame = gameRepository.CreateGame().Result;
+            await gameRepository.AddPlayerToGameAsync(createdGame.GameId, "Hans", Guid.NewGuid().ToString(), 8);
+            await gameRepository.AddPlayerToGameAsync(createdGame.GameId, "Peter", Guid.NewGuid().ToString(), 8);
+            await gameRepository.AddPlayerToGameAsync(createdGame.GameId, "Paul", Guid.NewGuid().ToString(), 8);
+            await gameRepository.AddPlayerToGameAsync(createdGame.GameId, "Gunter", Guid.NewGuid().ToString(), 8);
+
+            var highscore = await gameRepository.GetHighscore(createdGame.GameId);
+            highscore.Entries.Length.Should().Be(1);
+            highscore.Entries.First().Names.Should().ContainInOrder("Gunter", "Hans", "Paul", "Peter");
+            highscore.Entries.First().Score.Should().Be(8);
         }
 
 
