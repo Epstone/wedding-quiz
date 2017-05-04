@@ -12,7 +12,7 @@ describe('MyComponent', () => {
             .boundTo({
                 model: {
                     first: {
-                        names: "Peter",
+                        names: ["Peter", "Franz", "Olav"],
                         score: 15
                     }
                 }
@@ -22,7 +22,7 @@ describe('MyComponent', () => {
     it('should render first name', done => {
         component.create(bootstrap).then(() => {
             const nameElement = document.querySelector('.first');
-            expect(nameElement.innerHTML).toBe('Peter');
+            expect(nameElement.innerHTML).toBe("Peter,Franz,Olav");
             done();
         }).catch(e => { console.log(e.toString()) });
     });

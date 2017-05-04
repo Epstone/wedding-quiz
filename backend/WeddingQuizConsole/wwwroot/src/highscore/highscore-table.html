@@ -1,5 +1,5 @@
 <template>
-    <table class="table">
+    <table class="table" with.bind="model">
         <thead>
             <tr>
                 <th>Platzierung</th>
@@ -10,8 +10,8 @@
         <tbody>
             <tr>
                 <td>1.</td>
-                <td class="first">${model.first.names}</td>
-                <td>${model.first.score}</td>
+                <td class="first">${first.names}</td>
+                <td>${first.score}</td>
             </tr>
             <!--<tr>
                 <td>2.</td>
