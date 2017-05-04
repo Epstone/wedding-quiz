@@ -315,7 +315,6 @@
   <ItemGroup>
     <Compile Include="CreateGamePage.cs" />
     <Compile Include="GameControllerTests.cs" />
-    <Compile Include="GameHubTests.cs" />
     <Compile Include="GameRepositoryTests.cs" />
     <Compile Include="HighscorePage.cs" />
     <Compile Include="HomePage.cs" />

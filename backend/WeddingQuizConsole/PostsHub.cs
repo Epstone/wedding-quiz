@@ -110,9 +110,9 @@
 
             }
 
+            CurrentAnswerStatistic answers = await gameRepository.GetAnswerStatistic(gameId, questionIndex);
 
-
-            Clients.OthersInGroup(gameId).answerSelected(username);
+            Clients.OthersInGroup(gameId).answerSelected(answers);
         }
 
         public async Task EndGame(string gameId)

@@ -456,6 +456,7 @@
     <Compile Include="Controllers\JoinGameResult.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="CurrentAnswerStatistic.cs" />
     <Compile Include="Entities\AnswerEnum.cs" />
     <Compile Include="Entities\GameModel.cs" />
     <Compile Include="Helper\SignalrResolver.cs" />

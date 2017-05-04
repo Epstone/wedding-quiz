@@ -90,6 +90,30 @@
         }
 
         [Fact]
+        public async Task When_a_user_gives_an_answer_Then_the_answer_statistic_is_correct()
+        {
+            var questionIndex_1 = 0;
+            var questionIndex_2 = 1;
+            var createdGame = gameRepository.CreateGame().Result;
+            await gameRepository.SetAnswer(createdGame.GameId, AnswerEnum.Mr, "paul", questionIndex_1);
+            await gameRepository.SetCouplesAnswer(createdGame.GameId, AnswerEnum.Mrs, questionIndex_1);
+
+            var statistics = await gameRepository.GetAnswerStatistic(createdGame.GameId, questionIndex_1);
+            statistics.Mr.Should().Be(1);
+            statistics.Mrs.Should().Be(1);
+            statistics.Both.Should().Be(0);
+
+            await gameRepository.SetAnswer(createdGame.GameId, AnswerEnum.Mr, "paul", questionIndex_2);
+            await gameRepository.SetCouplesAnswer(createdGame.GameId, AnswerEnum.Mr, questionIndex_2);
+
+            statistics = await gameRepository.GetAnswerStatistic(createdGame.GameId, questionIndex_2);
+            statistics.Mr.Should().Be(2);
+            statistics.Mrs.Should().Be(0);
+            statistics.Both.Should().Be(0);
+
+        }
+
+        [Fact]
         public async Task The_highscore_is_calculated_correctly_with_more_then_3_players()
         {
             var createdGame = gameRepository.CreateGame().Result;

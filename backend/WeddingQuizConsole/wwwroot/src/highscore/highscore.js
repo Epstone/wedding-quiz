@@ -3,6 +3,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { SignalrService } from 'services/signalr-service';
 import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
+import {computedFrom} from 'aurelia-framework';
 
 @inject(SignalrService, EventAggregator, Router)
 export class highscore {
@@ -16,6 +17,12 @@ export class highscore {
                 names: "?",
                 score: "?"
             }],
+        };
+
+        this.answerStatistics = {
+            mrs: 0,
+            mr: 0,
+            both: 0
         };
     }
 
@@ -34,21 +41,16 @@ export class highscore {
             self.currentQuestion = game.questions[game.currentQuestionIndex];
         });
 
+        this.eventAggregator.subscribe("answerSelected", function (statistics) {
+            console.log("Answer statistic updated.", statistics);
+            self.answerStatistics = statistics;
+        });
+
         this.game = {
             questions: [],
         };
 
-        this.answerStatistics = {
-            mrs: 6,
-            mr: 5,
-            both: 0
-        };
-
         this.totalPlayers = 11;
-
-        this.statsMrs = this.calculatePercentage(this.answerStatistics.mrs, this.totalPlayers);
-        this.statsMr = this.calculatePercentage(this.answerStatistics.mr, this.totalPlayers);
-        this.statsBoth = this.calculatePercentage(this.answerStatistics.both, this.totalPlayers);
 
         this.signalrService.verifyConnected(params.gameId)
             .then((game) => {
@@ -57,6 +59,21 @@ export class highscore {
                 self.signalrService.getHighscore();
                 return game;
             });
+    }
+
+    @computedFrom
+    get statsMrs() {
+        return this.calculatePercentage(this.answerStatistics.mrs, this.totalPlayers);
+    }
+
+    @computedFrom
+    get statsMr() {
+        return this.calculatePercentage(this.answerStatistics.mr, this.totalPlayers);
+    }
+    
+    @computedFrom
+    get statsBoth() {
+        return this.calculatePercentage(this.answerStatistics.both, this.totalPlayers);
     }
 
     calculatePercentage(count, total) {

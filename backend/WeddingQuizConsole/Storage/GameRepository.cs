@@ -223,6 +223,22 @@ namespace WeddingQuizConsole.Storage
                 Entries = firstThree.ToArray()
             };
         }
+
+        public async Task<CurrentAnswerStatistic> GetAnswerStatistic(string gameId, int questionIndex)
+        {
+            var answers = await GetAnswersForGame(gameId);
+            var answersCurrentQuestion = answers.Where(answer=>answer.QuestionIndex == questionIndex).ToList();
+
+            CurrentAnswerStatistic result = new CurrentAnswerStatistic
+            {
+                Mr = answersCurrentQuestion.Count(x => x.Answer == (int) AnswerEnum.Mr),
+                Mrs = answersCurrentQuestion.Count(x => x.Answer == (int) AnswerEnum.Mrs),
+                Both = answersCurrentQuestion.Count(x => x.Answer == (int) AnswerEnum.Both)
+            };
+
+
+            return result;
+        }
     }
 
     public enum GameState
