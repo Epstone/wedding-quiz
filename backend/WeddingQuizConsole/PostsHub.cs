@@ -72,8 +72,16 @@
         public async Task ShowNextQuestion(string gameId)
         {
             var questionIndex = await gameRepository.IncreaseQuestionIndex(gameId);
+
             await GameUpdated(gameId);
             Clients.Group(gameId).questionChangeRequested(questionIndex);
+
+            await UpdateHighscore(gameId);
+        }
+
+        private async Task UpdateHighscore(string gameId)
+        {
+            await gameRepository.EvaluateScore(gameId);
             var highscore = await gameRepository.GetHighscore(gameId);
             Clients.Group(gameId).highscoreUpdated(highscore);
         }
@@ -83,9 +91,17 @@
             var username = UsernameFromQueryString();
             var gameId = GameIdFromQueryString();
 
-            await gameRepository.SetAnswer(gameId, (AnswerEnum) answer, username, questionIndex);
+            if (username == "moderator")
+            {
+                await gameRepository.SetCouplesAnswer(gameId, (AnswerEnum) answer, questionIndex);
+            }
+            else
+            {
+                await gameRepository.SetAnswer(gameId, (AnswerEnum)answer, username, questionIndex);
 
-            Clients.Group(gameId).answerSelected(new {username});
+            }
+
+            Clients.Group(gameId).answerSelected(new { username });
         }
 
         public async Task EndGame(string gameId)
@@ -93,6 +109,9 @@
             var game = await gameRepository.GetGame(gameId);
             game.SetState(GameState.Finished);
             await gameRepository.SaveGame(game);
+
+            await UpdateHighscore(gameId);
+
             Clients.Group(gameId).gameEnded();
         }
 
