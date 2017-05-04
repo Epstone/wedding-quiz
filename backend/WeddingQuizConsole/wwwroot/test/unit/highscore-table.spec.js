@@ -31,7 +31,7 @@ describe('MyComponent', () => {
             });
     });
 
-    it('first placeshould be', done => {
+    it('first place should be', done => {
         component.create(bootstrap).then(() => {
             var firstNames = getElement(".firstNames");
             var firstScore = getElement(".firstScore");
@@ -61,8 +61,6 @@ describe('MyComponent', () => {
             return done();
         }).catch(e => { console.log(e.toString()) });
     });
-
-
 
     afterEach(() => {
         component.dispose();
