@@ -446,6 +446,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectionMapping.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\JoinGameModel.cs" />
     <Compile Include="Controllers\JoinGameResult.cs" />
@@ -454,6 +455,8 @@
     <Compile Include="Entities\AnswerEnum.cs" />
     <Compile Include="Entities\GameModel.cs" />
     <Compile Include="Helper\SignalrResolver.cs" />
+    <Compile Include="HighscoreEntry.cs" />
+    <Compile Include="HighscoreModel.cs" />
     <Compile Include="PostsHub.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
