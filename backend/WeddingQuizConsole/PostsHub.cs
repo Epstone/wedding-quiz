@@ -13,8 +13,8 @@
     [HubName("postshub")]
     public class PostsHub : Hub
     {
-        internal static readonly ConnectionMapping<string> _connections =
-            new ConnectionMapping<string>();
+        //internal static readonly ConnectionMapping<string> _connections =
+        //    new ConnectionMapping<string>();
 
         private readonly int questionNo = 0;
         private readonly GameRepository gameRepository = new GameRepository(Constants.ConnectionString);
@@ -22,7 +22,7 @@
         public override async Task OnConnected()
         {
             string username = UsernameFromQueryString();
-            _connections.Add(username, Context.ConnectionId);
+            //_connections.Add(username, Context.ConnectionId);
             var gameId = GameIdFromQueryString();
             Debug.WriteLine($"User {username} has connected with connectionId: {Context.ConnectionId}");
 
@@ -35,7 +35,7 @@
         public override Task OnDisconnected(bool stopCalled)
         {
             string name = UsernameFromQueryString();
-            _connections.Remove(name, Context.ConnectionId);
+            //_connections.Remove(name, Context.ConnectionId);
             return base.OnDisconnected(stopCalled);
         }
 
@@ -43,18 +43,20 @@
         public override Task OnReconnected()
         {
             string name = UsernameFromQueryString();
-            if (!_connections.GetConnections(name).Contains(Context.ConnectionId))
-            {
-                Debug.WriteLine($"user {name} has reconnected with connectionId: {Context.ConnectionId}");
-                _connections.Add(name, Context.ConnectionId);
-            }
+            //if (!_connections.GetConnections(name).Contains(Context.ConnectionId))
+            //{
+            //    Debug.WriteLine($"user {name} has reconnected with connectionId: {Context.ConnectionId}");
+            //    _connections.Add(name, Context.ConnectionId);
+            //}
 
             return base.OnReconnected();
         }
 
-        public void UpdatePlayerList()
+        public async Task UpdatePlayerList()
         {
-            Clients.All.playerListUpdated(_connections.GetKeys());
+            var gameId = GameIdFromQueryString();
+            var players = await gameRepository.GetPlayers(gameId);
+            Clients.Group(gameId).playerListUpdated(players.Select(x=>x.Username));
         }
 
         public async Task StartGame(string gameId)

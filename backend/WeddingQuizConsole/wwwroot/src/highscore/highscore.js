@@ -46,11 +46,13 @@ export class highscore {
             self.answerStatistics = statistics;
         });
 
+        this.eventAggregator.subscribe("playerListUpdated", function (playerList) {
+            self.totalPlayers = playerList.length;
+        });
+
         this.game = {
             questions: [],
         };
-
-        this.totalPlayers = 11;
 
         this.signalrService.verifyConnected(params.gameId)
             .then((game) => {

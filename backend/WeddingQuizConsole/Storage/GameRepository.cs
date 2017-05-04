@@ -95,6 +95,7 @@ namespace WeddingQuizConsole.Storage
             var table = await GetPlayerTable();
 
             var insertOperation = TableOperation.Insert(new PlayerEntity() { PartitionKey = gameId, Username = username, AccountKey = accountKey, Score = score});
+
             await table.ExecuteAsync(insertOperation);
         }
 
@@ -174,7 +175,7 @@ namespace WeddingQuizConsole.Storage
             }
         }
 
-        private async Task<IEnumerable<PlayerEntity>> GetPlayers(string gameId)
+        public async Task<IEnumerable<PlayerEntity>> GetPlayers(string gameId)
         {
             var playerTable = await GetPlayerTable();
             // read out player table
@@ -235,7 +236,6 @@ namespace WeddingQuizConsole.Storage
                 Mrs = answersCurrentQuestion.Count(x => x.Answer == (int) AnswerEnum.Mrs),
                 Both = answersCurrentQuestion.Count(x => x.Answer == (int) AnswerEnum.Both)
             };
-
 
             return result;
         }
