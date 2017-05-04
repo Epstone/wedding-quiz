@@ -110,7 +110,9 @@
 
             }
 
-            Clients.Group(gameId).answerSelected(new { username });
+
+
+            Clients.OthersInGroup(gameId).answerSelected(username);
         }
 
         public async Task EndGame(string gameId)
