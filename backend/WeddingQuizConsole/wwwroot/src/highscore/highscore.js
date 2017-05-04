@@ -11,6 +11,20 @@ export class highscore {
         this.eventAggregator = eventAggregator;
         this.signalrService = signalrService;
         this.currentQuestion = "test";
+        this.higscoreTableModel = {
+            first: {
+                names: ["Peter", "Franz", "Olav"],
+                score: 15
+            },
+            second: {
+                names: ["Karl", "Gunter", "Heinz"],
+                score: 13
+            },
+            third: {
+                names: ["Heidi", "Georg", "Gunter"],
+                score: 10
+            }
+        };
     }
 
     activate(params) {
