@@ -12,6 +12,8 @@ namespace MrAndMrs.App3
     {
         public static void Main(string[] args)
         {
+            //var contentRootPath = AppDomain.CurrentDomain.BaseDirectory + "\\..\\..\\";
+
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())

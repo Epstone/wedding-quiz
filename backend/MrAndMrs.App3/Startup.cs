@@ -10,6 +10,10 @@ using Microsoft.Extensions.Logging;
 
 namespace MrAndMrs.App3
 {
+    using Helper;
+    using Microsoft.AspNetCore.StaticFiles.Infrastructure;
+    using Newtonsoft.Json;
+
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -27,17 +31,34 @@ namespace MrAndMrs.App3
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
+            var settings = new JsonSerializerSettings { ContractResolver = new SignalRContractResolver() };
+            var serializer = JsonSerializer.Create(settings);
+            services.AddSingleton(serializer);
+
+            services.AddSignalR(options =>
+            {
+                options.Hubs.EnableDetailedErrors = true;
+                options.Hubs.EnableJavaScriptProxies = true;
+            });
+
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            var staticFileOptions = new StaticFileOptions(sharedOptions: new SharedOptions()) { ServeUnknownFileTypes = true };
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseMvc();
+            app.UseDefaultFiles();
+
+            app.UseStaticFiles();
+
+            app.UseMvcWithDefaultRoute();
+            app.UseSignalR("/signalr");
+            app.UseWebSockets();
         }
     }
 }
