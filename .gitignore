@@ -19,3 +19,4 @@ backend/WeddingQuiz/project.fragment.lock.json
 backend/WeddingQuizConsole/wwwroot/scripts/app-bundle.js
 backend/WeddingQuizConsole/wwwroot/scripts/app-bundle.js.map
 backend/WeddingQuizConsole/wwwroot/scripts/vendor-bundle.js
+app-bundle.js,app-bundle.js.map,vendor-bundle.js
