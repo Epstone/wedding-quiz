@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WeddingQuiz.Test</RootNamespace>
     <AssemblyName>WeddingQuiz.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -339,7 +339,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MrAndMrs.App3\MrAndMrs.App3.csproj">
-      <Project>{9E8FDBFA-6E30-42E4-9855-8FD6B9296D6D}</Project>
+      <Project>{9e8fdbfa-6e30-42e4-9855-8fd6b9296d6d}</Project>
       <Name>MrAndMrs.App3</Name>
     </ProjectReference>
   </ItemGroup>
