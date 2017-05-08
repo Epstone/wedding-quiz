@@ -16,7 +16,7 @@ namespace WeddingQuiz.Test
 
         public UiTestFixture()
         {
-            var serverExecutable = Directory.GetCurrentDirectory() + "\\..\\..\\..\\" + "MrAndMisses.App\\bin\\debug\\WeddingQuizConsole.exe";
+            var serverExecutable = Directory.GetCurrentDirectory() + "\\..\\..\\..\\" + "MrAndMrs.App\\bin\\debug\\WeddingQuizConsole.exe";
             var info = new ProcessStartInfo(serverExecutable);
             info.WindowStyle = ProcessWindowStyle.Minimized;
             webServer = Process.Start(info);

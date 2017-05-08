@@ -333,7 +333,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MrAndMisses.App\WeddingQuizConsole.csproj">
+    <ProjectReference Include="..\MrAndMrs.App\WeddingQuizConsole.csproj">
       <Project>{c82ffd0c-121d-4566-90d3-9250f8f0a6b3}</Project>
       <Name>WeddingQuizConsole</Name>
     </ProjectReference>
