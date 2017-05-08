@@ -4,8 +4,8 @@
     using System.Linq;
     using System.Threading.Tasks;
     using FluentAssertions;
-    using WeddingQuizConsole.Entities;
-    using WeddingQuizConsole.Storage;
+    using MrAndMrs.App3.Entities;
+    using MrAndMrs.App3.Storage;
     using Xunit;
     using Xunit.Abstractions;
 

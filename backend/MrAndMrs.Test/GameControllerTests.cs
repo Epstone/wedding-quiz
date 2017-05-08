@@ -3,8 +3,8 @@ namespace WeddingQuiz.Test
     using System;
     using System.Threading.Tasks;
     using FluentAssertions;
-    using WeddingQuizConsole.Controllers;
-    using WeddingQuizConsole.Models;
+    using MrAndMrs.App3.Controllers;
+    using MrAndMrs.App3.Entities;
     using Xunit;
 
     public class GameControllerTests

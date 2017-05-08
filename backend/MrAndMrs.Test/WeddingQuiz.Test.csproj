@@ -333,15 +333,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MrAndMrs.App\WeddingQuizConsole.csproj">
-      <Project>{c82ffd0c-121d-4566-90d3-9250f8f0a6b3}</Project>
-      <Name>WeddingQuizConsole</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="chromedriver.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MrAndMrs.App3\MrAndMrs.App3.csproj">
+      <Project>{9E8FDBFA-6E30-42E4-9855-8FD6B9296D6D}</Project>
+      <Name>MrAndMrs.App3</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

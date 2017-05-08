@@ -6,8 +6,6 @@
     using FluentAssertions;
     using Microsoft.AspNetCore.Mvc;
     using OpenQA.Selenium;
-    using WeddingQuizConsole.Controllers;
-    using WeddingQuizConsole.Models;
     using Xunit;
     using Xunit.Abstractions;
 

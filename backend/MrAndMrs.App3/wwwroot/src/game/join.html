@@ -1,0 +1,27 @@
+<template>
+    <row>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h2>Spiel beitreten</h2>
+        </div>
+    </row>
+    <row>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <form>
+                <div class="form-group">
+                    <label for="exampleInputName2">Dein Name: </label>
+                    <input type="text" class="form-control" data-test-id="textbox-name" value.bind="name" placeholder="Name">
+                </div>
+                <div class="form-group">
+                    <label for="gameId">Spiel Code: </label>
+                    <input type="text" class="form-control" id="gameId" value.bind="gameId" data-test-id="textbox-game-id" placeholder="#af34w2s">
+                </div>
+                <input type="submit" class="btn btn-default" data-test-id="join-game" click.trigger="joinGame()" value="Los!"></input>
+            </form>
+        </div>
+    </row>
+    <row>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <a href="" click.trigger="showHighscore()" data-test-id="show-highscore">Nur highscore anzeigen</a>
+        </div>
+    </row>
+</template>
