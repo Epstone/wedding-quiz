@@ -12,6 +12,7 @@ export class question {
         this.eventAggregator = eventAggregator;
         this.router = router;
         this.isLastQuestion = false;
+        this.selectedAnswer =  -1;
     }
 
     activate(params) {
@@ -25,9 +26,9 @@ export class question {
                     console.log("view should change question now.");
                     self.questionIndex = updatedQuestionIndex;
                     self.currentQuestion = game.questions[self.questionIndex];
-
                     self.isLastQuestion = (self.questionIndex + 1 === game.questions.length);
-                })
+                    self.selectedAnswer = -1;
+                });
 
                 this.eventAggregator.subscribe("answerSelected", function (info) {
                     console.log("some user selected answer", info);
@@ -62,6 +63,7 @@ export class question {
 
     selectAnswer(answer) {
         var index = this.questionIndex;
+        this.selectedAnswer = answer;
         this.signalrService.selectAnswer(answer, index)
             .then(() => {
                 console.log("user info: selected answer" + answer + "for questionIndex: " + index);

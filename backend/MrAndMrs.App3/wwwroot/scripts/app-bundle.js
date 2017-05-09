@@ -243,6 +243,63 @@ define('game/join',["exports", "aurelia-http-client", "aurelia-router"], functio
         return join;
     }();
 });
+define('home/index',["exports", "aurelia-http-client", "aurelia-router"], function (exports, _aureliaHttpClient, _aureliaRouter) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.index = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var client = new _aureliaHttpClient.HttpClient();
+
+    var index = exports.index = function () {
+        index.inject = function inject() {
+            return [_aureliaRouter.Router];
+        };
+
+        function index(router) {
+            _classCallCheck(this, index);
+
+            this.theRouter = router;
+        }
+
+        index.prototype.activate = function activate() {
+            $("#publishPostButton").click(function () {
+
+                var post = {
+                    userName: $("#userNameInput").val() || "Guest",
+                    text: $("#textInput").val()
+                };
+                $.ajax({
+                    url: "/api/Posts/AddPost",
+                    method: "POST",
+                    data: post
+                });
+            });
+        };
+
+        index.prototype.createGame = function createGame() {
+            var _this = this;
+
+            console.log("create game start");
+
+            client.post("/game/create").then(function (data) {
+                var game = JSON.parse(data.response);
+                console.log("created game on server", game);
+                _this.theRouter.navigateToRoute("gameCreation", game);
+            });
+        };
+
+        return index;
+    }();
+});
 define('highscore/highscore-table',['exports', 'aurelia-framework'], function (exports, _aureliaFramework) {
   'use strict';
 
@@ -456,63 +513,6 @@ define('highscore/highscore',['exports', 'aurelia-http-client', 'aurelia-event-a
         return highscore;
     }(), (_applyDecoratedDescriptor(_class2.prototype, 'statsMrs', [_aureliaFramework.computedFrom], Object.getOwnPropertyDescriptor(_class2.prototype, 'statsMrs'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'statsMr', [_aureliaFramework.computedFrom], Object.getOwnPropertyDescriptor(_class2.prototype, 'statsMr'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'statsBoth', [_aureliaFramework.computedFrom], Object.getOwnPropertyDescriptor(_class2.prototype, 'statsBoth'), _class2.prototype)), _class2)) || _class);
 });
-define('home/index',["exports", "aurelia-http-client", "aurelia-router"], function (exports, _aureliaHttpClient, _aureliaRouter) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.index = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var client = new _aureliaHttpClient.HttpClient();
-
-    var index = exports.index = function () {
-        index.inject = function inject() {
-            return [_aureliaRouter.Router];
-        };
-
-        function index(router) {
-            _classCallCheck(this, index);
-
-            this.theRouter = router;
-        }
-
-        index.prototype.activate = function activate() {
-            $("#publishPostButton").click(function () {
-
-                var post = {
-                    userName: $("#userNameInput").val() || "Guest",
-                    text: $("#textInput").val()
-                };
-                $.ajax({
-                    url: "/api/Posts/AddPost",
-                    method: "POST",
-                    data: post
-                });
-            });
-        };
-
-        index.prototype.createGame = function createGame() {
-            var _this = this;
-
-            console.log("create game start");
-
-            client.post("/game/create").then(function (data) {
-                var game = JSON.parse(data.response);
-                console.log("created game on server", game);
-                _this.theRouter.navigateToRoute("gameCreation", game);
-            });
-        };
-
-        return index;
-    }();
-});
 define('lobby/lobby',['exports', 'services/signalr-service', 'aurelia-framework', 'aurelia-event-aggregator', 'aurelia-router'], function (exports, _signalrService, _aureliaFramework, _aureliaEventAggregator, _aureliaRouter) {
     'use strict';
 
@@ -566,15 +566,6 @@ define('lobby/lobby',['exports', 'services/signalr-service', 'aurelia-framework'
         return join;
     }()) || _class);
 });
-define('resources/index',["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.configure = configure;
-  function configure(config) {}
-});
 define('question/question',['exports', 'aurelia-framework', 'services/signalr-service', 'aurelia-event-aggregator', 'aurelia-router'], function (exports, _aureliaFramework, _signalrService, _aureliaEventAggregator, _aureliaRouter) {
     'use strict';
 
@@ -601,6 +592,7 @@ define('question/question',['exports', 'aurelia-framework', 'services/signalr-se
             this.eventAggregator = eventAggregator;
             this.router = router;
             this.isLastQuestion = false;
+            this.selectedAnswer = -1;
         }
 
         question.prototype.activate = function activate(params) {
@@ -615,8 +607,8 @@ define('question/question',['exports', 'aurelia-framework', 'services/signalr-se
                     console.log("view should change question now.");
                     self.questionIndex = updatedQuestionIndex;
                     self.currentQuestion = game.questions[self.questionIndex];
-
                     self.isLastQuestion = self.questionIndex + 1 === game.questions.length;
+                    self.selectedAnswer = -1;
                 });
 
                 _this.eventAggregator.subscribe("answerSelected", function (info) {
@@ -654,6 +646,7 @@ define('question/question',['exports', 'aurelia-framework', 'services/signalr-se
 
         question.prototype.selectAnswer = function selectAnswer(answer) {
             var index = this.questionIndex;
+            this.selectedAnswer = answer;
             this.signalrService.selectAnswer(answer, index).then(function () {
                 console.log("user info: selected answer" + answer + "for questionIndex: " + index);
             });
@@ -661,6 +654,15 @@ define('question/question',['exports', 'aurelia-framework', 'services/signalr-se
 
         return question;
     }()) || _class);
+});
+define('resources/index',["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.configure = configure;
+  function configure(config) {}
 });
 define('services/game-hub-singleton',['exports'], function (exports) {
     'use strict';
@@ -881,7 +883,7 @@ define('text!game/create.html', ['module'], function(module) { module.exports = 
 define('text!game/join.html', ['module'], function(module) { module.exports = "<template>\r\n    <row>\r\n        <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12\">\r\n            <h2>Spiel beitreten</h2>\r\n        </div>\r\n    </row>\r\n    <row>\r\n        <div class=\"col-xs-4 col-sm-4 col-md-4 col-lg-4\">\r\n            <form>\r\n                <div class=\"form-group\">\r\n                    <label for=\"exampleInputName2\">Dein Name: </label>\r\n                    <input type=\"text\" class=\"form-control\" data-test-id=\"textbox-name\" value.bind=\"name\" placeholder=\"Name\">\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <label for=\"gameId\">Spiel Code: </label>\r\n                    <input type=\"text\" class=\"form-control\" id=\"gameId\" value.bind=\"gameId\" data-test-id=\"textbox-game-id\" placeholder=\"#af34w2s\">\r\n                </div>\r\n                <input type=\"submit\" class=\"btn btn-default\" data-test-id=\"join-game\" click.trigger=\"joinGame()\" value=\"Los!\"></input>\r\n            </form>\r\n        </div>\r\n    </row>\r\n    <row>\r\n        <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12\">\r\n            <a href=\"\" click.trigger=\"showHighscore()\" data-test-id=\"show-highscore\">Nur highscore anzeigen</a>\r\n        </div>\r\n    </row>\r\n</template>"; });
 define('text!highscore/highscore-table.html', ['module'], function(module) { module.exports = "<template>\r\n  <table class=\"table\" with.bind=\"model\">\r\n    <thead>\r\n      <tr>\r\n        <th>Platzierung</th>\r\n        <th>Name</th>\r\n        <th>Punkte</th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr if.bind=\"entries.length > 0\">\r\n        <td>1.</td>\r\n        <td class=\"firstNames\">${entries[0].names}</td>\r\n        <td class=\"firstScore\">${entries[0].score}</td>\r\n      </tr>\r\n      <tr if.bind=\"entries.length > 1\">\r\n        <td>2.</td>\r\n        <td class=\"secondNames\">${entries[1].names}</td>\r\n        <td class=\"secondScore\">${entries[1].score}</td>\r\n      </tr>\r\n      <tr if.bind=\"entries.length > 2\">\r\n        <td>3.</td>\r\n        <td class=\"thirdNames\">${entries[2].names}</td>\r\n        <td class=\"thirdScore\">${entries[2].score}</td>\r\n      </tr>\r\n    </tbody>\r\n  </table>\r\n\r\n</template>"; });
 define('text!highscore/highscore.html', ['module'], function(module) { module.exports = "<template bindable=\"highscoreModel\">\r\n    <require from=\"./highscore-table\"></require>\r\n    <h2 data-test-id=\"heading\">Übersicht</h2>\r\n\r\n    <div show.bind=\"game.state === 1\">\r\n        <div class=\"row\">\r\n            <div class=\"text-center\">\r\n                Aktuelle Frage: <span data-test-id=\"current-question\">${currentQuestion}</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"row top10\">\r\n            <div class=\"col-xs-6 \">\r\n                <button type=\"button\" class=\"btn btn-default btn-block\">Die Braut</button>\r\n            </div>\r\n            <div class=\"col-xs-1 \">\r\n                ${answerStatistics.mrs}\r\n            </div>\r\n            <div class=\"col-xs-5\">\r\n                <div class=\"progress\">\r\n                    <div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"30\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: ${statsMrs}%;\">\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <div class=\"row top10\">\r\n            <div class=\"col-xs-6 \">\r\n                <button type=\"button\" class=\"btn btn-default btn-block\">Der Bräutigam</button>\r\n            </div>\r\n            <div class=\"col-xs-1 \">\r\n                ${answerStatistics.mr}\r\n            </div>\r\n            <div class=\"col-xs-5\">\r\n                <div class=\"progress\">\r\n                    <div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"50\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: ${statsMr}%;\">\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <div class=\"row top10\">\r\n            <div class=\"col-xs-6 \">\r\n                <button type=\"button\" class=\"btn btn-default btn-block\">Beide</button>\r\n            </div>\r\n            <div class=\"col-xs-1 \">\r\n                ${answerStatistics.both}\r\n            </div>\r\n            <div class=\"col-xs-5\">\r\n                <div class=\"progress\">\r\n                    <div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"20\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: ${statsBoth}%;\">\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <highscore-table model.bind=\"highscoreTableModel\"></highscore-table>\r\n</template>"; });
-define('text!lobby/lobby.html', ['module'], function(module) { module.exports = "<template>\r\n    <div class=\"jumbotron\">\r\n        <h2>Ela & Patrick (Lobby)</h2>\r\n        <p>Gäste: </p>\r\n\r\n        <ul>\r\n            <li repeat.for=\"name of playerlist\">${name}</li>\r\n        </ul>\r\n        <a class=\"btn btn-lg btn-default\" href=\"#\" role=\"button\">Warten auf Moderator...</a>\r\n\r\n    </div>\r\n</template>"; });
 define('text!home/index.html', ['module'], function(module) { module.exports = "<template>\r\n\r\n    <div class=\"row\">\r\n        <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12\">\r\n            <p>Einem bestehenden Spiel beitreten. Den Spielcode erfährst du von deinem Spielleiter.</p>\r\n            <p><a class=\"btn btn-primary btn-lg\" href=\"#/game/join\" role=\"button\" data-test-id=\"join-game\">Spiel beitreten</a></p>\r\n            <hr />\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"row\">\r\n        <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12\">\r\n            <p>Jetzt ein neues Spiel erstellen und alle mitraten lassen. Spiele werden 14 Tage lang gespeichert.</p>\r\n            <p><a class=\"btn btn-primary btn-lg\" click.trigger=\"createGame()\" role=\"button\" data-test-id=\"create-game\">Spiel erstellen</a></p>\r\n            <hr />\r\n        </div>\r\n    </div>\r\n\r\n</template>"; });
-define('text!question/question.html', ['module'], function(module) { module.exports = "<template>\r\n    <div class=\"row breadcrumb\">\r\n        <div class=\"col-xs-6 col-sm-6 col-md-6 col-lg-6\" show.bind=\"isModerator\">\r\n            <span>Moderator</span>\r\n        </div>\r\n        <div class=\"col-xs-6 col-sm-6 col-md-6 col-lg-6\">\r\n            Frage <span data-test-id=\"current-question-number\">${questionIndex + 1}</span> von <span data-test-id=\"total-question-number\">${game.questions.length}</span>\r\n        </div>\r\n    </div>\r\n    <div class=\"row\">\r\n        <div class=\"text-center\" data-test-id=\"current-question\">\r\n            ${currentQuestion}\r\n        </div>\r\n    </div>\r\n    <div class=\"row top10\">\r\n        <div class=\"col-xs-6 col-xs-offset-3\">\r\n            <button type=\"button\" class=\"btn btn-default btn-block\" click.trigger=\"selectAnswer(0)\" data-test-id=\"select-mrs\">Die Braut</button>\r\n        </div>\r\n    </div>\r\n    <div class=\"row top10\">\r\n        <div class=\"col-xs-6 col-xs-offset-3\">\r\n            <button type=\"button\" class=\"btn btn-default btn-block\" click.trigger=\"selectAnswer(1)\" data-test-id=\"select-mr\">Der Bräutigam</button>\r\n        </div>\r\n    </div>\r\n    <div class=\"row top10\">\r\n        <div class=\"col-xs-6 col-xs-offset-3\">\r\n            <button type=\"button\" class=\"btn btn-default btn-block\" click.trigger=\"selectAnswer(2)\" data-test-id=\"select-both\">Beide</button>\r\n        </div>\r\n    </div>\r\n    <hr />\r\n    <div show.bind=\"isModerator && !isLastQuestion\">\r\n        <button type=\"button\" class=\"btn btn-primary\" click.trigger=\"nextQuestion()\" data-test-id=\"next-question\">Nächste Frage</button>\r\n    </div>\r\n    <div show.bind=\"isModerator && isLastQuestion\">\r\n        <button type=\"button\" class=\"btn btn-primary\" click.trigger=\"endGame()\" data-test-id=\"end-game\">Spiel beenden</button>\r\n    </div>\r\n    <div show.bind=\"!isModerator\">\r\n        <button type=\"button\" class=\"btn btn-primary\">Warten auf Moderator...</button>\r\n    </div>\r\n</template>"; });
+define('text!lobby/lobby.html', ['module'], function(module) { module.exports = "<template>\r\n    <div class=\"jumbotron\">\r\n        <h2>Ela & Patrick (Lobby)</h2>\r\n        <p>Gäste: </p>\r\n\r\n        <ul>\r\n            <li repeat.for=\"name of playerlist\">${name}</li>\r\n        </ul>\r\n        <a class=\"btn btn-lg btn-default\" href=\"#\" role=\"button\">Warten auf Moderator...</a>\r\n\r\n    </div>\r\n</template>"; });
+define('text!question/question.html', ['module'], function(module) { module.exports = "<template>\r\n    <div class=\"row breadcrumb\">\r\n        <div class=\"col-xs-6 col-sm-6 col-md-6 col-lg-6\" show.bind=\"isModerator\">\r\n            <span>Moderator</span>\r\n        </div>\r\n        <div class=\"col-xs-6 col-sm-6 col-md-6 col-lg-6\">\r\n            Frage <span data-test-id=\"current-question-number\">${questionIndex + 1}</span> von <span data-test-id=\"total-question-number\">${game.questions.length}</span>\r\n        </div>\r\n    </div>\r\n    <div class=\"row\">\r\n        <div class=\"text-center\" data-test-id=\"current-question\">\r\n            ${currentQuestion}\r\n        </div>\r\n    </div>\r\n    <div class=\"row top10\">\r\n        <div class=\"col-xs-6 col-xs-offset-3\">\r\n            <button type=\"button\" class=\"btn btn-default btn-block ${selectedAnswer === 0 ? 'active' : ''}\" click.trigger=\"selectAnswer(0)\" data-test-id=\"select-mrs\">Die Braut</button>\r\n        </div>\r\n    </div>\r\n    <div class=\"row top10\">\r\n        <div class=\"col-xs-6 col-xs-offset-3\">\r\n            <button type=\"button\" class=\"btn btn-default btn-block ${selectedAnswer === 1 ? 'active' : ''}\" click.trigger=\"selectAnswer(1)\" data-test-id=\"select-mr\">Der Bräutigam</button>\r\n        </div>\r\n    </div>\r\n    <div class=\"row top10\">\r\n        <div class=\"col-xs-6 col-xs-offset-3\">\r\n            <button type=\"button\" class=\"btn btn-default btn-block ${selectedAnswer === 2 ? 'active' : ''}\" click.trigger=\"selectAnswer(2)\" data-test-id=\"select-both\">Beide</button>\r\n        </div>\r\n    </div>\r\n    <hr />\r\n    <div show.bind=\"isModerator && !isLastQuestion\">\r\n        <button type=\"button\" class=\"btn btn-primary\" click.trigger=\"nextQuestion()\" data-test-id=\"next-question\">Nächste Frage</button>\r\n    </div>\r\n    <div show.bind=\"isModerator && isLastQuestion\">\r\n        <button type=\"button\" class=\"btn btn-primary\" click.trigger=\"endGame()\" data-test-id=\"end-game\">Spiel beenden</button>\r\n    </div>\r\n    <div show.bind=\"!isModerator\">\r\n        <button type=\"button\" class=\"btn btn-primary\">Warten auf Moderator...</button>\r\n    </div>\r\n</template>"; });
 //# sourceMappingURL=app-bundle.js.map
