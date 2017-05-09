@@ -12,11 +12,17 @@
     [HubName("postshub")]
     public class PostsHub : Hub
     {
+        private readonly GameRepository gameRepository;
         //internal static readonly ConnectionMapping<string> _connections =
         //    new ConnectionMapping<string>();
 
         private readonly int questionNo = 0;
-        private readonly GameRepository gameRepository = new GameRepository(Constants.ConnectionString);
+        //private readonly GameRepository gameRepository = new GameRepository(Constants.ConnectionString);
+
+        public PostsHub(GameRepository gameRepository)
+        {
+            this.gameRepository = gameRepository;
+        }
 
         public override async Task OnConnected()
         {

@@ -13,6 +13,7 @@ namespace MrAndMrs.App3
     using Helper;
     using Microsoft.AspNetCore.StaticFiles.Infrastructure;
     using Newtonsoft.Json;
+    using Storage;
 
     public class Startup
     {
@@ -34,7 +35,7 @@ namespace MrAndMrs.App3
             var settings = new JsonSerializerSettings { ContractResolver = new SignalRContractResolver() };
             var serializer = JsonSerializer.Create(settings);
             services.AddSingleton(serializer);
-
+            services.AddScoped<GameRepository>(provider => new GameRepository("UseDevelopmentStorage=true"));
             services.AddSignalR(options =>
             {
                 options.Hubs.EnableDetailedErrors = true;
@@ -47,6 +48,10 @@ namespace MrAndMrs.App3
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            //GlobalHost.DependencyResolver.Register(
+            //    typeof(ChatHub),
+            //    () => new ChatHub(new ChatMessageRepository()));
+
             var staticFileOptions = new StaticFileOptions(sharedOptions: new SharedOptions()) { ServeUnknownFileTypes = true };
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
