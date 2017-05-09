@@ -5,7 +5,7 @@ export class App {
 
     configureRouter(config, router) {
         this.router = router;
-        config.title = 'Aurelia';
+        config.title = 'Mr & Mrs';
         config.map([
             { route: ['', 'home'], name: 'home', moduleId: 'home/index' },
             { route: ['/game/create'], name: 'gameCreation', moduleId: 'game/create' },
