@@ -35,7 +35,10 @@ namespace MrAndMrs.App3
             var settings = new JsonSerializerSettings { ContractResolver = new SignalRContractResolver() };
             var serializer = JsonSerializer.Create(settings);
             services.AddSingleton(serializer);
-            services.AddScoped<GameRepository>(provider => new GameRepository("UseDevelopmentStorage=true"));
+
+            var appConfig = Configuration["MrAndMrsTableStorage"];
+
+            services.AddScoped<GameRepository>(provider => new GameRepository(appConfig));
             services.AddSignalR(options =>
             {
                 options.Hubs.EnableDetailedErrors = true;

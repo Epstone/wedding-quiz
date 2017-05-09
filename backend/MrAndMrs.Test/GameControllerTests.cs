@@ -5,13 +5,14 @@ namespace WeddingQuiz.Test
     using FluentAssertions;
     using MrAndMrs.App3.Controllers;
     using MrAndMrs.App3.Entities;
+    using MrAndMrs.App3.Storage;
     using Xunit;
 
     public class GameControllerTests
     {
         public GameControllerTests()
         {
-            gameController = new GameController();
+            gameController = new GameController(new GameRepository("UseDevelopmentStorage=true"));
         }
 
         private readonly GameController gameController;

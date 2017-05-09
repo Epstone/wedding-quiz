@@ -8,10 +8,9 @@
     {
         private readonly GameRepository gameRepository;
 
-        public GameController()
+        public GameController(GameRepository gameRepository)
         {
-            var connectionString = "UseDevelopmentStorage=true";
-            gameRepository = new GameRepository(connectionString);
+            this.gameRepository = gameRepository;
         }
 
         [HttpPost]
