@@ -36,7 +36,7 @@ namespace MrAndMrs.App3
             var serializer = JsonSerializer.Create(settings);
             services.AddSingleton(serializer);
 
-            var appConfig = Configuration["MrAndMrsTableStorage"];
+            var appConfig = Configuration.GetConnectionString("MrAndMrsTableStorage");
 
             services.AddScoped<GameRepository>(provider => new GameRepository(appConfig));
             services.AddSignalR(options =>
