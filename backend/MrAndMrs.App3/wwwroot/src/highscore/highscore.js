@@ -9,6 +9,7 @@ import {computedFrom} from 'aurelia-framework';
 export class highscore {
     constructor(signalrService, eventAggregator, router) {
         this.message = 'Hello World!';
+        this.isFinished = false;
         this.eventAggregator = eventAggregator;
         this.signalrService = signalrService;
         this.currentQuestion = "test";

@@ -131,11 +131,18 @@
             await UpdateHighscore(gameId);
 
             Clients.Group(gameId).gameEnded();
+            PublishGameUpdate(gameId,game);
         }
 
         private async Task GameUpdated(string gameId)
         {
-            Clients.Group(gameId).GameUpdated(await gameRepository.GetGame(gameId));
+            var gameEntity = await gameRepository.GetGame(gameId);
+            PublishGameUpdate(gameId, gameEntity);
+        }
+
+        private void PublishGameUpdate(string gameId, GameEntity gameEntity)
+        {
+            Clients.Group(gameId).GameUpdated(gameEntity);
         }
 
         private StringValues UsernameFromQueryString()
