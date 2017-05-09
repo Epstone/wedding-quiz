@@ -41,6 +41,28 @@
             highScore.Heading.WaitForTextToContain("Übersicht", driver);
         }
 
+        [Fact]
+        public void FullTestModerator_And_Player()
+        {
+            var moderatorDriver = fixture.CreateOrGetFirstDriver();
+
+            var gameDetails = StartNewGame(moderatorDriver);
+
+            var playerDriver = fixture.CreateOrGetSecondDriver();
+            JoinGameAsPlayer(playerDriver, gameDetails);
+
+            var playerQuestionPage = new QuestionPage(playerDriver);
+            playerQuestionPage.CurrentQuestionNumber.WaitForTextToContain("1", playerDriver);
+
+            var moderatorQuestionPage = new QuestionPage(moderatorDriver);
+
+            moderatorQuestionPage.AnswerAllQuestions(gameDetails);
+            moderatorQuestionPage.EndGameButton.Click();
+
+            var player_highScore = new HighscorePage(playerDriver);
+            player_highScore.Heading.WaitForTextToContain("Übersicht", playerDriver);
+        }
+
 
         [Fact]
         public void Given_a_started_game_a_new_user_can_join_and_sees_question()
@@ -57,6 +79,8 @@
             var playerQuestionPage = new QuestionPage(playerDriver);
             playerQuestionPage.CurrentQuestionNumber.WaitForTextToContain("2", playerDriver);
         }
+
+       
 
         [Fact]
         public void Given_a_not_started_game_player_gets_into_lobby()
