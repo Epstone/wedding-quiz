@@ -65,8 +65,8 @@ namespace MrAndMrs.App3
             app.UseStaticFiles();
 
             app.UseMvcWithDefaultRoute();
-            app.UseSignalR("/signalr");
             app.UseWebSockets();
+            app.UseSignalR("/signalr");
         }
     }
 }
