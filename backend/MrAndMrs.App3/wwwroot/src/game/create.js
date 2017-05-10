@@ -11,6 +11,7 @@ export class create {
         this.signalrService = signalrService;
         this.eventAggregator = eventAggregator;
         this.router = router;
+        this.questionsModel = [];
     }
 
     questions = [];
@@ -20,6 +21,15 @@ export class create {
         console.log("passed game from other view", game, routeData);
         this.questions = game.questions;
         this.game = game;
+        for (var i = 0; i < this.questions.length; i++) {
+            this.questionsModel.push({
+                 text : this.questions[i],
+                 editActive : false,
+                 editAction : this.changeEditState
+             });
+        }
+
+        console.log("questions model is", this.questionsModel);
 
         window.localStorage.setItem("username", "moderator");
         window.localStorage.setItem("currentGame", game.gameId);
@@ -36,6 +46,10 @@ export class create {
 
                 self.gameId = game.gameId
             });
+    }
+
+    changeEditState(par){
+        this.editActive = !this.editActive;
     }
 
     startGame() {
