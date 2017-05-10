@@ -1,8 +1,15 @@
 <template>
-    <h2>Spielcode: <span data-test-id="game-code">${gameId}</span></h2>
+    <h2>Spielcode tests: <span data-test-id="game-code">${gameId}</span></h2>
     <h2><span data-test-id="total-questions-no">${game.questions.length}</span> Fragen</h2>
     <ul>
-        <li repeat.for="question of questions">${question}! </li>
+        <li repeat.for="question of questions">
+            <button type="button" class="btn btn-default" aria-label="Left Align">
+  <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+</button>
+${question}
+            <input type="text" placeholder="Frage..." class="form-control" value="${question}"></input>
+            
+        </li>
     </ul>
     <button type="button" class="btn btn-primary">Frage hinzufügen</button>
     <hr />
