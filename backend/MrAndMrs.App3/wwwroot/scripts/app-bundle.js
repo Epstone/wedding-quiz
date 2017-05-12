@@ -126,7 +126,7 @@ define('home/index',["exports", "aurelia-http-client", "aurelia-router"], functi
             client.post("/game/create").then(function (data) {
                 var game = JSON.parse(data.response);
                 console.log("created game on server", game);
-                _this.theRouter.navigateToRoute("gameCreation", game);
+                _this.theRouter.navigateToRoute("gameCreation", { gameId: game.gameId });
             });
         };
 
@@ -164,35 +164,35 @@ define('game/create',['exports', 'services/signalr-service', 'aurelia-framework'
             this.newQuestionText = "";
         }
 
-        create.prototype.activate = function activate(game, routeData) {
+        create.prototype.activate = function activate(params) {
             var _this = this;
 
             var self = this;
-            console.log("passed game from other view", game, routeData);
-            this.questions = game.questions;
-            this.game = game;
-            for (var i = 0; i < this.questions.length; i++) {
-                this.questionsModel.push({
-                    text: this.questions[i],
-                    editActive: false,
-                    editAction: this.changeEditState
-                });
-            }
+            this.gameId = params.gameId;
 
             console.log("questions model is", this.questionsModel);
 
             window.localStorage.setItem("username", "moderator");
-            window.localStorage.setItem("currentGame", game.gameId);
+            window.localStorage.setItem("currentGame", this.gameId);
             window.localStorage.setItem("isModerator", true);
 
-            this.signalrService.verifyConnected(game.gameId).then(function () {
+            this.signalrService.verifyConnected(this.gameId).then(function (game) {
+                self.game = game;
+                self.questions = game.questions;
+
+                for (var i = 0; i < self.questions.length; i++) {
+                    self.questionsModel.push({
+                        text: self.questions[i],
+                        editActive: false,
+                        editAction: self.changeEditState
+                    });
+                }
+
                 _this.eventAggregator.subscribe('playerListUpdated', function (updatedPlayerList) {
                     console.log("we should update playerlist now for moderator view.");
                     console.log(updatedPlayerList);
                     self.playerlist = updatedPlayerList;
                 });
-
-                self.gameId = game.gameId;
             });
         };
 

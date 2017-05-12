@@ -17,35 +17,36 @@ export class create {
 
     questions = [];
 
-    activate(game, routeData) {
+    activate(params) {
         var self = this;
-        console.log("passed game from other view", game, routeData);
-        this.questions = game.questions;
-        this.game = game;
-        for (var i = 0; i < this.questions.length; i++) {
-            this.questionsModel.push({
-                text: this.questions[i],
-                editActive: false,
-                editAction: this.changeEditState
-            });
-        }
+        this.gameId = params.gameId;
+
 
         console.log("questions model is", this.questionsModel);
 
         window.localStorage.setItem("username", "moderator");
-        window.localStorage.setItem("currentGame", game.gameId);
+        window.localStorage.setItem("currentGame", this.gameId);
         window.localStorage.setItem("isModerator", true);
 
 
-        this.signalrService.verifyConnected(game.gameId)
-            .then(() => {
+        this.signalrService.verifyConnected(this.gameId)
+            .then((game) => {
+                self.game = game;
+                self.questions = game.questions;
+
+                for (var i = 0; i < self.questions.length; i++) {
+                    self.questionsModel.push({
+                        text: self.questions[i],
+                        editActive: false,
+                        editAction: self.changeEditState
+                    });
+                }
+
                 this.eventAggregator.subscribe('playerListUpdated', (updatedPlayerList) => {
                     console.log("we should update playerlist now for moderator view.")
                     console.log(updatedPlayerList);
                     self.playerlist = updatedPlayerList;
                 });
-
-                self.gameId = game.gameId
             });
     }
 
@@ -83,7 +84,7 @@ export class create {
         });
         console.log("questions to update:", rawQuestions);
 
-        this.signalrService.updateQuestions(rawQuestions).then(() =>{
+        this.signalrService.updateQuestions(rawQuestions).then(() => {
             console.log("questions updated on server")
             self.newQuestionText = "";
         });
