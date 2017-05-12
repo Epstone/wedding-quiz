@@ -9,8 +9,8 @@
 
             <span> ${question.text}</span>
 
-            <input show.bind="question.editActive" type="text" placeholder="Frage..." class="form-control" value="${question.text}"></input>
-            <button show.bind="question.editActive" type="button" class="btn btn-default" aria-label="Left Align">
+            <input show.bind="question.editActive" type="text" placeholder="Frage..." class="form-control" value.bind="question.text"></input>
+            <button show.bind="question.editActive" click.trigger="question.updateAction(question)" type="button" class="btn btn-default" aria-label="Left Align">
                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
             </button>
         </li>

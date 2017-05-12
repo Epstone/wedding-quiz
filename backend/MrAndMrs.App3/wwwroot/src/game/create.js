@@ -38,7 +38,8 @@ export class create {
                     self.questionsModel.push({
                         text: self.questions[i],
                         editActive: false,
-                        editAction: self.changeEditState
+                        editAction: self.changeEditState,
+                        updateAction : (question) => self.applyQuestionUpdate(self, question)   
                     });
                 }
 
@@ -64,7 +65,7 @@ export class create {
 
     //------------------ question list ---->
 
-    changeEditState(par) {
+    changeEditState() {
         this.editActive = !this.editActive;
     }
 
@@ -76,9 +77,17 @@ export class create {
             editAction: this.changeEditState
         };
 
-
         this.questionsModel.push(questionToCreate);
 
+        this.updateQuestions();
+    }
+
+    applyQuestionUpdate(parent, child) {
+        child.editActive = false;
+        parent.updateQuestions.apply(parent);
+    }
+
+    updateQuestions() {
         var rawQuestions = this.questionsModel.map(function (question) {
             return question.text;
         });
