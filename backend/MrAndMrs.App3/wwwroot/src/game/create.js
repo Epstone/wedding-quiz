@@ -12,6 +12,7 @@ export class create {
         this.eventAggregator = eventAggregator;
         this.router = router;
         this.questionsModel = [];
+        this.newQuestionText = "";
     }
 
     questions = [];
@@ -23,10 +24,10 @@ export class create {
         this.game = game;
         for (var i = 0; i < this.questions.length; i++) {
             this.questionsModel.push({
-                 text : this.questions[i],
-                 editActive : false,
-                 editAction : this.changeEditState
-             });
+                text: this.questions[i],
+                editActive: false,
+                editAction: this.changeEditState
+            });
         }
 
         console.log("questions model is", this.questionsModel);
@@ -48,10 +49,6 @@ export class create {
             });
     }
 
-    changeEditState(par){
-        this.editActive = !this.editActive;
-    }
-
     startGame() {
         var self = this;
         this.signalrService.startGame(self.game.gameId)
@@ -62,5 +59,33 @@ export class create {
                     gameId: self.game.gameId
                 });
             });
+    }
+
+    //------------------ question list ---->
+
+    changeEditState(par) {
+        this.editActive = !this.editActive;
+    }
+
+    addQuestion() {
+        let self = this;
+        let questionToCreate = {
+            text: this.newQuestionText,
+            editActive: false,
+            editAction: this.changeEditState
+        };
+
+
+        this.questionsModel.push(questionToCreate);
+
+        var rawQuestions = this.questionsModel.map(function (question) {
+            return question.text;
+        });
+        console.log("questions to update:", rawQuestions);
+
+        this.signalrService.updateQuestions(rawQuestions).then(() =>{
+            console.log("questions updated on server")
+            self.newQuestionText = "";
+        });
     }
 }

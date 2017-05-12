@@ -139,5 +139,15 @@ export class SignalrService {
       console.log("request get highscore was received on server.");
     });
   }
+
+  updateQuestions(questions) {
+    var self = this;
+    return new Promise((resolve, reject) => {
+      self.gameHub.instance.server.updateQuestions(self.game.gameId, questions).done(() => {
+        console.log("update questions request was received on server.");
+        resolve();
+      });
+    });
+  }
 }
 

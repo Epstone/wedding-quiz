@@ -178,7 +178,7 @@
         internal async Task SaveGame(GameEntity game)
         {
             var gameTable = await GetTable(GameTableName);
-            var insertOperation = TableOperation.InsertOrMerge(game);
+            var insertOperation = TableOperation.InsertOrReplace(game);
             await gameTable.ExecuteAsync(insertOperation);
         }
 

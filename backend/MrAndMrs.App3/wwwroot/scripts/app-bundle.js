@@ -76,6 +76,63 @@ define('main',['exports', './environment'], function (exports, _environment) {
     });
   }
 });
+define('home/index',["exports", "aurelia-http-client", "aurelia-router"], function (exports, _aureliaHttpClient, _aureliaRouter) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.index = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var client = new _aureliaHttpClient.HttpClient();
+
+    var index = exports.index = function () {
+        index.inject = function inject() {
+            return [_aureliaRouter.Router];
+        };
+
+        function index(router) {
+            _classCallCheck(this, index);
+
+            this.theRouter = router;
+        }
+
+        index.prototype.activate = function activate() {
+            $("#publishPostButton").click(function () {
+
+                var post = {
+                    userName: $("#userNameInput").val() || "Guest",
+                    text: $("#textInput").val()
+                };
+                $.ajax({
+                    url: "/api/Posts/AddPost",
+                    method: "POST",
+                    data: post
+                });
+            });
+        };
+
+        index.prototype.createGame = function createGame() {
+            var _this = this;
+
+            console.log("create game start");
+
+            client.post("/game/create").then(function (data) {
+                var game = JSON.parse(data.response);
+                console.log("created game on server", game);
+                _this.theRouter.navigateToRoute("gameCreation", game);
+            });
+        };
+
+        return index;
+    }();
+});
 define('game/create',['exports', 'services/signalr-service', 'aurelia-framework', 'aurelia-event-aggregator', 'aurelia-router'], function (exports, _signalrService, _aureliaFramework, _aureliaEventAggregator, _aureliaRouter) {
     'use strict';
 
@@ -104,6 +161,7 @@ define('game/create',['exports', 'services/signalr-service', 'aurelia-framework'
             this.eventAggregator = eventAggregator;
             this.router = router;
             this.questionsModel = [];
+            this.newQuestionText = "";
         }
 
         create.prototype.activate = function activate(game, routeData) {
@@ -138,10 +196,6 @@ define('game/create',['exports', 'services/signalr-service', 'aurelia-framework'
             });
         };
 
-        create.prototype.changeEditState = function changeEditState(par) {
-            this.editActive = !this.editActive;
-        };
-
         create.prototype.startGame = function startGame() {
             var self = this;
             this.signalrService.startGame(self.game.gameId).then(function () {
@@ -150,6 +204,31 @@ define('game/create',['exports', 'services/signalr-service', 'aurelia-framework'
                     isModerator: true,
                     gameId: self.game.gameId
                 });
+            });
+        };
+
+        create.prototype.changeEditState = function changeEditState(par) {
+            this.editActive = !this.editActive;
+        };
+
+        create.prototype.addQuestion = function addQuestion() {
+            var self = this;
+            var questionToCreate = {
+                text: this.newQuestionText,
+                editActive: false,
+                editAction: this.changeEditState
+            };
+
+            this.questionsModel.push(questionToCreate);
+
+            var rawQuestions = this.questionsModel.map(function (question) {
+                return question.text;
+            });
+            console.log("questions to update:", rawQuestions);
+
+            this.signalrService.updateQuestions(rawQuestions).then(function () {
+                console.log("questions updated on server");
+                self.newQuestionText = "";
             });
         };
 
@@ -470,63 +549,6 @@ define('highscore/highscore',['exports', 'aurelia-http-client', 'aurelia-event-a
         return highscore;
     }(), (_applyDecoratedDescriptor(_class2.prototype, 'statsMrs', [_aureliaFramework.computedFrom], Object.getOwnPropertyDescriptor(_class2.prototype, 'statsMrs'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'statsMr', [_aureliaFramework.computedFrom], Object.getOwnPropertyDescriptor(_class2.prototype, 'statsMr'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'statsBoth', [_aureliaFramework.computedFrom], Object.getOwnPropertyDescriptor(_class2.prototype, 'statsBoth'), _class2.prototype)), _class2)) || _class);
 });
-define('home/index',["exports", "aurelia-http-client", "aurelia-router"], function (exports, _aureliaHttpClient, _aureliaRouter) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.index = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var client = new _aureliaHttpClient.HttpClient();
-
-    var index = exports.index = function () {
-        index.inject = function inject() {
-            return [_aureliaRouter.Router];
-        };
-
-        function index(router) {
-            _classCallCheck(this, index);
-
-            this.theRouter = router;
-        }
-
-        index.prototype.activate = function activate() {
-            $("#publishPostButton").click(function () {
-
-                var post = {
-                    userName: $("#userNameInput").val() || "Guest",
-                    text: $("#textInput").val()
-                };
-                $.ajax({
-                    url: "/api/Posts/AddPost",
-                    method: "POST",
-                    data: post
-                });
-            });
-        };
-
-        index.prototype.createGame = function createGame() {
-            var _this = this;
-
-            console.log("create game start");
-
-            client.post("/game/create").then(function (data) {
-                var game = JSON.parse(data.response);
-                console.log("created game on server", game);
-                _this.theRouter.navigateToRoute("gameCreation", game);
-            });
-        };
-
-        return index;
-    }();
-});
 define('lobby/lobby',['exports', 'services/signalr-service', 'aurelia-framework', 'aurelia-event-aggregator', 'aurelia-router'], function (exports, _signalrService, _aureliaFramework, _aureliaEventAggregator, _aureliaRouter) {
     'use strict';
 
@@ -668,15 +690,6 @@ define('question/question',['exports', 'aurelia-framework', 'services/signalr-se
 
         return question;
     }()) || _class);
-});
-define('resources/index',["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.configure = configure;
-  function configure(config) {}
 });
 define('services/game-hub-singleton',['exports'], function (exports) {
     'use strict';
@@ -889,11 +902,30 @@ define('services/signalr-service',['exports', 'aurelia-framework', 'aurelia-even
       });
     };
 
+    SignalrService.prototype.updateQuestions = function updateQuestions(questions) {
+      var self = this;
+      return new Promise(function (resolve, reject) {
+        self.gameHub.instance.server.updateQuestions(self.game.gameId, questions).done(function () {
+          console.log("update questions request was received on server.");
+          resolve();
+        });
+      });
+    };
+
     return SignalrService;
   }()) || _class);
 });
+define('resources/index',["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.configure = configure;
+  function configure(config) {}
+});
 define('text!app.html', ['module'], function(module) { module.exports = "<template>\r\n    <require from=\"bootstrap/css/bootstrap.css\"></require>\r\n    <div class=\"container\">\r\n        <div class=\"row\">\r\n            <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12\">\r\n                <h1>Mr & Mrs</h1>\r\n                <hr />\r\n            </div>\r\n        </div>\r\n        <router-view></router-view>\r\n    </div>\r\n\r\n</template>"; });
-define('text!game/create.html', ['module'], function(module) { module.exports = "<template>\r\n    <h2>Spielcode tests: <span data-test-id=\"game-code\">${gameId}</span></h2>\r\n    <h2><span data-test-id=\"total-questions-no\">${questionsModel.length}</span> Fragen</h2>\r\n    <ul class=\"list-group\">\r\n        <li repeat.for=\"question of questionsModel\" class=\"list-group-item\">\r\n            <button click.trigger=\"question.editAction()\" type=\"button\" class=\"btn btn-default\" aria-label=\"Left Align\">\r\n                <span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span>\r\n            </button> \r\n\r\n            <span> ${question.text}</span>\r\n\r\n            <input show.bind=\"question.editActive\" type=\"text\" placeholder=\"Frage...\" class=\"form-control\" value=\"${question.text}\"></input>\r\n            <button show.bind=\"question.editActive\" type=\"button\" class=\"btn btn-default\" aria-label=\"Left Align\">\r\n                <span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true\"></span>\r\n            </button>\r\n        </li>\r\n    </ul>\r\n    <button type=\"button\" class=\"btn btn-primary\">Frage hinzufügen</button>\r\n    <hr />\r\n    <h2>Spieler:</h2>\r\n    <ul>\r\n        <li style=\"display: inline\" repeat.for=\"name of playerlist\">${name}, </li>\r\n    </ul>\r\n    <button class=\"btn btn-primary btn-lg\" click.trigger=\"startGame()\" data-test-id=\"start-game\">Spiel starten</button>\r\n\r\n</template>"; });
+define('text!game/create.html', ['module'], function(module) { module.exports = "<template>\r\n    <h2>Spielcode tests: <span data-test-id=\"game-code\">${gameId}</span></h2>\r\n    <h2><span data-test-id=\"total-questions-no\">${questionsModel.length}</span> Fragen</h2>\r\n    <ul class=\"list-group\">\r\n        <li repeat.for=\"question of questionsModel\" class=\"list-group-item\">\r\n            <button click.trigger=\"question.editAction()\" type=\"button\" class=\"btn btn-default\" aria-label=\"Left Align\">\r\n                <span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span>\r\n            </button>\r\n\r\n            <span> ${question.text}</span>\r\n\r\n            <input show.bind=\"question.editActive\" type=\"text\" placeholder=\"Frage...\" class=\"form-control\" value=\"${question.text}\"></input>\r\n            <button show.bind=\"question.editActive\" type=\"button\" class=\"btn btn-default\" aria-label=\"Left Align\">\r\n                <span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true\"></span>\r\n            </button>\r\n        </li>\r\n    </ul>\r\n\r\n    <form class=\"form-horizontal\">\r\n        <div class=\"form-group\">\r\n            <div class=\"col-sm-8\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\"neue Frage...\" value.bind=\"newQuestionText\">\r\n            </div>\r\n            <div class=\"col-sm-2\">\r\n                <button type=\"submit\" class=\"btn btn-primary\" click.trigger=\"addQuestion()\">Frage hinzufügen</button>\r\n            </div>\r\n        </div>\r\n    </form>\r\n\r\n    <hr />\r\n    <h2>Spieler:</h2>\r\n    <ul>\r\n        <li style=\"display: inline\" repeat.for=\"name of playerlist\">${name}, </li>\r\n    </ul>\r\n    <button class=\"btn btn-primary btn-lg\" click.trigger=\"startGame()\" data-test-id=\"start-game\">Spiel starten</button>\r\n</template>"; });
 define('text!game/join.html', ['module'], function(module) { module.exports = "<template>\r\n    <row>\r\n        <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12\">\r\n            <h2>Spiel beitreten</h2>\r\n        </div>\r\n    </row>\r\n    <row>\r\n        <div class=\"col-xs-4 col-sm-4 col-md-4 col-lg-4\">\r\n            <form>\r\n                <div class=\"form-group\">\r\n                    <label for=\"exampleInputName2\">Dein Name: </label>\r\n                    <input type=\"text\" class=\"form-control\" data-test-id=\"textbox-name\" value.bind=\"name\" placeholder=\"Name\">\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <label for=\"gameId\">Spiel Code: </label>\r\n                    <input type=\"text\" class=\"form-control\" id=\"gameId\" value.bind=\"gameId\" data-test-id=\"textbox-game-id\" placeholder=\"#af34w2s\">\r\n                </div>\r\n                <input type=\"submit\" class=\"btn btn-default\" data-test-id=\"join-game\" click.trigger=\"joinGame()\" value=\"Los!\"></input>\r\n            </form>\r\n        </div>\r\n    </row>\r\n    <row>\r\n        <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12\">\r\n            <a href=\"\" click.trigger=\"showHighscore()\" data-test-id=\"show-highscore\">Nur highscore anzeigen</a>\r\n        </div>\r\n    </row>\r\n</template>"; });
 define('text!highscore/highscore-table.html', ['module'], function(module) { module.exports = "<template>\r\n  <table class=\"table\" with.bind=\"model\">\r\n    <thead>\r\n      <tr>\r\n        <th>Platzierung</th>\r\n        <th>Name</th>\r\n        <th>Punkte</th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr if.bind=\"entries.length > 0\">\r\n        <td>1.</td>\r\n        <td class=\"firstNames\">${entries[0].names}</td>\r\n        <td class=\"firstScore\">${entries[0].score}</td>\r\n      </tr>\r\n      <tr if.bind=\"entries.length > 1\">\r\n        <td>2.</td>\r\n        <td class=\"secondNames\">${entries[1].names}</td>\r\n        <td class=\"secondScore\">${entries[1].score}</td>\r\n      </tr>\r\n      <tr if.bind=\"entries.length > 2\">\r\n        <td>3.</td>\r\n        <td class=\"thirdNames\">${entries[2].names}</td>\r\n        <td class=\"thirdScore\">${entries[2].score}</td>\r\n      </tr>\r\n    </tbody>\r\n  </table>\r\n\r\n</template>"; });
 define('text!highscore/highscore.html', ['module'], function(module) { module.exports = "<template bindable=\"highscoreModel\">\r\n    <require from=\"./highscore-table\"></require>\r\n    <h2 data-test-id=\"heading\">Übersicht</h2>\r\n\r\n    <div show.bind=\"game.state === 1\">\r\n        <div class=\"row\">\r\n            <div class=\"text-center\">\r\n                Aktuelle Frage: <span data-test-id=\"current-question\">${currentQuestion}</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"row top10\">\r\n            <div class=\"col-xs-6 \">\r\n                <button type=\"button\" class=\"btn btn-default btn-block\">Die Braut</button>\r\n            </div>\r\n            <div class=\"col-xs-1 \">\r\n                ${answerStatistics.mrs}\r\n            </div>\r\n            <div class=\"col-xs-5\">\r\n                <div class=\"progress\">\r\n                    <div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"30\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: ${statsMrs}%;\">\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <div class=\"row top10\">\r\n            <div class=\"col-xs-6 \">\r\n                <button type=\"button\" class=\"btn btn-default btn-block\">Der Bräutigam</button>\r\n            </div>\r\n            <div class=\"col-xs-1 \">\r\n                ${answerStatistics.mr}\r\n            </div>\r\n            <div class=\"col-xs-5\">\r\n                <div class=\"progress\">\r\n                    <div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"50\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: ${statsMr}%;\">\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <div class=\"row top10\">\r\n            <div class=\"col-xs-6 \">\r\n                <button type=\"button\" class=\"btn btn-default btn-block\">Beide</button>\r\n            </div>\r\n            <div class=\"col-xs-1 \">\r\n                ${answerStatistics.both}\r\n            </div>\r\n            <div class=\"col-xs-5\">\r\n                <div class=\"progress\">\r\n                    <div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"20\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: ${statsBoth}%;\">\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <highscore-table model.bind=\"highscoreTableModel\"></highscore-table>\r\n</template>"; });

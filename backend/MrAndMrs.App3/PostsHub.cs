@@ -134,6 +134,15 @@
             PublishGameUpdate(gameId,game);
         }
 
+        public async Task UpdateQuestions(string gameId, string[] questions)
+        {
+            var game = await gameRepository.GetGame(gameId);
+            game.Questions = questions.ToList();
+            await gameRepository.SaveGame(game);
+
+            PublishGameUpdate(gameId, game);
+        }
+
         private async Task GameUpdated(string gameId)
         {
             var gameEntity = await gameRepository.GetGame(gameId);
