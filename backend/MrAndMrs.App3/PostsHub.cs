@@ -48,12 +48,6 @@
         public override Task OnReconnected()
         {
             string name = UsernameFromQueryString();
-            //if (!_connections.GetConnections(name).Contains(Context.ConnectionId))
-            //{
-            //    Debug.WriteLine($"user {name} has reconnected with connectionId: {Context.ConnectionId}");
-            //    _connections.Add(name, Context.ConnectionId);
-            //}
-
             return base.OnReconnected();
         }
 
