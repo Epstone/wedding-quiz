@@ -2,8 +2,10 @@
 
 namespace WeddingQuiz.Test
 {
+    using System;
     using FluentAssertions;
     using OpenQA.Selenium.Support.PageObjects;
+    using OpenQA.Selenium.Support.UI;
 
     internal class CreateGamePage : BasePage
     {
@@ -27,15 +29,23 @@ namespace WeddingQuiz.Test
 
             this.GameCode.Text.Should().NotBeEmpty();
 
-            var totalNumberOfQuestions = int.Parse(this.TotalQuestionCount.Text);
-            totalNumberOfQuestions.Should().BeGreaterThan(0);
+            WaitUntilTotalQuestionNumberInitialized();
 
             var gameDetails = new NewGameDetails
             {
-                TotalNumberOfQuestions = totalNumberOfQuestions,
+                TotalNumberOfQuestions = int.Parse(this.TotalQuestionCount.Text),
                 GameId = this.GameCode.Text
             };
             return gameDetails;
+        }
+
+        private void WaitUntilTotalQuestionNumberInitialized()
+        {
+            new WebDriverWait(driver, TimeSpan.FromSeconds(5)).Until(webDriver =>
+            {
+                var totalNumberOfQuestions = int.Parse(this.TotalQuestionCount.Text);
+                return totalNumberOfQuestions > 0;
+            });
         }
     }
 }
