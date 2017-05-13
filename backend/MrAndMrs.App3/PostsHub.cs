@@ -68,6 +68,7 @@
         {
             var game = await gameRepository.StartGame(gameId);
             Clients.Group(gameId).gameStarted(game);
+            PublishGameUpdate(gameId, game);
         }
 
         public void Subscribe(string name)
