@@ -11,7 +11,6 @@ export class create {
         this.signalrService = signalrService;
         this.eventAggregator = eventAggregator;
         this.router = router;
-        this.questionsModel = [];
         this.newQuestionText = "";
     }
 
@@ -51,18 +50,5 @@ export class create {
                     gameId: self.game.gameId
                 });
             });
-    }
-
-    //------------------ question list ---->
-    updateQuestions() {
-        var rawQuestions = this.questionsModel.map(function (question) {
-            return question.text;
-        });
-        console.log("questions to update:", rawQuestions);
-
-        this.signalrService.updateQuestions(rawQuestions).then(() => {
-            console.log("questions updated on server")
-            self.newQuestionText = "";
-        });
     }
 }
