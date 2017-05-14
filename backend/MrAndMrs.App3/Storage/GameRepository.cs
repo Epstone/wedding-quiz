@@ -154,18 +154,15 @@
             {
                 "Wer geht am Sonntag zum Bäcker?",
                 "Wer wäscht ab?",
-                "Wer räumt auf?"
-                //"Wer macht die Betten?",
-                //"Wer telefoniert häufiger mit Mutti?",
-                //"Wer treibt mehr Sport?",
-                //"Wer hat den besser durchtrainierten Körper?",
-                //"wer benötigt am Bad immer am längsten?",
-                //"Wer ist pünktlicher?",
-                //"Wer kommt immer zu spät?",
-                //"Wer ist lauter beim Sex?",
-                //"Wer hat mehr Lust auf Sex?",
-                //"Wer kann besser verlieren?",
-                //"Wer kann besser gewinnen?"
+                "Wer räumt auf?",
+                "Wer macht die Betten?",
+                "Wer telefoniert häufiger mit Mutti?",
+                "Wer treibt mehr Sport?",
+                "wer benötigt am Bad immer am längsten?",
+                "Wer ist pünktlicher?",
+                "Wer kommt immer zu spät?",
+                "Wer kann besser verlieren?",
+                "Wer kann besser gewinnen?"
             };
 
             game.SetState(GameState.Lobby);
