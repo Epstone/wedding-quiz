@@ -123,17 +123,6 @@ define('game/create',['exports', 'services/signalr-service', 'aurelia-framework'
                 self.game = game;
                 self.questions = game.questions;
 
-                for (var i = 0; i < self.questions.length; i++) {
-                    self.questionsModel.push({
-                        text: self.questions[i],
-                        editActive: false,
-                        editAction: self.changeEditState,
-                        updateAction: function updateAction(question) {
-                            return self.applyQuestionUpdate(self, question);
-                        }
-                    });
-                }
-
                 _this.eventAggregator.subscribe('playerListUpdated', function (updatedPlayerList) {
                     console.log("we should update playerlist now for moderator view.");
                     console.log(updatedPlayerList);
@@ -151,28 +140,6 @@ define('game/create',['exports', 'services/signalr-service', 'aurelia-framework'
                     gameId: self.game.gameId
                 });
             });
-        };
-
-        create.prototype.changeEditState = function changeEditState() {
-            this.editActive = !this.editActive;
-        };
-
-        create.prototype.addQuestion = function addQuestion() {
-            var self = this;
-            var questionToCreate = {
-                text: this.newQuestionText,
-                editActive: false,
-                editAction: this.changeEditState
-            };
-
-            this.questionsModel.push(questionToCreate);
-
-            this.updateQuestions();
-        };
-
-        create.prototype.applyQuestionUpdate = function applyQuestionUpdate(parent, child) {
-            child.editActive = false;
-            parent.updateQuestions.apply(parent);
         };
 
         create.prototype.updateQuestions = function updateQuestions() {
@@ -1030,8 +997,42 @@ define('game/edit-questions',["exports"], function (exports) {
       _classCallCheck(this, EditQuestions);
     }
 
-    EditQuestions.prototype.activate = function activate(model) {
-      debugger;
+    EditQuestions.prototype.activate = function activate(questions) {
+      var self = this;
+      self.questions = questions;
+
+      for (var i = 0; i < self.questions.length; i++) {
+        self.questionsModel.push({
+          text: self.questions[i],
+          editActive: false,
+          editAction: self.changeEditState,
+          updateAction: function updateAction(question) {
+            return self.applyQuestionUpdate(self, question);
+          }
+        });
+      }
+    };
+
+    EditQuestions.prototype.changeEditState = function changeEditState() {
+      this.editActive = !this.editActive;
+    };
+
+    EditQuestions.prototype.addQuestion = function addQuestion() {
+      var self = this;
+      var questionToCreate = {
+        text: this.newQuestionText,
+        editActive: false,
+        editAction: this.changeEditState
+      };
+
+      this.questionsModel.push(questionToCreate);
+
+      this.updateQuestions();
+    };
+
+    EditQuestions.prototype.applyQuestionUpdate = function applyQuestionUpdate(parent, child) {
+      child.editActive = false;
+      parent.updateQuestions.apply(parent);
     };
 
     return EditQuestions;

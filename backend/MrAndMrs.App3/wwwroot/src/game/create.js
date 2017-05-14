@@ -21,7 +21,6 @@ export class create {
         var self = this;
         this.gameId = params.gameId;
 
-
         console.log("questions model is", this.questionsModel);
 
         window.localStorage.setItem("username", "moderator");
@@ -33,15 +32,6 @@ export class create {
             .then((game) => {
                 self.game = game;
                 self.questions = game.questions;
-
-                for (var i = 0; i < self.questions.length; i++) {
-                    self.questionsModel.push({
-                        text: self.questions[i],
-                        editActive: false,
-                        editAction: self.changeEditState,
-                        updateAction : (question) => self.applyQuestionUpdate(self, question)   
-                    });
-                }
 
                 this.eventAggregator.subscribe('playerListUpdated', (updatedPlayerList) => {
                     console.log("we should update playerlist now for moderator view.")
@@ -64,29 +54,6 @@ export class create {
     }
 
     //------------------ question list ---->
-
-    changeEditState() {
-        this.editActive = !this.editActive;
-    }
-
-    addQuestion() {
-        let self = this;
-        let questionToCreate = {
-            text: this.newQuestionText,
-            editActive: false,
-            editAction: this.changeEditState
-        };
-
-        this.questionsModel.push(questionToCreate);
-
-        this.updateQuestions();
-    }
-
-    applyQuestionUpdate(parent, child) {
-        child.editActive = false;
-        parent.updateQuestions.apply(parent);
-    }
-
     updateQuestions() {
         var rawQuestions = this.questionsModel.map(function (question) {
             return question.text;
