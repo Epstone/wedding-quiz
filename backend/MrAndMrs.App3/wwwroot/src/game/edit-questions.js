@@ -1,6 +1,6 @@
-import { bindable } from 'aurelia-framework';
-
-export class EditQuestionsCustomElement {
-  @bindable model;
+export class EditQuestions {
+  activate(model) {
+    debugger;
+  }
 }
 
