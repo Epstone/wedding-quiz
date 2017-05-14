@@ -7,7 +7,9 @@ export class EditQuestions {
   constructor(parentModel, signalrService) {
     this.parentModel = parentModel;
     this.signalrService = signalrService;
-  }
+        this.newQuestionText = "";
+  
+}
 
   activate(questions) {
     this.questions = questions;
@@ -22,6 +24,7 @@ export class EditQuestions {
     let questionToCreate = new Question(this.newQuestionText, () => this.updateQuestions());
     this.questionsModel.push(questionToCreate);
     this.updateQuestions();
+    this.newQuestionText = "";
   }
 
   updateQuestions() {
