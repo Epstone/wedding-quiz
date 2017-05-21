@@ -11,6 +11,13 @@ export class EditQuestions {
 
   }
 
+  get lastQuestion() {
+    return this.questionsModel[this.questionsModel.length - 1];
+  }
+
+  get firstQuestion() {
+    return this.questionsModel[0];    
+  }
   activate(questions) {
     this.questions = questions;
     this.questionsModel = [];
@@ -30,17 +37,21 @@ export class EditQuestions {
   moveUp(question) {
     console.log("move question up", question.text);
     var currentIndex = this.questionsModel.indexOf(question);
-    var questionAbove = this.questionsModel[currentIndex -1];
-    this.questionsModel.splice(currentIndex -1, 1, question);
-    this.questionsModel.splice(currentIndex, 1, questionAbove);
+
+    this.move(question, currentIndex - 1);
   }
 
   moveDown(question) {
     console.log("move question down", question.text);
-       var currentIndex = this.questionsModel.indexOf(question);
-    var questionAbove = this.questionsModel[currentIndex +1];
-    this.questionsModel.splice(currentIndex +1, 1, question);
-    this.questionsModel.splice(currentIndex, 1, questionAbove);
+    var currentIndex = this.questionsModel.indexOf(question);
+    this.move(question, currentIndex + 1);
+  }
+
+  move(question, targetIndex) {
+    var currentIndex = this.questionsModel.indexOf(question);
+    var questionToMove = this.questionsModel[targetIndex];
+    this.questionsModel.splice(targetIndex, 1, question);
+    this.questionsModel.splice(currentIndex, 1, questionToMove);
   }
 
   updateQuestions() {
