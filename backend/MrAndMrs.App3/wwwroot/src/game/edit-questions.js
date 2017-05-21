@@ -37,7 +37,6 @@ export class EditQuestions {
   moveUp(question) {
     console.log("move question up", question.text);
     var currentIndex = this.questionsModel.indexOf(question);
-
     this.move(question, currentIndex - 1);
   }
 
@@ -52,6 +51,7 @@ export class EditQuestions {
     var questionToMove = this.questionsModel[targetIndex];
     this.questionsModel.splice(targetIndex, 1, question);
     this.questionsModel.splice(currentIndex, 1, questionToMove);
+    this.updateQuestions();
   }
 
   updateQuestions() {
