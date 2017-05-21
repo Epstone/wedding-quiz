@@ -7,16 +7,16 @@ export class EditQuestions {
   constructor(parentModel, signalrService) {
     this.parentModel = parentModel;
     this.signalrService = signalrService;
-        this.newQuestionText = "";
-  
-}
+    this.newQuestionText = "";
+
+  }
 
   activate(questions) {
     this.questions = questions;
     this.questionsModel = [];
 
     for (var i = 0; i < this.questions.length; i++) {
-      this.questionsModel.push(new Question(this.questions[i],  () => this.updateQuestions()));
+      this.questionsModel.push(new Question(this.questions[i], () => this.updateQuestions()));
     }
   }
 
@@ -25,6 +25,22 @@ export class EditQuestions {
     this.questionsModel.push(questionToCreate);
     this.updateQuestions();
     this.newQuestionText = "";
+  }
+
+  moveUp(question) {
+    console.log("move question up", question.text);
+    var currentIndex = this.questionsModel.indexOf(question);
+    var questionAbove = this.questionsModel[currentIndex -1];
+    this.questionsModel.splice(currentIndex -1, 1, question);
+    this.questionsModel.splice(currentIndex, 1, questionAbove);
+  }
+
+  moveDown(question) {
+    console.log("move question down", question.text);
+       var currentIndex = this.questionsModel.indexOf(question);
+    var questionAbove = this.questionsModel[currentIndex +1];
+    this.questionsModel.splice(currentIndex +1, 1, question);
+    this.questionsModel.splice(currentIndex, 1, questionAbove);
   }
 
   updateQuestions() {
