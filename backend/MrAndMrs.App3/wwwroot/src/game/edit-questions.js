@@ -8,6 +8,7 @@ export class EditQuestions {
     this.parentModel = parentModel;
     this.signalrService = signalrService;
     this.newQuestionText = "";
+    this.buttonsDisabled = false;
 
   }
 
@@ -61,6 +62,8 @@ export class EditQuestions {
   }
 
   updateQuestions() {
+    var self = this;
+    self.buttonsDisabled = true;
     var rawQuestions = this.questionsModel.map(function (question) {
       return question.text;
     });
@@ -69,7 +72,7 @@ export class EditQuestions {
 
     this.signalrService.updateQuestions(rawQuestions).then(() => {
       console.log("questions updated on server")
-      self.newQuestionText = "";
+      self.buttonsDisabled = false;
     });
 
   }
