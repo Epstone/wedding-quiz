@@ -6,7 +6,6 @@ import { Router } from 'aurelia-router';
 @inject(SignalrService, EventAggregator, Router)
 export class question {
     constructor(signalrService, eventAggregator, router) {
-        this.message = 'Hello World!';
         this.isModerator = false;
         this.signalrService = signalrService;
         this.eventAggregator = eventAggregator;
@@ -49,6 +48,10 @@ export class question {
             });
     }
 
+    get nextQuestionButtonDisabled(){
+        return this.selectedAnswer === -1;
+    }
+
     nextQuestion() {
         var self = this;
         this.signalrService.verifyConnected()
@@ -69,6 +72,4 @@ export class question {
                 console.log("user info: selected answer" + answer + "for questionIndex: " + index);
             });
     }
-
-
 }

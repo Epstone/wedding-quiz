@@ -29,12 +29,12 @@
     </div>
     <hr />
     <div show.bind="isModerator && !isLastQuestion">
-        <button type="button" class="btn btn-primary" click.trigger="nextQuestion()" data-test-id="next-question">Nächste Frage</button>
+        <button type="button" class="btn btn-primary $(nextQuestionButtonDisabled ? 'disabled':'')" click.trigger="nextQuestion()" disabled.bind="nextQuestionButtonDisabled" data-test-id="next-question">Nächste Frage</button>
     </div>
     <div show.bind="isModerator && isLastQuestion">
-        <button type="button" class="btn btn-primary" click.trigger="endGame()" data-test-id="end-game">Spiel beenden</button>
+        <button type="button" class="btn btn-primary $(nextQuestionButtonDisabled ? 'disabled':'')" click.trigger="endGame()" disabled.bind="nextQuestionButtonDisabled" data-test-id="end-game">Spiel beenden</button>
     </div>
     <div show.bind="!isModerator">
-        <button type="button" class="btn btn-primary">Warten auf Moderator...</button>
+        <button type="button" class="btn disabled" disabled="disabled">Warte auf Moderator...</button>
     </div>
 </template>
