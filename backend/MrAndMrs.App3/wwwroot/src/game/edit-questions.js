@@ -16,7 +16,7 @@ export class EditQuestions {
   }
 
   get firstQuestion() {
-    return this.questionsModel[0];    
+    return this.questionsModel[0];
   }
   activate(questions) {
     this.questions = questions;
@@ -25,6 +25,12 @@ export class EditQuestions {
     for (var i = 0; i < this.questions.length; i++) {
       this.questionsModel.push(new Question(this.questions[i], () => this.updateQuestions()));
     }
+  }
+
+  deleteQuestion(question) {
+    var index = this.questionsModel.indexOf(question);
+    this.questionsModel.splice(index, 1);
+    this.updateQuestions();
   }
 
   addQuestion() {
