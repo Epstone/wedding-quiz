@@ -3,7 +3,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import { SignalrService } from 'services/signalr-service';
 import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
-import {computedFrom} from 'aurelia-framework';
+import { computedFrom } from 'aurelia-framework';
 
 @inject(SignalrService, EventAggregator, Router)
 export class highscore {
@@ -12,19 +12,19 @@ export class highscore {
         this.isFinished = false;
         this.eventAggregator = eventAggregator;
         this.signalrService = signalrService;
-        this.currentQuestion = "test";
         this.highscoreTableModel = {
             Entries: [{
                 names: "?",
                 score: "?"
             }],
         };
-
         this.answerStatistics = {
             mrs: 0,
             mr: 0,
             both: 0
         };
+        
+        this.previousQuestionIndex = -1;
     }
 
     activate(params) {
@@ -36,10 +36,17 @@ export class highscore {
             self.highscoreTableModel = highscore;
         });
 
+
         this.eventAggregator.subscribe("gameUpdated", function (game) {
             console.log("game updated.", game);
             self.game = game;
             self.currentQuestion = game.questions[game.currentQuestionIndex];
+            
+            if (game.currentQuestionIndex !== self.previousQuestionIndex) {
+                self.answerStatistics.mr = 0;
+                self.answerStatistics.mrs = 0;
+                self.answerStatistics.both = 0;
+            }
         });
 
         this.eventAggregator.subscribe("answerSelected", function (statistics) {
@@ -73,7 +80,7 @@ export class highscore {
     get statsMr() {
         return this.calculatePercentage(this.answerStatistics.mr, this.totalPlayers);
     }
-    
+
     @computedFrom
     get statsBoth() {
         return this.calculatePercentage(this.answerStatistics.both, this.totalPlayers);
