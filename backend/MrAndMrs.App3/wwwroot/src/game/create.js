@@ -6,7 +6,6 @@ import { Router } from 'aurelia-router';
 @inject(SignalrService, EventAggregator, Router)
 export class create {
     constructor(signalrService, eventAggregator, router) {
-        this.message = 'Hello World!';
         this.playerlist = ["Noch keine Spieler"];
         this.signalrService = signalrService;
         this.eventAggregator = eventAggregator;
