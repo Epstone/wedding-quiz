@@ -109,9 +109,6 @@ define('game/create',['exports', 'services/signalr-service', 'aurelia-framework'
 
             var self = this;
             this.gameId = params.gameId;
-
-            console.log("questions model is", this.questionsModel);
-
             window.localStorage.setItem("username", "moderator");
             window.localStorage.setItem("currentGame", this.gameId);
             window.localStorage.setItem("isModerator", true);

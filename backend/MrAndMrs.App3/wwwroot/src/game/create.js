@@ -17,13 +17,9 @@ export class create {
     activate(params) {
         var self = this;
         this.gameId = params.gameId;
-
-        console.log("questions model is", this.questionsModel);
-
         window.localStorage.setItem("username", "moderator");
         window.localStorage.setItem("currentGame", this.gameId);
         window.localStorage.setItem("isModerator", true);
-
 
         this.signalrService.verifyConnected(this.gameId)
             .then((game) => {
