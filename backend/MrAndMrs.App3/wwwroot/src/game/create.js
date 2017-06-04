@@ -10,6 +10,8 @@ export class create {
         this.signalrService = signalrService;
         this.eventAggregator = eventAggregator;
         this.router = router;
+        this.nameMr = "";
+        this.nameMrs = "";
     }
 
     questions = [];
