@@ -21,7 +21,7 @@ export class join {
         this.signalrService.verifyConnected(params.gameId)
             .then(() => {
                 this.eventAggregator.subscribe('playerListUpdated', (updatedPlayerList) => {
-                    console.log("we should update playerlist now. yes works")
+                    console.log("we should update playerlist now.")
                     console.log(updatedPlayerList);
                     self.playerlist = updatedPlayerList;
                 })
@@ -29,7 +29,7 @@ export class join {
                 this.eventAggregator.subscribe("gameStarted", (game) => {
                     self.router.navigateToRoute("question", {
                         isModerator: false,
-                        game: game,
+                        gameId: game.gameId,
                     });
                 });
             });
