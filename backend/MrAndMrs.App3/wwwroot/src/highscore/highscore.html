@@ -1,6 +1,14 @@
 <template bindable="highscoreModel">
     <require from="./highscore-table"></require>
-    <h2 data-test-id="heading">Übersicht</h2>
+    <div class="panel">
+        <h2 class="handwriting">Wie teilnehmen?</h2>
+        <ol class="how-to-join">
+            <li>www.mrsmr.de auf dem Smartphone öffnen</li>
+            <li>Spiel beitreten</li>
+            <li>Spielcode: ${game.gameId}</li>
+        </ol>
+    </div>
+    <h2 class="handwriting" data-test-id="heading">Übersicht Spiel</h2>
 
     <div show.bind="game.state === 1">
         <div class="row">
