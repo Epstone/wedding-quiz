@@ -1,6 +1,6 @@
 <template bindable="highscoreModel">
     <require from="./highscore-table"></require>
-    <div class="panel">
+    <div class="panel" show.bind="game.state === 1">
         <h2 class="handwriting">Wie teilnehmen?</h2>
         <ol class="how-to-join">
             <li>www.mrsmr.de auf dem Smartphone öffnen</li>
