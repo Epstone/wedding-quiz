@@ -32,7 +32,7 @@
             if (game == null)
                 return Json(new JoinGameResult
                 {
-                    Result = "unknown_game_id"
+                    Result = "Der Spielcode ist nicht korrekt. Bitte korrigiere ihn nochmal."
                 });
 
             var player = await gameRepository.GetPlayer(content.GameId, content.Username);
@@ -55,7 +55,7 @@
                 });
 
             if (player.AccountKey != content.AccountKey)
-                return Json(new JoinGameResult {Result = "username_taken"});
+                return Json(new JoinGameResult {Result = "Der Spielername ist bereits vergeben. Bitte gib einen anderen Namen ein."});
 
 
             return Json(new JoinGameResult {Result = "error"});
