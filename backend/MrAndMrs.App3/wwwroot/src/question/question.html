@@ -1,15 +1,15 @@
 <template>
     <div class="row breadcrumb">
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" show.bind="isModerator">
-            <span>Moderator</span>
-        </div>
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 question-number">
             Frage <span data-test-id="current-question-number">${questionIndex + 1}</span> von <span data-test-id="total-question-number">${game.questions.length}</span>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 question-number">
+            <span>Spiel: ${game.gameId} <span show.bind="isModerator">Moderator</span></span>
         </div>
     </div>
     <div class="row">
         <div class="text-center current-question" data-test-id="current-question">
-            ${currentQuestion}
+            <strong>${currentQuestion}</strong>
         </div>
     </div>
     <div class="row top10">
